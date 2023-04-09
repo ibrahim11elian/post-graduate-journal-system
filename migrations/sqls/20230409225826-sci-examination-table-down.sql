@@ -1,0 +1,1 @@
+DROP TABLE sci_examination;

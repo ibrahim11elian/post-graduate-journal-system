@@ -4,5 +4,5 @@ create table research (
 	research_pdf VARCHAR(200) NOT NULL,
 	research_summary VARCHAR(200) NOT NULL,
 	research_date DATE NOT NULL,
-	user_id INT REFERENCES researcher(id)
+	researcher_id INT REFERENCES researcher(id)
 );

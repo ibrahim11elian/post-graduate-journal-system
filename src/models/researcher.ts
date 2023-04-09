@@ -81,7 +81,7 @@ export class Researcher {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE researchers SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE researcher SET ${setExpressions} WHERE id = $1`;
 
       const result = await conn.query(sql, [id, ...values]);
 

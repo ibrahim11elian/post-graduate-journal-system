@@ -1,0 +1,1 @@
+DROP TABLE examn_details;
