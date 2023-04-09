@@ -20,6 +20,32 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.send("<h1>i'm working</h1>");
 });
 
+// just for test
+
+// import { Researcher } from './models/researcher';
+// const x = new Researcher();
+// const user: object = {
+//   researcher_name: 'ahmed',
+//   rank: 'عميد',
+//   workplace: 'كلية الدراسات العليا',
+//   email: 'ahmed@gmail.com',
+//   phone: '01234567890',
+//   cv: 'odjfsssa',
+// };
+
+// app.get('/add', (req: express.Request, res: express.Response) => {
+//   const z = x.create({
+//     researcher_name: 'ahmed',
+//     rank: 'عميد',
+//     workplace: 'كلية الدراسات العليا',
+//     email: 'ahmed@gmail.com',
+//     phone: 1234567890,
+//     cv: 'odjfsssa',
+//   });
+
+//   z.then((s) => res.send(s));
+// });
+
 // start server
 app.listen(process.env.PORT, () => {
   console.log(`server is running on http://localhost:${process.env.PORT}`);
