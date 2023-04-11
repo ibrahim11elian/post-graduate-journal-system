@@ -46,6 +46,20 @@ app.get('/', (req: express.Request, res: express.Response) => {
 //   z.then((s) => res.send(s));
 // });
 
+// import { Research } from './models/research';
+// const x = new Research();
+// app.get('/add', (req: express.Request, res: express.Response) => {
+//   const z = x.create({
+//     researchTitle: 'ahmed',
+//     researchDate: '10/02/2020',
+//     researchPdf: 'كلية الدراسات العليا',
+//     researchSummary: 'ahmed@gmail.com',
+//     researcherId: 1,
+//   });
+
+//   z.then((s) => res.send(s));
+// });
+
 // start server
 app.listen(process.env.PORT, () => {
   console.log(`server is running on http://localhost:${process.env.PORT}`);

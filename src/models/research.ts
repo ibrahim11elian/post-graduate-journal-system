@@ -6,7 +6,7 @@ export type RESEARCH = {
   researchPdf: string;
   researchSummary: string;
   researchDate: string;
-  userId: number;
+  researcherId: number;
 };
 
 export class Research {
@@ -14,14 +14,14 @@ export class Research {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO research (research_title,research_pdf,research_summary,research_date,user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+        'INSERT INTO research (research_title,research_pdf,research_summary,research_date,researcher_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
       const result = await conn.query(sql, [
         research.researchTitle,
         research.researchPdf,
         research.researchSummary,
         research.researchDate,
-        research.userId,
+        research.researcherId,
       ]);
 
       conn.release();
@@ -73,7 +73,7 @@ export class Research {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE research SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE research SET ${setExpressions} WHERE id = $1 RETURNING *`;
 
       const result = await conn.query(sql, [id, ...values]);
 

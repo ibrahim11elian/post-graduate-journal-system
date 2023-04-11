@@ -9,9 +9,12 @@
   "scripts": {
     "build": "npx tsc",
     "jasmine": "npx jasmine",
+    "test": "npm run build && set NODE_ENV=test&& npx db-migrate up --env test && npm run jasmine -silent && npx db-migrate reset --env test",
+    "reset": "npx db-migrate --env test reset",
+    "migrate": "npx db-migrate --env dev up && npx db-migrate up",
     "lint": "eslint ./src/**/*.ts",
     "prettier": "prettier --config .prettierrc ./src/**/*.ts --write",
-    "start": "nodemon ./build/server.js"
+    "start": "npm run build && nodemon ./build/server.js"
   },
   "keywords": [],
   "author": "",

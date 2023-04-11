@@ -15,7 +15,7 @@ export class Researcher {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO researcher (researcher_name,rank,workplace,email,phone,cv) VALUES ($1, $2, $3, $4, $5, $6) RETURNING researcher_name,rank,workplace,email,phone,cv';
+        'INSERT INTO researcher (researcher_name,rank,workplace,email,phone,cv) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
       const result = await conn.query(sql, [
         researcher.researcher_name,
@@ -81,7 +81,7 @@ export class Researcher {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE researcher SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE researcher SET ${setExpressions} WHERE id = $1 RETURNING *`;
 
       const result = await conn.query(sql, [id, ...values]);
 
