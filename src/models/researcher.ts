@@ -51,6 +51,21 @@ export class Researcher {
     }
   }
 
+  async showById(id: RESEARCHER['id']): Promise<RESEARCHER[] | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM researcher WHERE id = $1';
+
+      const result = await conn.query(sql, [id]);
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`unable to retrieve researcher: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
   async show(
     name: RESEARCHER['researcher_name']
   ): Promise<RESEARCHER[] | null> {

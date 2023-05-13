@@ -2,9 +2,9 @@ import { db } from '../database';
 
 export type JOURNAL = {
   id?: number;
-  journalEdition: number;
-  editionDate: Date;
-  researchId: number;
+  journal_edition: number;
+  edition_date: Date;
+  research_id: number;
 };
 
 export class Journal {
@@ -15,9 +15,9 @@ export class Journal {
         'INSERT INTO journal (journal_edition, edition_date, research_id) VALUES ($1, $2, $3) RETURNING *';
 
       const result = await conn.query(sql, [
-        journal.journalEdition,
-        journal.editionDate,
-        journal.researchId,
+        journal.journal_edition,
+        journal.edition_date,
+        journal.research_id,
       ]);
 
       conn.release();
@@ -25,7 +25,7 @@ export class Journal {
       return result.rows[0];
     } catch (error) {
       throw new Error(
-        `unable to create journal (edition: ${journal.journalEdition}): ${error}`
+        `unable to create journal (edition: ${journal.journal_edition}): ${error}`
       );
     }
   }
@@ -69,7 +69,7 @@ export class Journal {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE journal SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE journal SET ${setExpressions} WHERE id = $1 RETURNING *`;
 
       const result = await conn.query(sql, [id, ...values]);
 

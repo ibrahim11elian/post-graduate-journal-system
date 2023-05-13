@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import route from './routes/api/routes';
 
 dotenv.config();
 
@@ -14,6 +15,9 @@ app.use(cors());
 // for parsing
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// routes
+app.use('/api', route);
 
 // home direct to readme file
 app.get('/', (req: express.Request, res: express.Response) => {

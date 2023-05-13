@@ -14,10 +14,10 @@ describe('Research', () => {
     phone: 2379874,
   };
   const testResearch = {
-    researchTitle: 'Test Research',
-    researchPdf: 'test-research.pdf',
-    researchSummary: 'A summary of the test research',
-    researchDate: '11/05/2013',
+    research_title: 'Test Research',
+    research_pdf: 'test-research.pdf',
+    research_summary: 'A summary of the test research',
+    research_date: '11/05/2013',
   };
 
   beforeEach(async () => {
@@ -44,7 +44,7 @@ describe('Research', () => {
       const research = new Research();
       const createdResearch = await research.create({
         ...testResearch,
-        researcherId: researcherId,
+        researcher_id: researcherId,
       });
 
       expect(createdResearch).toBeTruthy();
@@ -57,16 +57,16 @@ describe('Research', () => {
       const research = new Research();
       await research.create({
         ...testResearch,
-        researcherId: researcherId,
+        researcher_id: researcherId,
       });
       await research.create({
         ...{
           ...testResearch,
-          researcherId: researcherId,
+          researcher_id: researcherId,
         },
-        researchTitle: 'Another Test Research',
-        researchPdf: 'another-test-research.pdf',
-        researchSummary: 'A summary of another test research',
+        research_title: 'Another Test Research',
+        research_pdf: 'another-test-research.pdf',
+        research_summary: 'A summary of another test research',
       });
 
       const allResearch = await research.index();
@@ -81,12 +81,12 @@ describe('Research', () => {
       const research = new Research();
       const createdResearch = await research.create({
         ...testResearch,
-        researcherId: researcherId,
+        researcher_id: researcherId,
       });
 
       if (createdResearch) {
         const retrievedResearch = await research.show(
-          testResearch.researchTitle
+          testResearch.research_title
         );
 
         expect(retrievedResearch).toEqual([createdResearch]);
@@ -102,7 +102,7 @@ describe('Research', () => {
       const research = new Research();
       const createdResearch = await research.create({
         ...testResearch,
-        researcherId: researcherId,
+        researcher_id: researcherId,
       });
 
       if (!createdResearch) {
@@ -133,7 +133,7 @@ describe('Research', () => {
       const research = new Research();
       const createdResearch = await research.create({
         ...testResearch,
-        researcherId: researcherId,
+        researcher_id: researcherId,
       });
 
       if (!createdResearch) {

@@ -2,11 +2,11 @@ import { db } from '../database';
 
 export type RESEARCH = {
   id?: number;
-  researchTitle: string;
-  researchPdf: string;
-  researchSummary: string;
-  researchDate: string;
-  researcherId: number;
+  research_title: string;
+  research_pdf: string;
+  research_summary: string;
+  research_date: string;
+  researcher_id: number;
 };
 
 export class Research {
@@ -17,11 +17,11 @@ export class Research {
         'INSERT INTO research (research_title,research_pdf,research_summary,research_date,researcher_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
       const result = await conn.query(sql, [
-        research.researchTitle,
-        research.researchPdf,
-        research.researchSummary,
-        research.researchDate,
-        research.researcherId,
+        research.research_title,
+        research.research_pdf,
+        research.research_summary,
+        research.research_date,
+        research.researcher_id,
       ]);
 
       conn.release();
@@ -29,7 +29,7 @@ export class Research {
       return result.rows[0];
     } catch (error) {
       throw new Error(
-        `unable to create research (${research.researchTitle}): ${error}`
+        `unable to create research (${research.research_title}): ${error}`
       );
     }
   }
@@ -49,7 +49,22 @@ export class Research {
     }
   }
 
-  async show(title: RESEARCH['researchTitle']): Promise<RESEARCH[] | null> {
+  async showById(id: RESEARCH['id']): Promise<RESEARCH[] | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM research WHERE id = $1';
+
+      const result = await conn.query(sql, [id]);
+
+      return result.rows;
+    } catch (error) {
+      throw new Error(`unable to retrieve research: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
+  async show(title: RESEARCH['research_title']): Promise<RESEARCH[] | null> {
     const conn = await db.connect();
     try {
       const sql = 'SELECT * FROM research WHERE research_title = $1';
