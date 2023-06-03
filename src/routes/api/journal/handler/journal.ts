@@ -67,7 +67,6 @@ async function updateJournal(req: Request, res: Response) {
 
     // Update the journal
     const updatedJournal = await journal.update(id, updatedData);
-    console.log(updatedJournal);
 
     res.status(200).json({ status: 'success', data: updatedJournal });
   } catch (error) {

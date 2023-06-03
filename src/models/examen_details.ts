@@ -1,38 +1,38 @@
 import { db } from '../database';
 
-export type EXAMN_DETAILS = {
+export type EXAMEN_DETAILS = {
   id?: number;
-  judgeLetter: number;
-  letterDate: Date;
+  judge_letter: number;
+  letter_date: Date;
   result: string;
-  judgeId: number;
-  sciExaminationId: number;
+  judge_id: number;
+  sciExamination_id: number;
 };
 
-export class ExamnDetails {
-  async create(examnDetails: EXAMN_DETAILS): Promise<EXAMN_DETAILS | null> {
+export class ExamenDetails {
+  async create(examenDetails: EXAMEN_DETAILS): Promise<EXAMEN_DETAILS | null> {
     try {
       const conn = await db.connect();
       const sql =
         'INSERT INTO examn_details (judge_letter, letter_date, result, judge_id, sci_examination_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
       const result = await conn.query(sql, [
-        examnDetails.judgeLetter,
-        examnDetails.letterDate,
-        examnDetails.result,
-        examnDetails.judgeId,
-        examnDetails.sciExaminationId,
+        examenDetails.judge_letter,
+        examenDetails.letter_date,
+        examenDetails.result,
+        examenDetails.judge_id,
+        examenDetails.sciExamination_id,
       ]);
 
       conn.release();
 
       return result.rows[0];
     } catch (error) {
-      throw new Error(`unable to create examn details: ${error}`);
+      throw new Error(`unable to create examen details: ${error}`);
     }
   }
 
-  async index(): Promise<EXAMN_DETAILS[]> {
+  async index(): Promise<EXAMEN_DETAILS[]> {
     try {
       const conn = await db.connect();
       const sql = 'SELECT * FROM examn_details';
@@ -43,11 +43,11 @@ export class ExamnDetails {
 
       return result.rows;
     } catch (error) {
-      throw new Error(`unable to retrieve examn details: ${error}`);
+      throw new Error(`unable to retrieve examen details: ${error}`);
     }
   }
 
-  async show(id: EXAMN_DETAILS['id']): Promise<EXAMN_DETAILS | null> {
+  async show(id: EXAMEN_DETAILS['id']): Promise<EXAMEN_DETAILS | null> {
     const conn = await db.connect();
     try {
       const sql = 'SELECT * FROM examn_details WHERE id = $1';
@@ -63,9 +63,9 @@ export class ExamnDetails {
   }
 
   async update(
-    id: EXAMN_DETAILS['id'],
+    id: EXAMEN_DETAILS['id'],
     updatedColumns: object
-  ): Promise<EXAMN_DETAILS> {
+  ): Promise<EXAMEN_DETAILS> {
     try {
       const conn = await db.connect();
       const keys = Object.keys(updatedColumns);
@@ -74,7 +74,7 @@ export class ExamnDetails {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE examn_details SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE examn_details SET ${setExpressions} WHERE id = $1 RETURNING *`;
 
       const result = await conn.query(sql, [id, ...values]);
 
@@ -86,7 +86,7 @@ export class ExamnDetails {
     }
   }
 
-  async delete(id: EXAMN_DETAILS['id']): Promise<string> {
+  async delete(id: EXAMEN_DETAILS['id']): Promise<string> {
     try {
       const conn = await db.connect();
       const sql = 'DELETE FROM examn_details WHERE id = $1';
@@ -95,9 +95,9 @@ export class ExamnDetails {
 
       conn.release();
 
-      return `examn details deleted with id: ${id}`;
+      return `examen details deleted with id: ${id}`;
     } catch (error) {
-      throw new Error(`unable to delete examn details: ${error}`);
+      throw new Error(`unable to delete examen details: ${error}`);
     }
   }
 }

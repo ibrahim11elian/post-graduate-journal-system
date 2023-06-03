@@ -2,7 +2,7 @@ import { db } from '../database';
 
 export type JUDGE = {
   id?: number;
-  judgeName: string;
+  judge_name: string;
 };
 
 export class Judge {
@@ -11,14 +11,14 @@ export class Judge {
       const conn = await db.connect();
       const sql = 'INSERT INTO the_judge (judge_name) VALUES ($1) RETURNING *';
 
-      const result = await conn.query(sql, [judge.judgeName]);
+      const result = await conn.query(sql, [judge.judge_name]);
 
       conn.release();
 
       return result.rows[0];
     } catch (error) {
       throw new Error(
-        `unable to create judge (name: ${judge.judgeName}): ${error}`
+        `unable to create judge (name: ${judge.judge_name}): ${error}`
       );
     }
   }
@@ -62,7 +62,7 @@ export class Judge {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE the_judge SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE the_judge SET ${setExpressions} WHERE id = $1 RETURNING *`;
 
       const result = await conn.query(sql, [id, ...values]);
 

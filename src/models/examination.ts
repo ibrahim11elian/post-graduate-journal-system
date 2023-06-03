@@ -2,10 +2,10 @@ import { db } from '../database';
 
 export type EXAMINATION = {
   id?: number;
-  outgoingLetter: number;
-  incomingLetter: number;
+  outgoing_letter: number;
+  incoming_letter: number;
   result: string;
-  researchId: number;
+  research_id: number;
 };
 
 export class Examination {
@@ -16,10 +16,10 @@ export class Examination {
         'INSERT INTO examination (outgoing_letter, incoming_letter, result, research_id) VALUES ($1, $2, $3, $4) RETURNING *';
 
       const result = await conn.query(sql, [
-        examination.outgoingLetter,
-        examination.incomingLetter,
+        examination.outgoing_letter,
+        examination.incoming_letter,
         examination.result,
-        examination.researchId,
+        examination.research_id,
       ]);
 
       conn.release();
@@ -72,7 +72,7 @@ export class Examination {
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');
 
-      const sql = `UPDATE examination SET ${setExpressions} WHERE id = $1`;
+      const sql = `UPDATE examination SET ${setExpressions} WHERE id = $1 RETURNING *`;
 
       const result = await conn.query(sql, [id, ...values]);
 

@@ -2,7 +2,7 @@ import { db } from '../database';
 
 export type SCIEXAMINATION = {
   id?: number;
-  researchId: number;
+  research_id: number;
 };
 
 export class SciExamination {
@@ -12,14 +12,14 @@ export class SciExamination {
       const sql =
         'INSERT INTO sci_examination (research_id) VALUES ($1) RETURNING *';
 
-      const result = await conn.query(sql, [sciExamination.researchId]);
+      const result = await conn.query(sql, [sciExamination.research_id]);
 
       conn.release();
 
       return result.rows[0];
     } catch (error) {
       throw new Error(
-        `unable to create sci examination (researchId: ${sciExamination.researchId}): ${error}`
+        `unable to create sci examination (researchId: ${sciExamination.research_id}): ${error}`
       );
     }
   }
@@ -51,30 +51,6 @@ export class SciExamination {
       throw new Error(`unable to retrieve sci examination: ${error}`);
     } finally {
       conn.release();
-    }
-  }
-
-  async update(
-    id: SCIEXAMINATION['id'],
-    updatedColumns: object
-  ): Promise<SCIEXAMINATION> {
-    try {
-      const conn = await db.connect();
-      const keys = Object.keys(updatedColumns);
-      const values = Object.values(updatedColumns);
-      const setExpressions = keys
-        .map((key, index) => `${key} = $${index + 2}`)
-        .join(', ');
-
-      const sql = `UPDATE sci_examination SET ${setExpressions} WHERE id = $1`;
-
-      const result = await conn.query(sql, [id, ...values]);
-
-      conn.release();
-
-      return result.rows[0];
-    } catch (error) {
-      throw new Error(`unable to update sci examination: ${error}`);
     }
   }
 
