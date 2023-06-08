@@ -2,7 +2,7 @@ import { Journal } from '../journal';
 import { Research } from '../research';
 import { Researcher, RESEARCHER } from '../researcher';
 
-describe('Journal', () => {
+describe('Journal Model', () => {
   const researcher = new Researcher();
   const research = new Research();
   const journal = new Journal();

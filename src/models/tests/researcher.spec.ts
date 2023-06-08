@@ -1,6 +1,6 @@
 import { Researcher, RESEARCHER } from '../researcher';
 
-describe('Researcher', () => {
+describe('Researcher Model', () => {
   let researcher: Researcher;
 
   const testResearcher = {

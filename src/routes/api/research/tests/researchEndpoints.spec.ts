@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../../../../server';
 
-describe('Research API', () => {
+describe('Research Endpoints', () => {
   let researcherId: number;
   let researchId: number;
 

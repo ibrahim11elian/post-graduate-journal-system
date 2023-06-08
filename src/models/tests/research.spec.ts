@@ -2,7 +2,7 @@ import { Research } from '../research';
 import { db } from '../../database';
 import { RESEARCHER, Researcher } from '../researcher';
 
-describe('Research', () => {
+describe('Research Model', () => {
   const researcher = new Researcher();
   let researcherId: number;
 
