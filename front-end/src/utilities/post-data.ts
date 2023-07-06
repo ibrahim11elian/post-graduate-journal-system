@@ -5,9 +5,9 @@ const baseUrl = "http://localhost:3000/api";
 async function postData(researchData, files) {
   const formData = new FormData();
   formData.append("data", JSON.stringify(researchData));
-  for (const key in files) {
-    formData.append("file", files[key]);
-  }
+  formData.append("cv", files.cv);
+  formData.append("researchCopy", files.research_pdf);
+  formData.append("researchSummary", files.research_summary);
 
   try {
     await axios

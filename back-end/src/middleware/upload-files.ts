@@ -8,7 +8,11 @@ export default function uploadFile(
   res: Response,
   next: NextFunction
 ) {
-  upload.array('file')(req, res, (err: unknown) => {
+  upload.fields([
+    { name: 'cv', maxCount: 1 },
+    { name: 'researchCopy', maxCount: 1 },
+    { name: 'researchSummary', maxCount: 1 },
+  ])(req, res, (err: unknown) => {
     if (err) {
       res.status(400).json({ error: 'Failed to upload file' });
       return;
@@ -19,7 +23,7 @@ export default function uploadFile(
     // Access the uploaded file from the request object
     // const file = req.file;
     console.log(req.files);
-    res.send('tmamam');
+    res.send('tamam');
 
     // Check if the file exists
     // if (!file) {
