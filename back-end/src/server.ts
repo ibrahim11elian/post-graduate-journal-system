@@ -1,10 +1,15 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import route from './routes/api/routes';
+import multer, { Multer } from 'multer';
+import path from 'path';
+import { folderBuilder } from './folder-builder';
 
 dotenv.config();
+
+// creating the files folders to store the uploaded files
+folderBuilder();
 
 // creating express app instance
 export const app: express.Application = express();
@@ -13,8 +18,26 @@ export const app: express.Application = express();
 app.use(cors());
 
 // for parsing
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+export const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const destinationFolder = path.join(__dirname, '..', 'cv'); // Specify the destination folder for uploaded files relative to the root of the project
+    cb(null, destinationFolder);
+  },
+  filename: function (req, file, cb) {
+    const fileExtension = path.extname(file.originalname);
+    const data = JSON.parse(req.body.data);
+    cb(null, `${data.researcher_name}${fileExtension}`); // Use the original researcher name for storing the uploaded file
+  },
+});
+
+// Create a multer instance with the configured storage
+export const upload: Multer = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
 
 // routes
 app.use('/api', route);
@@ -23,46 +46,6 @@ app.use('/api', route);
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send("<h1>i'm working</h1>");
 });
-
-// just for test
-
-// import { Researcher } from './models/researcher';
-// const x = new Researcher();
-// const user: object = {
-//   researcher_name: 'ahmed',
-//   rank: 'عميد',
-//   workplace: 'كلية الدراسات العليا',
-//   email: 'ahmed@gmail.com',
-//   phone: '01234567890',
-//   cv: 'odjfsssa',
-// };
-
-// app.get('/add', (req: express.Request, res: express.Response) => {
-//   const z = x.create({
-//     researcher_name: 'ahmed',
-//     rank: 'عميد',
-//     workplace: 'كلية الدراسات العليا',
-//     email: 'ahmed@gmail.com',
-//     phone: 1234567890,
-//     cv: 'odjfsssa',
-//   });
-
-//   z.then((s) => res.send(s));
-// });
-
-// import { Research } from './models/research';
-// const x = new Research();
-// app.get('/add', (req: express.Request, res: express.Response) => {
-//   const z = x.create({
-//     researchTitle: 'ahmed',
-//     researchDate: '10/02/2020',
-//     researchPdf: 'كلية الدراسات العليا',
-//     researchSummary: 'ahmed@gmail.com',
-//     researcherId: 1,
-//   });
-
-//   z.then((s) => res.send(s));
-// });
 
 // start server
 app.listen(process.env.PORT, () => {

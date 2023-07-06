@@ -6,8 +6,15 @@ const researcher = new Researcher();
 // Create a researcher
 async function create(req: Request, res: Response) {
   try {
-    const newResearcher = await researcher.create(req.body as RESEARCHER);
-    res.status(201).json({ status: 'success', data: newResearcher });
+    // Create the researcher
+    await researcher
+      .create(req.body as RESEARCHER)
+      .then((newResearcher) => {
+        res.status(201).json({ status: 'success', data: newResearcher });
+      })
+      .catch((error) => {
+        res.status(500).json({ status: 'error', message: error.message });
+      });
   } catch (error) {
     res
       .status(500)

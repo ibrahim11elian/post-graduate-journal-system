@@ -6,10 +6,11 @@ import examination from './examination/handler/examination';
 import judge from './judge/handler/judge';
 import sciExamination from './sciExamination/handler/sciExamination';
 import examen_details from './examen_details/handler/examen_details';
+import uploadFile from '../../middleware/upload-files';
 
 const route = Router();
 
-route.post('/researcher', researcher.create);
+route.post('/researcher', uploadFile, researcher.create);
 route.get('/researcher', researcher.index);
 route.get('/researcher/:identifier', researcher.getResearcher);
 route.put('/researcher/:id', researcher.updateResearcher);
