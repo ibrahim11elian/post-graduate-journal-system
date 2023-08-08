@@ -54,6 +54,21 @@ export class SciExamination {
     }
   }
 
+  async showByResearchId(id: number): Promise<SCIEXAMINATION | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM sci_examination WHERE research_id = $1';
+
+      const result = await conn.query(sql, [id]);
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`unable to retrieve sci examination: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
   async delete(id: SCIEXAMINATION['id']): Promise<string> {
     try {
       const conn = await db.connect();

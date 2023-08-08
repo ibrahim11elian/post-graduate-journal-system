@@ -55,6 +55,16 @@ export const upload: Multer = multer({
   limits: { fileSize: 10 * 1024 * 1024 },
 });
 
+app.use(
+  '/researches',
+  express.static(path.join(__dirname, '../research-copies'))
+);
+app.use(
+  '/summaries',
+  express.static(path.join(__dirname, '../research-summaries'))
+);
+app.use('/cv', express.static(path.join(__dirname, '../cv')));
+
 // routes
 app.use('/api', route);
 

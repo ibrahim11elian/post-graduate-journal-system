@@ -6,7 +6,7 @@ export type EXAMEN_DETAILS = {
   letter_date: Date;
   result: string;
   judge_id: number;
-  sciExamination_id: number;
+  sci_Examination_id: number;
 };
 
 export class ExamenDetails {
@@ -21,7 +21,7 @@ export class ExamenDetails {
         examenDetails.letter_date,
         examenDetails.result,
         examenDetails.judge_id,
-        examenDetails.sciExamination_id,
+        examenDetails.sci_Examination_id,
       ]);
 
       conn.release();
@@ -55,6 +55,21 @@ export class ExamenDetails {
       const result = await conn.query(sql, [id]);
 
       return result.rows[0];
+    } catch (error) {
+      throw new Error(`unable to retrieve examn details: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
+  async showByExamenId(id: number): Promise<EXAMEN_DETAILS[] | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM examn_details WHERE sci_Examination_id = $1';
+
+      const result = await conn.query(sql, [id]);
+
+      return result.rows;
     } catch (error) {
       throw new Error(`unable to retrieve examn details: ${error}`);
     } finally {

@@ -10,6 +10,11 @@ export type RESEARCHER = {
   cv?: string;
 };
 
+// The normalize('NFKD') method ensures that all Arabic characters are decomposed into their basic components, and the replace method removes any combining diacritical marks (like harakat) from the text.
+function normalizeArabicText(text: string) {
+  return text.normalize('NFKD').replace(/[\u064B-\u065F]/g, '');
+}
+
 export class Researcher {
   async create(researcher: RESEARCHER): Promise<RESEARCHER | null> {
     try {
@@ -70,10 +75,13 @@ export class Researcher {
     name: RESEARCHER['researcher_name']
   ): Promise<RESEARCHER[] | null> {
     const conn = await db.connect();
-    try {
-      const sql = 'SELECT * FROM researcher WHERE researcher_name = $1';
+    const normalizedQuery = normalizeArabicText(name);
 
-      const result = await conn.query(sql, [name]);
+    try {
+      const sql =
+        'SELECT * FROM researcher WHERE remove_spaces(unaccent(researcher_name)) LIKE remove_spaces($1)';
+
+      const result = await conn.query(sql, [`%${normalizedQuery}%`]);
 
       return result.rows;
     } catch (error) {

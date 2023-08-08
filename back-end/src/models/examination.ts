@@ -60,6 +60,21 @@ export class Examination {
     }
   }
 
+  async showByResearchId(id: number): Promise<EXAMINATION | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM examination WHERE research_id = $1';
+
+      const result = await conn.query(sql, [id]);
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`unable to retrieve examination: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
   async update(
     id: EXAMINATION['id'],
     updatedColumns: object

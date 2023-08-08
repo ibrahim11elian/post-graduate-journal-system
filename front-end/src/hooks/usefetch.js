@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect } from "react";
-let getData;
+import axios from "axios";
+
 export function useFetch(url) {
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  getData = useCallback(async () => {
+  const [fetchedData, setFetchedData] = useState({});
+  const getData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(url);
-      const data = await res.json();
-      setProducts(data);
+      const data = await axios.get(url);
+      setFetchedData(data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -18,11 +19,8 @@ export function useFetch(url) {
 
   useEffect(() => {
     getData();
+    return () => new AbortController();
   }, [url]);
 
-  return { loading, products, setProducts };
+  return { loading, fetchedData };
 }
-
-export const refresh = () => {
-  getData();
-};

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import postData from "../utilities/post-data.ts";
-import { isValid } from "../utilities/form-validation.ts";
+import postData from "../utilities/post-data";
+import { isValid } from "../utilities/form-validation";
+import { Link } from "react-router-dom";
 
 const rData = {
   researcher_name: undefined,
@@ -12,9 +13,15 @@ const rData = {
   phone: undefined,
   research_date: undefined,
   research_title: undefined,
-  research_pdf: undefined,
-  research_summary: undefined,
-  cv: undefined,
+  journal_edition: undefined,
+  edition_date: undefined,
+  outgoing_letter: undefined,
+  incoming_letter: undefined,
+  result: undefined,
+  judge_namee: undefined,
+  judge_letter: undefined,
+  letter_date: undefined,
+  exmn_result: undefined,
 };
 
 function AddResearch() {
@@ -42,9 +49,16 @@ function AddResearch() {
   };
 
   return (
-    <div className="add-search">
+    <div className="add-search container-md">
       <Header />
-      <h2 className="title form-container">إضافة بحث</h2>
+      <div className="d-flex justify-content-between form-container">
+        <h2 className="title ">إضافة بحث</h2>
+        <Link to={"/search"}>
+          <Button className="add col-auto form-container" variant="primary">
+            صفحة البحث
+          </Button>
+        </Link>
+      </div>
       <Form className="form form-container" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>إسم الضابط</Form.Label>
@@ -184,24 +198,56 @@ function AddResearch() {
 
         <Form.Group className="mb-3">
           <Form.Label> رقم العدد</Form.Label>
-          <Form.Control type="number" />
+          <Form.Control
+            type="number"
+            onChange={(e) =>
+              setResearchData({
+                ...researchData,
+                journal_edition: e.target.value,
+              })
+            }
+          />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label> تاريخ العدد </Form.Label>
-          <Form.Control type="date" />
+          <Form.Control
+            type="date"
+            onChange={(e) =>
+              setResearchData({
+                ...researchData,
+                edition_date: e.target.value,
+              })
+            }
+          />
         </Form.Group>
 
         <h3 className="full-grid-width up-border">فحص البحث</h3>
 
         <Form.Group className="mb-3">
           <Form.Label> رقم الخطاب الصادر</Form.Label>
-          <Form.Control type="number" />
+          <Form.Control
+            type="number"
+            onChange={(e) =>
+              setResearchData({
+                ...researchData,
+                outgoing_letter: e.target.value,
+              })
+            }
+          />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label> رقم الخطاب الوارد</Form.Label>
-          <Form.Control type="number" />
+          <Form.Control
+            type="number"
+            onChange={(e) =>
+              setResearchData({
+                ...researchData,
+                incoming_letter: e.target.value,
+              })
+            }
+          />
         </Form.Group>
 
         <Form.Group className="full-grid-width row">
@@ -213,18 +259,39 @@ function AddResearch() {
               label="صالح للتحكيم"
               name="group1"
               type="radio"
+              value={"صالح للتحكيم"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  result: e.target.value,
+                })
+              }
             />
             <Form.Check
               inline
               label="صالح مع التعديل"
               name="group1"
               type="radio"
+              value={"صالح مع التعديل"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  result: e.target.value,
+                })
+              }
             />
             <Form.Check
               inline
               name="group1"
               label="غير صالح للتحكيم"
               type="radio"
+              value={"غير صالح للتحكيم "}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  result: e.target.value,
+                })
+              }
             />
           </div>
         </Form.Group>
@@ -234,51 +301,147 @@ function AddResearch() {
         <div className="full-grid-width row">
           <Form.Group className="mb-3 col">
             <Form.Label>إسم المحكم الأول</Form.Label>
-            <Form.Control />
+            <Form.Control
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  judge_namee: {
+                    ...researchData["judge_namee"],
+                    0: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col">
             <Form.Label> رقم الخطاب </Form.Label>
-            <Form.Control type="number" />
+            <Form.Control
+              type="number"
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  judge_letter: {
+                    ...researchData["judge_letter"],
+                    0: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col">
             <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control type="date" />
+            <Form.Control
+              type="date"
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  letter_date: {
+                    ...researchData["letter_date"],
+                    0: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
         </div>
 
         <div className="full-grid-width row">
           <Form.Group className="mb-3 col">
             <Form.Label>إسم المحكم الثاني</Form.Label>
-            <Form.Control />
+            <Form.Control
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  judge_namee: {
+                    ...researchData["judge_namee"],
+                    1: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col">
             <Form.Label> رقم الخطاب </Form.Label>
-            <Form.Control type="number" />
+            <Form.Control
+              type="number"
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  judge_letter: {
+                    ...researchData["judge_letter"],
+                    1: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col">
             <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control type="date" />
+            <Form.Control
+              type="date"
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  letter_date: {
+                    ...researchData["letter_date"],
+                    1: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
         </div>
 
         <div className="full-grid-width row">
           <Form.Group className="mb-3 col">
             <Form.Label>إسم المحكم الثالث (إختياري)</Form.Label>
-            <Form.Control />
+            <Form.Control
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  judge_namee: {
+                    ...researchData["judge_namee"],
+                    2: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col">
             <Form.Label> رقم الخطاب </Form.Label>
-            <Form.Control type="number" />
+            <Form.Control
+              type="number"
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  judge_letter: {
+                    ...researchData["judge_letter"],
+                    2: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
 
           <Form.Group className="mb-3 col">
             <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control type="date" />
+            <Form.Control
+              type="date"
+              onChange={(e) =>
+                setResearchData({
+                  ...researchData,
+                  letter_date: {
+                    ...researchData["letter_date"],
+                    2: e.target.value,
+                  },
+                })
+              }
+            />
           </Form.Group>
         </div>
 
@@ -288,18 +451,53 @@ function AddResearch() {
           <Form.Label className="col-auto"> المحكم الأول:</Form.Label>
 
           <div className="mb-3 col radios">
-            <Form.Check inline label="صالح للنشر" name="group2" type="radio" />
+            <Form.Check
+              inline
+              label="صالح للنشر"
+              name="group2"
+              type="radio"
+              value={"صالح للنشر"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    0: e.target.value,
+                  },
+                })
+              }
+            />
             <Form.Check
               inline
               label="صالح مع التعديل"
               name="group2"
               type="radio"
+              value={"صالح مع التعديل"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    0: e.target.value,
+                  },
+                })
+              }
             />
             <Form.Check
               inline
               name="group2"
               label="غير صالح للنشر"
               type="radio"
+              value="غير صالح للنشر"
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    0: e.target.value,
+                  },
+                })
+              }
             />
           </div>
         </Form.Group>
@@ -308,18 +506,53 @@ function AddResearch() {
           <Form.Label className="col-auto"> المحكم الثاني:</Form.Label>
 
           <div className="mb-3 col radios">
-            <Form.Check inline label="صالح للنشر" name="group3" type="radio" />
+            <Form.Check
+              inline
+              label="صالح للنشر"
+              name="group3"
+              type="radio"
+              value={"صالح للنشر"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    1: e.target.value,
+                  },
+                })
+              }
+            />
             <Form.Check
               inline
               label="صالح مع التعديل"
               name="group3"
               type="radio"
+              value={"صالح مع التعديل"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    1: e.target.value,
+                  },
+                })
+              }
             />
             <Form.Check
               inline
               name="group3"
               label="غير صالح للنشر"
               type="radio"
+              value="غير صالح للنشر"
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    1: e.target.value,
+                  },
+                })
+              }
             />
           </div>
         </Form.Group>
@@ -330,34 +563,55 @@ function AddResearch() {
           </Form.Label>
 
           <div className="mb-3 col radios">
-            <Form.Check inline label="صالح للنشر" name="group4" type="radio" />
+            <Form.Check
+              inline
+              label="صالح للنشر"
+              name="group4"
+              type="radio"
+              value={"صالح للنشر"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    2: e.target.value,
+                  },
+                })
+              }
+            />
             <Form.Check
               inline
               label="صالح مع التعديل"
               name="group4"
               type="radio"
+              value={"صالح مع التعديل"}
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    2: e.target.value,
+                  },
+                })
+              }
             />
             <Form.Check
               inline
               name="group4"
               label="غير صالح للنشر"
+              value="غير صالح للنشر"
               type="radio"
+              onClick={(e) =>
+                setResearchData({
+                  ...researchData,
+                  exmn_result: {
+                    ...researchData["exmn_result"],
+                    2: e.target.value,
+                  },
+                })
+              }
             />
           </div>
-        </Form.Group>
-
-        <h3 className="full-grid-width up-border mb-3">
-          النسخة النهائية بعد التعديل
-        </h3>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>البحث بعد التعديل</Form.Label>
-          <Form.Control type="file" />
-        </Form.Group>
-
-        <Form.Group className="mb-3 col">
-          <Form.Label> رقم العدد </Form.Label>
-          <Form.Control type="number" />
         </Form.Group>
 
         <div className="buttons full-grid-width row justify-content-center">
@@ -379,80 +633,7 @@ function AddResearch() {
   );
 }
 
-// function Table() {
-//   const currentDate = new Date();
-//   const formattedDate = currentDate.toLocaleDateString("en-US", {
-//     month: "numeric",
-//     day: "numeric",
-//     year: "numeric",
-//   });
-//   return (
-//     <>
-//       <Header />
-//       <Container fluid>
-//         <table class="table mt-5">
-//           <thead className="table-header ">
-//             <tr>
-//               <th scope="col rounded-start">الإسم</th>
-//               <th scope="col">عنوان البحث</th>
-//               <th scope="col">عدد المجلة</th>
-//               <th scope="col">تاريخ التقديم</th>
-//               <th scope="col">الهاتف</th>
-//               <th scope="col rounded-end">البريد الإلكتروني</th>
-//               <th scope="col"></th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             <tr>
-//               <td>
-//                 <p className="name">محمد السيد محمد</p>
-//                 <p className="rank">عميد</p>
-//               </td>
-//               <td>Lorem ipsum dolor sit amet.</td>
-//               <td>12</td>
-//               <td>{formattedDate}</td>
-//               <td>012875469</td>
-//               <td>mdo@gmail.com</td>
-//               <td>
-//                 <Button className="btn-details">تفاصيل</Button>
-//               </td>
-//             </tr>
-//             <tr>
-//               <td>
-//                 <p className="name">محمد السيد محمد</p>
-//                 <p className="rank">عميد</p>
-//               </td>
-//               <td>Jacob Lorem ipsum dolor sit.</td>
-//               <td>34</td>
-//               <td>{formattedDate}</td>
-//               <td>0103874783</td>
-//               <td>fat@gmail.com</td>
-//               <td>
-//                 <Button className="btn-details">تفاصيل</Button>
-//               </td>
-//             </tr>
-//             <tr>
-//               <td>
-//                 <p className="name">محمد السيد محمد</p>
-//                 <p className="rank">عميد</p>
-//               </td>
-//               <td>Larry Lorem, ipsum.</td>
-//               <td>54</td>
-//               <td>{formattedDate}</td>
-//               <td>011465776</td>
-//               <td>twitter@gmail.com</td>
-//               <td>
-//                 <Button className="btn-details">تفاصيل</Button>
-//               </td>
-//             </tr>
-//           </tbody>
-//         </table>
-//       </Container>
-//     </>
-//   );
-// }
-
-function Header() {
+export function Header() {
   return (
     <header className="add-header">
       <img

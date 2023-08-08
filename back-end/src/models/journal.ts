@@ -60,6 +60,21 @@ export class Journal {
     }
   }
 
+  async showByResearchId(ResearchId: number): Promise<JOURNAL | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM journal WHERE research_id = $1';
+
+      const result = await conn.query(sql, [ResearchId]);
+
+      return result.rows[0];
+    } catch (error) {
+      throw new Error(`unable to retrieve journal: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
   async update(id: JOURNAL['id'], updatedColumns: object): Promise<JOURNAL> {
     try {
       const conn = await db.connect();

@@ -83,7 +83,7 @@ describe('ExamenDetails Model', () => {
       letter_date: new Date(),
       result: 'Pass',
       judge_id: createdJudge?.id as number,
-      sciExamination_id: createdSciExamination?.id as number,
+      sci_Examination_id: createdSciExamination?.id as number,
     };
 
     createdExamenDetails = await examenDetails.create(newExamenDetails);

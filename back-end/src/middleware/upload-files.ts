@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import path from 'path';
 import { upload } from '../server';
-import { File } from 'buffer';
 
 export default function uploadFile(
   req: Request,
@@ -18,26 +17,46 @@ export default function uploadFile(
       return;
     }
 
-    // req.body = JSON.parse(req.body);
+    req.body = JSON.parse(req.body.data);
 
     // Access the uploaded file from the request object
-    // const file = req.file;
-    console.log(req.files);
-    res.send('tamam');
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    // console.log(req.files);
 
     // Check if the file exists
-    // if (!file) {
-    //   res.status(400).json({ error: 'No file uploaded' });
-    //   return;
-    // } else {
-    //   const fileExtension = path.extname(file.originalname);
-    //   req.body.cv = path.join(
-    //     process.cwd(),
-    //     'cv',
-    //     `${req.body.researcher_name}${fileExtension}`
-    //   );
+    if (!Object.keys(files)) {
+      res.status(400).json({ error: 'No files uploaded' });
+      return;
+    } else {
+      const cvFile = files['cv'][0];
 
-    //   next();
-    // }
+      const cvFileExtension = path.extname(cvFile.originalname);
+      req.body.cv = path.join(
+        process.cwd(),
+        'cv',
+        `${req.body.researcher_name}${cvFileExtension}`
+      );
+
+      const researchCopyFile = files['researchCopy'][0];
+
+      const rsCopyFileExtension = path.extname(researchCopyFile.originalname);
+      req.body.research_pdf = path.join(
+        process.cwd(),
+        'research-copies',
+        `${req.body.researcher_name}-${req.body.research_title}${rsCopyFileExtension}`
+      );
+
+      const researchSummaryFile = files['researchSummary'][0];
+
+      const rsSummaryFileExtension = path.extname(
+        researchSummaryFile.originalname
+      );
+      req.body.research_summary = path.join(
+        process.cwd(),
+        'research-summaries',
+        `${req.body.researcher_name}-${req.body.research_title}${rsSummaryFileExtension}`
+      );
+      next();
+    }
   });
 }

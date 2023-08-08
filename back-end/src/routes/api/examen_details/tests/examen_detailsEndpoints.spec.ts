@@ -75,7 +75,7 @@ describe('Examen Details Endpoints', () => {
       letter_date: new Date(),
       result: 'Pass',
       judge_id: createdJudge?.id as number,
-      sciExamination_id: createdSciExamination?.id as number,
+      sci_Examination_id: createdSciExamination?.id as number,
     };
 
     const response = await request(app)
