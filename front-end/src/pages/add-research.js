@@ -13,8 +13,8 @@ const rData = {
   phone: undefined,
   research_date: undefined,
   research_title: undefined,
-  journal_edition: undefined,
-  edition_date: undefined,
+  journal_edition: 0,
+  edition_date: "",
   outgoing_letter: undefined,
   incoming_letter: undefined,
   result: undefined,
@@ -41,11 +41,33 @@ function AddResearch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prof]);
 
+  useEffect(() => {}, []);
+  const handleEditionNumberChange = (e) => {
+    if (e.target.value !== "") {
+      const newEditionNumber = parseInt(e.target.value, 10);
+
+      // Calculate and set the edition date based on the release schedule
+      const isMarch = newEditionNumber % 2 === 0;
+      const releaseMonth = isMarch ? 3 : 10; // March or October
+      const firstEditionYear = 2000;
+      let releaseYear =
+        firstEditionYear + Math.floor((newEditionNumber - 1) / 2);
+      releaseYear = isMarch ? releaseYear : releaseYear - 1;
+      const calculatedEditionDate = new Date(releaseYear, releaseMonth - 1, 2);
+
+      setResearchData({
+        ...researchData,
+        edition_date: calculatedEditionDate.toISOString().split("T")[0],
+        journal_edition: newEditionNumber,
+      });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    isValid({ ...researchData, ...files })
+    isValid({ ...researchData }, { ...files })
       ? postData(researchData, files)
-      : alert("دخل كل الداتا صح");
+      : console.error("form data is not valid!!");
   };
 
   return (
@@ -200,12 +222,7 @@ function AddResearch() {
           <Form.Label> رقم العدد</Form.Label>
           <Form.Control
             type="number"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                journal_edition: e.target.value,
-              })
-            }
+            onChange={(e) => handleEditionNumberChange(e)}
           />
         </Form.Group>
 
@@ -213,12 +230,8 @@ function AddResearch() {
           <Form.Label> تاريخ العدد </Form.Label>
           <Form.Control
             type="date"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                edition_date: e.target.value,
-              })
-            }
+            value={researchData.edition_date}
+            readOnly
           />
         </Form.Group>
 

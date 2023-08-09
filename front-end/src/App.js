@@ -5,11 +5,13 @@ import Search from "./pages/search";
 import Error from "./pages/error";
 import Details from "./pages/details";
 import PdfViewer from "./pages/pdf-viewer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [researchDetails, setResearcherDetails] = useState("");
   return (
     <div className="container-fluid App" lang="ar" dir="rtl">
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<AddResearch />} />
         <Route
