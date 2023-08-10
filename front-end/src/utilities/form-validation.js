@@ -31,8 +31,8 @@ export function isValid(formData, files) {
     !phone ||
     !research_date ||
     !research_title ||
-    !journal_edition ||
-    !edition_date ||
+    journal_edition === 0 ||
+    edition_date === "" ||
     !outgoing_letter ||
     !incoming_letter ||
     !result
@@ -44,6 +44,33 @@ export function isValid(formData, files) {
   if (!email.match(emailRegEx)) {
     alert("من فضلك ادخل بريد الكتروني صالح", "warning");
     return false;
+  }
+
+  console.log(files);
+  if (!files) {
+    alert("من فضلك ادخل الملفات", "warning");
+    return false;
+  } else {
+    for (const key in files) {
+      if (!files[key]) {
+        alert("من فضلك ادخل باقي الملفات", "warning");
+        return false;
+      }
+      if (!["cv", "research_summary", "research_pdf"].includes(key)) {
+        alert("من فضلك ادخل باقي الملفات", "warning");
+        return false;
+      }
+      const fileExtension = files[key].name.split(".").pop();
+      if (fileExtension !== "pdf") {
+        alert(
+          <>
+            <span>pdf</span> يجب ان تكون الملفات بصيغة
+          </>,
+          "warning"
+        );
+        return false;
+      }
+    }
   }
 
   if (new Date().getFullYear() < new Date(edition_date).getFullYear()) {
@@ -95,19 +122,6 @@ export function isValid(formData, files) {
         alert("من فضلك اكمل بيانات المحكم الثالث", "warning");
         return false; // Rule 8: Missing judge data when exmn_result['0'] and exmn_result['1'] are not 'ok'
       }
-    }
-  }
-
-  for (const key in files) {
-    const fileExtension = files[key].name.split(".").pop();
-    if (fileExtension !== "pdf") {
-      alert(
-        <>
-          <span>pdf</span> يجب ان تكون الملفات بصيغة
-        </>,
-        "warning"
-      );
-      return false;
     }
   }
 

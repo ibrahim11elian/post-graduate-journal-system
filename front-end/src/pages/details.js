@@ -1,6 +1,9 @@
 import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Link, useLocation } from "react-router-dom";
+import Header from "../components/details_header";
+import ExaminationTable from "../components/examination_table";
+import SciExaminationTable from "../components/sci_examination_table";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -93,98 +96,6 @@ function Details() {
         </div>
       </div>
     </div>
-  );
-}
-
-function Header({ research }) {
-  return (
-    <header className="add-header">
-      <img
-        className="head-img"
-        src="./images/police.png"
-        alt="وزارة الداخلية"
-      />
-      <div className="detail-header">
-        <p className="researcher-name">
-          {research.researcher.rank} / {research.researcher.researcher_name}
-        </p>
-        <p className="researcher-job">{research.researcher.workplace}</p>
-      </div>
-      <img
-        className="head-img"
-        src="./images/post.png"
-        alt="كلية الدراسات العليا"
-      />
-    </header>
-  );
-}
-
-function ExaminationTable({ research }) {
-  return (
-    <table className="table mt-5">
-      <thead className="table-header ">
-        <tr>
-          <th scope="col rounded-start">الفحص</th>
-          <th scope="col">النتيجة</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <p className="td">
-              <span>رقم الخطاب الصادر:</span>
-              {research.outgoing_letter}
-            </p>
-            <p className="td">
-              <span>رقم الخطاب الوارد:</span>
-              {research.incoming_letter}
-            </p>
-          </td>
-          <td className="result">{research.result}</td>
-        </tr>
-      </tbody>
-    </table>
-  );
-}
-function SciExaminationTable({ research }) {
-  return (
-    <table className="table mt-5">
-      <thead className="table-header ">
-        <tr>
-          <th scope="col rounded-start"> الفحص العلمي</th>
-          <th scope="col">النتيجة</th>
-        </tr>
-      </thead>
-      <tbody>
-        {research.map((e, i) => {
-          return (
-            <tr key={i}>
-              <td>
-                <p className="td">
-                  <span>اسم المحكم :</span>
-                  {e.judge_Name}
-                </p>
-                <p className="td">
-                  <span>رقم الخطاب:</span>
-                  {e.examination_details.judge_letter}
-                </p>
-                <p className="td">
-                  <span>تاريخ الخطاب:</span>
-                  {new Date(
-                    e.examination_details.letter_date
-                  ).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "numeric",
-                    year: "numeric",
-                  })}
-                </p>
-              </td>
-              <td className="result">{e.examination_details.result}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
   );
 }
 

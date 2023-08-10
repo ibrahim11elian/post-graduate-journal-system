@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import postData from "../utilities/post-data";
+import Header from "../components/header";
 import { isValid } from "../utilities/form-validation";
 import { Link } from "react-router-dom";
 
@@ -41,7 +42,6 @@ function AddResearch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prof]);
 
-  useEffect(() => {}, []);
   const handleEditionNumberChange = (e) => {
     if (e.target.value !== "") {
       const newEditionNumber = parseInt(e.target.value, 10);
@@ -643,24 +643,6 @@ function AddResearch() {
         </div>
       </Form>
     </div>
-  );
-}
-
-export function Header() {
-  return (
-    <header className="add-header">
-      <img
-        className="head-img"
-        src="./images/police.png"
-        alt="وزارة الداخلية"
-      />
-      <p>مجلة كلية الدراسات العليا</p>
-      <img
-        className="head-img"
-        src="./images/post.png"
-        alt="كلية الدراسات العليا"
-      />
-    </header>
   );
 }
 
