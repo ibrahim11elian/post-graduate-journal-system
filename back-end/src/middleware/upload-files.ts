@@ -21,7 +21,6 @@ export default function uploadFile(
 
     // Access the uploaded file from the request object
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-    // console.log(req.files);
 
     // Check if the file exists
     if (!Object.keys(files)) {
