@@ -1,7 +1,20 @@
 import { Research, RESEARCH } from '../../../../models/research';
 import { Request, Response } from 'express';
+import { Researcher } from '../../../../models/researcher';
+import { Journal } from '../../../../models/journal';
+import { Examination } from '../../../../models/examination';
+import { SciExamination } from '../../../../models/sciExamination';
+import { Judge } from '../../../../models/judge';
+import { ExamenDetails } from '../../../../models/examen_details';
+import { db } from '../../../../database';
 
+const researcher = new Researcher();
 const research = new Research();
+const journal = new Journal();
+const examination = new Examination();
+const sciExamination = new SciExamination();
+const judge = new Judge();
+const examenDetails = new ExamenDetails();
 
 // Create a research
 async function create(req: Request, res: Response) {
@@ -32,6 +45,8 @@ async function getResearch(req: Request, res: Response) {
   const identifier = req.params.identifier;
 
   try {
+    // Start the transaction
+    await db.query('BEGIN');
     let researchData: RESEARCH[] | null;
 
     if (isNaN(Number(identifier))) {

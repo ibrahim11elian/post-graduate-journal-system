@@ -3,7 +3,7 @@ import { alert } from "./alert";
 const emailRegEx =
   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
 
-export function isValid(formData, files) {
+export function isValid(formData, files,setWarn,setEmailValid) {
   const {
     researcher_name,
     workplace,
@@ -37,31 +37,39 @@ export function isValid(formData, files) {
     !incoming_letter ||
     !result
   ) {
+    setWarn(true);
     alert("من فضلك اكمل الحقول الفارغة", "warning");
     return false; // Rule 1: Required fields are missing
   }
 
   if (!email.match(emailRegEx)) {
+    setEmailValid(false)
+    setWarn(true);
     alert("من فضلك ادخل بريد الكتروني صالح", "warning");
     return false;
   }
 
-  console.log(files);
+  setEmailValid(true)
+
   if (!files) {
+    setWarn(true);
     alert("من فضلك ادخل الملفات", "warning");
     return false;
   } else {
     for (const key in files) {
       if (!files[key]) {
+        setWarn(true);
         alert("من فضلك ادخل باقي الملفات", "warning");
         return false;
       }
       if (!["cv", "research_summary", "research_pdf"].includes(key)) {
+        setWarn(true);
         alert("من فضلك ادخل باقي الملفات", "warning");
         return false;
       }
       const fileExtension = files[key].name.split(".").pop();
       if (fileExtension !== "pdf") {
+        setWarn(true);
         alert(
           <>
             <span>pdf</span> يجب ان تكون الملفات بصيغة
@@ -74,6 +82,7 @@ export function isValid(formData, files) {
   }
 
   if (new Date().getFullYear() < new Date(edition_date).getFullYear()) {
+    setWarn(true);
     alert("من فضلك اختر عدد صالح للمجلة", "warning");
     return false;
   }
@@ -82,6 +91,7 @@ export function isValid(formData, files) {
     new Date().getFullYear() === new Date(edition_date).getFullYear() &&
     new Date().getMonth() < new Date(edition_date).getMonth()
   ) {
+    setWarn(true);
     alert("من فضلك اختر عدد صالح للمجلة", "warning");
     return false;
   }
@@ -97,6 +107,7 @@ export function isValid(formData, files) {
       (!letter_date["0"].trim() && !letter_date["1"].trim()) ||
       (!exmn_result["0"].trim() && !exmn_result["1"].trim())
     ) {
+      setWarn(true);
       alert("من فضلك اكمل بيانات الحكام الغير مكتملة", "warning");
       return false; // Rule 7: Incomplete judge data when result is 'ok'
     }
@@ -104,6 +115,7 @@ export function isValid(formData, files) {
       exmn_result["0"] === "غير صالح للنشر" &&
       exmn_result["1"] === "غير صالح للنشر"
     ) {
+      setWarn(false);
       return true;
     } else if (
       exmn_result["0"] === "غير صالح للنشر" ||
@@ -119,11 +131,12 @@ export function isValid(formData, files) {
         !letter_date["2"].trim() ||
         !exmn_result["2"].trim()
       ) {
+        setWarn(true);
         alert("من فضلك اكمل بيانات المحكم الثالث", "warning");
         return false; // Rule 8: Missing judge data when exmn_result['0'] and exmn_result['1'] are not 'ok'
       }
     }
   }
-
+  setWarn(false);
   return true;
 }

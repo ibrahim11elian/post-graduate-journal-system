@@ -115,6 +115,14 @@ button {
   column-gap: 10rem;
 }
 
+.form-label{
+  font-weight: 700;
+}
+
+.invalid-input {
+  border: 3px solid rgba(250, 105, 105, 0.767) !important;
+}
+
 .full-grid-width {
   grid-column: 1 / 3;
 }

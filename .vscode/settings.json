@@ -1,3 +1,60 @@
 {
-  "cSpell.words": ["fieldname"]
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.fontSize": 15,
+  "editor.wordWrap": "on",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "git.ignoreMissingGitWarning": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "jshint.options": {
+    "esversion": 8
+  },
+  "bracketPairColorizer.depreciation-notice": false,
+  "editor.guides.bracketPairs": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "gitProjectManager.ignoredFolders": [],
+  "gitProjectManager.baseProjectsFolders": ["G:/My-Github"],
+  "npm-intellisense.scanDevDependencies": true,
+  "npm-intellisense.importES6": false,
+  "npm-intellisense.importQuotes": "'",
+  "npm-intellisense.importLinebreak": ";\r\n",
+  "npm-intellisense.importDeclarationType": "const",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "workbench.iconTheme": "material-icon-theme",
+  "cSpell.userWords": [
+    "discoverability",
+    "elian",
+    "fontawesome",
+    "fortawesome",
+    "ibrahim",
+    "noreferrer",
+    "Pinterest",
+    "الداتا"
+  ],
+  "workbench.startupEditor": "none",
+  "editor.accessibilitySupport": "off",
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "js/ts.implicitProjectConfig.module": "ES6",
+  "figma.autocompleteBlocks": true
 }

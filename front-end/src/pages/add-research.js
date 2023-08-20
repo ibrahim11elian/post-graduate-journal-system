@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -25,10 +26,14 @@ const rData = {
   exmn_result: undefined,
 };
 
+
+
 function AddResearch() {
   const [researchData, setResearchData] = useState({ ...rData });
   const [files, setFiles] = useState({});
   const [prof, setProf] = useState(false);
+  const [warn, setWarn] = useState(false);
+  const [emailValid, setEmailValid] = useState(false)
 
   useEffect(() => {
     setResearchData({
@@ -65,9 +70,12 @@ function AddResearch() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    isValid({ ...researchData }, { ...files })
-      ? postData(researchData, files)
-      : console.error("form data is not valid!!");
+    // eslint-disable-next-line no-unused-expressions
+    isValid({ ...researchData }, { ...files },setWarn,setEmailValid)
+      ?
+        postData(researchData, files)
+      : 
+        console.error("form data is not valid!!");
   };
 
   return (
@@ -85,6 +93,7 @@ function AddResearch() {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>إسم الضابط</Form.Label>
           <Form.Control
+           className={warn? researchData.researcher_name ? '' : 'invalid-input':''}
             type="text"
             onChange={(e) =>
               setResearchData({
@@ -98,6 +107,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label>جهة العمل</Form.Label>
           <Form.Control
+            className={warn? researchData.workplace ? '' : 'invalid-input':''}
             type="text"
             onChange={(e) =>
               setResearchData({ ...researchData, workplace: e.target.value })
@@ -109,7 +119,7 @@ function AddResearch() {
           <Form.Label>الرتبة</Form.Label>
           <Form.Select
             type="text"
-            className="mb-1"
+            className={`mb-1 ${warn? researchData.rank ? '' : 'invalid-input':''}`}
             aria-label="Default select example"
             onChange={(e) =>
               setResearchData({
@@ -142,16 +152,19 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label>البريد الإلكتروني</Form.Label>
           <Form.Control
+            className={warn? researchData.email && emailValid ? '' : 'invalid-input':''}
             type="email"
-            onChange={(e) =>
-              setResearchData({ ...researchData, email: e.target.value })
-            }
+            onChange={(e) => {
+              setEmailValid(true);
+              setResearchData({ ...researchData, email: e.target.value });
+            } }
           />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>رقم الهاتف</Form.Label>
           <Form.Control
+            className={warn? researchData.phone ? '' : 'invalid-input':''}
             type="number"
             onChange={(e) =>
               setResearchData({ ...researchData, phone: e.target.value })
@@ -162,6 +175,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label> تاريخ تقديم البحث</Form.Label>
           <Form.Control
+            className={warn? researchData.research_date ? '' : 'invalid-input':''}
             type="date"
             onChange={(e) =>
               setResearchData({
@@ -175,6 +189,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label>عنوان البحث</Form.Label>
           <Form.Control
+            className={warn? researchData.research_title ? '' : 'invalid-input':''}
             type="text"
             onChange={(e) =>
               setResearchData({
@@ -188,6 +203,7 @@ function AddResearch() {
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>نسخة البحث</Form.Label>
           <Form.Control
+            className={warn? files.research_pdf ? '' : 'invalid-input':''}
             type="file"
             name="pdf"
             onChange={(e) =>
@@ -199,6 +215,7 @@ function AddResearch() {
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>السيرة الذاتية</Form.Label>
           <Form.Control
+            className={warn? files.cv ? '' : 'invalid-input':''}
             type="file"
             name="cv"
             onChange={(e) => setFiles({ ...files, cv: e.target.files[0] })}
@@ -208,6 +225,7 @@ function AddResearch() {
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>ملخص انجليزي</Form.Label>
           <Form.Control
+            className={warn? files.research_summary ? '' : 'invalid-input':''}
             type="file"
             name="summary"
             onChange={(e) =>
@@ -221,6 +239,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label> رقم العدد</Form.Label>
           <Form.Control
+            className={warn? researchData.journal_edition ? '' : 'invalid-input':''}
             type="number"
             onChange={(e) => handleEditionNumberChange(e)}
           />
@@ -229,6 +248,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label> تاريخ العدد </Form.Label>
           <Form.Control
+            className={warn? researchData.edition_date ? '' : 'invalid-input':''}
             type="date"
             value={researchData.edition_date}
             readOnly
@@ -240,6 +260,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label> رقم الخطاب الصادر</Form.Label>
           <Form.Control
+            className={warn? researchData.outgoing_letter ? '' : 'invalid-input':''}
             type="number"
             onChange={(e) =>
               setResearchData({
@@ -253,6 +274,7 @@ function AddResearch() {
         <Form.Group className="mb-3">
           <Form.Label> رقم الخطاب الوارد</Form.Label>
           <Form.Control
+            className={warn? researchData.incoming_letter ? '' : 'invalid-input':''}
             type="number"
             onChange={(e) =>
               setResearchData({
@@ -315,6 +337,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label>إسم المحكم الأول</Form.Label>
             <Form.Control
+              className={warn ?  researchData.judge_namee && researchData.judge_namee['0'].trim() ? '' : 'invalid-input':''}
               onChange={(e) =>
                 setResearchData({
                   ...researchData,
@@ -330,6 +353,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label> رقم الخطاب </Form.Label>
             <Form.Control
+              className={warn? researchData.judge_letter && researchData.judge_letter['0'].trim() ? '' : 'invalid-input':''}
               type="number"
               onChange={(e) =>
                 setResearchData({
@@ -346,6 +370,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label> تاريخ الإرسال </Form.Label>
             <Form.Control
+              className={warn? researchData.letter_date && researchData.letter_date['0'] ? '' : 'invalid-input':''}
               type="date"
               onChange={(e) =>
                 setResearchData({
@@ -364,6 +389,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label>إسم المحكم الثاني</Form.Label>
             <Form.Control
+              className={warn? researchData.judge_namee && researchData.judge_namee['1'] ? '' : 'invalid-input':''}
               onChange={(e) =>
                 setResearchData({
                   ...researchData,
@@ -379,6 +405,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label> رقم الخطاب </Form.Label>
             <Form.Control
+              className={warn? researchData.judge_letter && researchData.judge_letter['1'] ? '' : 'invalid-input':''}
               type="number"
               onChange={(e) =>
                 setResearchData({
@@ -395,6 +422,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label> تاريخ الإرسال </Form.Label>
             <Form.Control
+              className={warn? researchData.letter_date && researchData.letter_date['1'] ? '' : 'invalid-input':''}
               type="date"
               onChange={(e) =>
                 setResearchData({
@@ -413,6 +441,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label>إسم المحكم الثالث (إختياري)</Form.Label>
             <Form.Control
+              className={warn? researchData.judge_namee && researchData.judge_namee['2'] ? '' : 'invalid-input':''}
               onChange={(e) =>
                 setResearchData({
                   ...researchData,
@@ -428,6 +457,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label> رقم الخطاب </Form.Label>
             <Form.Control
+              className={warn? researchData.judge_letter && researchData.judge_letter['2'] ? '' : 'invalid-input':''}
               type="number"
               onChange={(e) =>
                 setResearchData({
@@ -444,6 +474,7 @@ function AddResearch() {
           <Form.Group className="mb-3 col">
             <Form.Label> تاريخ الإرسال </Form.Label>
             <Form.Control
+              className={warn? researchData.letter_date && researchData.letter_date['2'] ? '' : 'invalid-input':''}
               type="date"
               onChange={(e) =>
                 setResearchData({
