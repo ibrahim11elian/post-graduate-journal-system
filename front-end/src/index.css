@@ -105,18 +105,23 @@ button {
 }
 
 .form-container {
-  width: 60%;
+  width: 80%;
   margin: auto;
 }
 
 .form {
   display: grid;
   grid-template-columns: repeat(2, minmax(10rem, 1fr));
-  column-gap: 10rem;
+  justify-content: center;
+  column-gap: 5rem;
 }
 
-.form-label{
+.form-label {
   font-weight: 700;
+}
+
+.min-width {
+  width: 10rem;
 }
 
 .invalid-input {
@@ -130,7 +135,7 @@ button {
 .up-border {
   position: relative;
   font-weight: 500;
-  margin-top: 2rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -140,13 +145,13 @@ button {
   width: 324.001px;
   height: 2px;
   background: #9c9c9c;
-  top: 0%;
+  top: 130%;
   left: 50%;
-  transform: translate(-50%, -200%);
-  -webkit-transform: translate(-50%, -200%);
-  -moz-transform: translate(-50%, -200%);
-  -ms-transform: translate(-50%, -200%);
-  -o-transform: translate(-50%, -200%);
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
 }
 
 .col-auto {
@@ -163,6 +168,10 @@ button {
 
 .full-grid-width.row:last-of-type {
   gap: 0;
+}
+
+.file-name {
+  font-size: 1rem;
 }
 
 .radios {

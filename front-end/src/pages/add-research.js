@@ -6,34 +6,38 @@ import postData from "../utilities/post-data";
 import Header from "../components/header";
 import { isValid } from "../utilities/form-validation";
 import { Link } from "react-router-dom";
+import PersonalInfo from "../components/personal_info";
+import ResearchInfo from "../components/research_info";
+import JournalEdition from "../components/journal_edition";
+import SecurityExam from "../components/security_exam";
+import SciExamination from "../components/sci_examination";
 
 const rData = {
-  researcher_name: undefined,
-  workplace: undefined,
-  rank: undefined,
-  email: undefined,
-  phone: undefined,
-  research_date: undefined,
-  research_title: undefined,
+  researcher_name: "",
+  workplace: "",
+  rank: "",
+  email: "",
+  phone: "",
+  research_date: "",
+  research_title: "",
   journal_edition: 0,
   edition_date: "",
-  outgoing_letter: undefined,
-  incoming_letter: undefined,
-  result: undefined,
-  judge_namee: undefined,
-  judge_letter: undefined,
-  letter_date: undefined,
-  exmn_result: undefined,
+  outgoing_letter: "",
+  incoming_letter: "",
+  result: "",
+  judge_namee: "",
+  judge_letter: "",
+  letter_date: "",
+  exmn_result: "",
 };
-
-
 
 function AddResearch() {
   const [researchData, setResearchData] = useState({ ...rData });
   const [files, setFiles] = useState({});
   const [prof, setProf] = useState(false);
   const [warn, setWarn] = useState(false);
-  const [emailValid, setEmailValid] = useState(false)
+  const [emailValid, setEmailValid] = useState(false);
+  const [step, setStep] = useState(1);
 
   useEffect(() => {
     setResearchData({
@@ -47,35 +51,84 @@ function AddResearch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prof]);
 
-  const handleEditionNumberChange = (e) => {
-    if (e.target.value !== "") {
-      const newEditionNumber = parseInt(e.target.value, 10);
-
-      // Calculate and set the edition date based on the release schedule
-      const isMarch = newEditionNumber % 2 === 0;
-      const releaseMonth = isMarch ? 3 : 10; // March or October
-      const firstEditionYear = 2000;
-      let releaseYear =
-        firstEditionYear + Math.floor((newEditionNumber - 1) / 2);
-      releaseYear = isMarch ? releaseYear : releaseYear - 1;
-      const calculatedEditionDate = new Date(releaseYear, releaseMonth - 1, 2);
-
-      setResearchData({
-        ...researchData,
-        edition_date: calculatedEditionDate.toISOString().split("T")[0],
-        journal_edition: newEditionNumber,
-      });
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // eslint-disable-next-line no-unused-expressions
-    isValid({ ...researchData }, { ...files },setWarn,setEmailValid)
-      ?
-        postData(researchData, files)
-      : 
-        console.error("form data is not valid!!");
+    isValid({ ...researchData }, { ...files }, setWarn, setEmailValid)
+      ? postData(researchData, files)
+      : console.error("form data is not valid!!");
+  };
+  const handleNext = () => {
+    // Perform validation checks on formData for the current step
+    // If validation fails, display errors and prevent proceeding
+
+    // Assuming validation passed, update formData and move to the next step
+    setStep(step + 1);
+  };
+  const handlePrev = () => {
+    // Perform validation checks on formData for the current step
+    // If validation fails, display errors and prevent proceeding
+
+    // Assuming validation passed, update formData and move to the next step
+    setStep(step - 1);
+  };
+
+  // Render different step components based on the current step
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          <PersonalInfo
+            setResearchData={setResearchData}
+            researchData={researchData}
+            warn={warn}
+            setProf={setProf}
+            prof={prof}
+            setEmailValid={setEmailValid}
+            emailValid={emailValid}
+            files={files}
+            setFiles={setFiles}
+          />
+        );
+      case 2:
+        return (
+          <ResearchInfo
+            setResearchData={setResearchData}
+            researchData={researchData}
+            warn={warn}
+            files={files}
+            setFiles={setFiles}
+          />
+        );
+      case 3:
+        return (
+          <JournalEdition
+            setResearchData={setResearchData}
+            researchData={researchData}
+            warn={warn}
+          />
+        );
+      case 4:
+        return (
+          <SecurityExam
+            setResearchData={setResearchData}
+            researchData={researchData}
+            warn={warn}
+          />
+        );
+
+      case 5:
+        return (
+          <SciExamination
+            setResearchData={setResearchData}
+            researchData={researchData}
+            warn={warn}
+          />
+        );
+
+      default:
+      // return <FinalStep data={formData} />;
+    }
   };
 
   return (
@@ -90,577 +143,16 @@ function AddResearch() {
         </Link>
       </div>
       <Form className="form form-container" onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>إسم الضابط</Form.Label>
-          <Form.Control
-           className={warn? researchData.researcher_name ? '' : 'invalid-input':''}
-            type="text"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                researcher_name: e.target.value,
-              })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>جهة العمل</Form.Label>
-          <Form.Control
-            className={warn? researchData.workplace ? '' : 'invalid-input':''}
-            type="text"
-            onChange={(e) =>
-              setResearchData({ ...researchData, workplace: e.target.value })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>الرتبة</Form.Label>
-          <Form.Select
-            type="text"
-            className={`mb-1 ${warn? researchData.rank ? '' : 'invalid-input':''}`}
-            aria-label="Default select example"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                rank: e.target.value,
-              })
-            }
-          >
-            <option value="none" hidden defaultValue>
-              إختر الرتبة
-            </option>
-            <option value="ملازم أول">ملازم أول</option>
-            <option value="نقيب">نقيب</option>
-            <option value="رائد">رائد</option>
-            <option value="مقدم">مقدم</option>
-            <option value="عقيد">عقيد</option>
-            <option value="عميد">عميد</option>
-            <option value="لواء">لواء</option>
-          </Form.Select>
-          <Form.Check
-            type="checkbox"
-            label="دكتور ؟"
-            defaultChecked={prof}
-            onClick={() => {
-              researchData.rank ? setProf(!prof) : setProf(prof);
-            }}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>البريد الإلكتروني</Form.Label>
-          <Form.Control
-            className={warn? researchData.email && emailValid ? '' : 'invalid-input':''}
-            type="email"
-            onChange={(e) => {
-              setEmailValid(true);
-              setResearchData({ ...researchData, email: e.target.value });
-            } }
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>رقم الهاتف</Form.Label>
-          <Form.Control
-            className={warn? researchData.phone ? '' : 'invalid-input':''}
-            type="number"
-            onChange={(e) =>
-              setResearchData({ ...researchData, phone: e.target.value })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label> تاريخ تقديم البحث</Form.Label>
-          <Form.Control
-            className={warn? researchData.research_date ? '' : 'invalid-input':''}
-            type="date"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                research_date: e.target.value,
-              })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>عنوان البحث</Form.Label>
-          <Form.Control
-            className={warn? researchData.research_title ? '' : 'invalid-input':''}
-            type="text"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                research_title: e.target.value,
-              })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>نسخة البحث</Form.Label>
-          <Form.Control
-            className={warn? files.research_pdf ? '' : 'invalid-input':''}
-            type="file"
-            name="pdf"
-            onChange={(e) =>
-              setFiles({ ...files, research_pdf: e.target.files[0] })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>السيرة الذاتية</Form.Label>
-          <Form.Control
-            className={warn? files.cv ? '' : 'invalid-input':''}
-            type="file"
-            name="cv"
-            onChange={(e) => setFiles({ ...files, cv: e.target.files[0] })}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>ملخص انجليزي</Form.Label>
-          <Form.Control
-            className={warn? files.research_summary ? '' : 'invalid-input':''}
-            type="file"
-            name="summary"
-            onChange={(e) =>
-              setFiles({ ...files, research_summary: e.target.files[0] })
-            }
-          />
-        </Form.Group>
-
-        <h3 className="full-grid-width up-border">عدد المجلة</h3>
-
-        <Form.Group className="mb-3">
-          <Form.Label> رقم العدد</Form.Label>
-          <Form.Control
-            className={warn? researchData.journal_edition ? '' : 'invalid-input':''}
-            type="number"
-            onChange={(e) => handleEditionNumberChange(e)}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label> تاريخ العدد </Form.Label>
-          <Form.Control
-            className={warn? researchData.edition_date ? '' : 'invalid-input':''}
-            type="date"
-            value={researchData.edition_date}
-            readOnly
-          />
-        </Form.Group>
-
-        <h3 className="full-grid-width up-border">فحص البحث</h3>
-
-        <Form.Group className="mb-3">
-          <Form.Label> رقم الخطاب الصادر</Form.Label>
-          <Form.Control
-            className={warn? researchData.outgoing_letter ? '' : 'invalid-input':''}
-            type="number"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                outgoing_letter: e.target.value,
-              })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label> رقم الخطاب الوارد</Form.Label>
-          <Form.Control
-            className={warn? researchData.incoming_letter ? '' : 'invalid-input':''}
-            type="number"
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                incoming_letter: e.target.value,
-              })
-            }
-          />
-        </Form.Group>
-
-        <Form.Group className="full-grid-width row">
-          <Form.Label className="col-auto">نتيجة الفحص:</Form.Label>
-
-          <div className="mb-3 col radios">
-            <Form.Check
-              inline
-              label="صالح للتحكيم"
-              name="group1"
-              type="radio"
-              value={"صالح للتحكيم"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  result: e.target.value,
-                })
-              }
-            />
-            <Form.Check
-              inline
-              label="صالح مع التعديل"
-              name="group1"
-              type="radio"
-              value={"صالح مع التعديل"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  result: e.target.value,
-                })
-              }
-            />
-            <Form.Check
-              inline
-              name="group1"
-              label="غير صالح للتحكيم"
-              type="radio"
-              value={"غير صالح للتحكيم "}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  result: e.target.value,
-                })
-              }
-            />
-          </div>
-        </Form.Group>
-
-        <h3 className="full-grid-width up-border mb-3">الفحص العلمي</h3>
-
-        <div className="full-grid-width row">
-          <Form.Group className="mb-3 col">
-            <Form.Label>إسم المحكم الأول</Form.Label>
-            <Form.Control
-              className={warn ?  researchData.judge_namee && researchData.judge_namee['0'].trim() ? '' : 'invalid-input':''}
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_namee: {
-                    ...researchData["judge_namee"],
-                    0: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 col">
-            <Form.Label> رقم الخطاب </Form.Label>
-            <Form.Control
-              className={warn? researchData.judge_letter && researchData.judge_letter['0'].trim() ? '' : 'invalid-input':''}
-              type="number"
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_letter: {
-                    ...researchData["judge_letter"],
-                    0: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 col">
-            <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control
-              className={warn? researchData.letter_date && researchData.letter_date['0'] ? '' : 'invalid-input':''}
-              type="date"
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  letter_date: {
-                    ...researchData["letter_date"],
-                    0: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-        </div>
-
-        <div className="full-grid-width row">
-          <Form.Group className="mb-3 col">
-            <Form.Label>إسم المحكم الثاني</Form.Label>
-            <Form.Control
-              className={warn? researchData.judge_namee && researchData.judge_namee['1'] ? '' : 'invalid-input':''}
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_namee: {
-                    ...researchData["judge_namee"],
-                    1: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 col">
-            <Form.Label> رقم الخطاب </Form.Label>
-            <Form.Control
-              className={warn? researchData.judge_letter && researchData.judge_letter['1'] ? '' : 'invalid-input':''}
-              type="number"
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_letter: {
-                    ...researchData["judge_letter"],
-                    1: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 col">
-            <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control
-              className={warn? researchData.letter_date && researchData.letter_date['1'] ? '' : 'invalid-input':''}
-              type="date"
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  letter_date: {
-                    ...researchData["letter_date"],
-                    1: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-        </div>
-
-        <div className="full-grid-width row">
-          <Form.Group className="mb-3 col">
-            <Form.Label>إسم المحكم الثالث (إختياري)</Form.Label>
-            <Form.Control
-              className={warn? researchData.judge_namee && researchData.judge_namee['2'] ? '' : 'invalid-input':''}
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_namee: {
-                    ...researchData["judge_namee"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 col">
-            <Form.Label> رقم الخطاب </Form.Label>
-            <Form.Control
-              className={warn? researchData.judge_letter && researchData.judge_letter['2'] ? '' : 'invalid-input':''}
-              type="number"
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_letter: {
-                    ...researchData["judge_letter"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3 col">
-            <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control
-              className={warn? researchData.letter_date && researchData.letter_date['2'] ? '' : 'invalid-input':''}
-              type="date"
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  letter_date: {
-                    ...researchData["letter_date"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
-        </div>
-
-        <h3 className="full-grid-width up-border mb-3">رد المحكمين</h3>
-
-        <Form.Group className="full-grid-width row">
-          <Form.Label className="col-auto"> المحكم الأول:</Form.Label>
-
-          <div className="mb-3 col radios">
-            <Form.Check
-              inline
-              label="صالح للنشر"
-              name="group2"
-              type="radio"
-              value={"صالح للنشر"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    0: e.target.value,
-                  },
-                })
-              }
-            />
-            <Form.Check
-              inline
-              label="صالح مع التعديل"
-              name="group2"
-              type="radio"
-              value={"صالح مع التعديل"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    0: e.target.value,
-                  },
-                })
-              }
-            />
-            <Form.Check
-              inline
-              name="group2"
-              label="غير صالح للنشر"
-              type="radio"
-              value="غير صالح للنشر"
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    0: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </Form.Group>
-
-        <Form.Group className="full-grid-width row">
-          <Form.Label className="col-auto"> المحكم الثاني:</Form.Label>
-
-          <div className="mb-3 col radios">
-            <Form.Check
-              inline
-              label="صالح للنشر"
-              name="group3"
-              type="radio"
-              value={"صالح للنشر"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    1: e.target.value,
-                  },
-                })
-              }
-            />
-            <Form.Check
-              inline
-              label="صالح مع التعديل"
-              name="group3"
-              type="radio"
-              value={"صالح مع التعديل"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    1: e.target.value,
-                  },
-                })
-              }
-            />
-            <Form.Check
-              inline
-              name="group3"
-              label="غير صالح للنشر"
-              type="radio"
-              value="غير صالح للنشر"
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    1: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </Form.Group>
-
-        <Form.Group className="full-grid-width row">
-          <Form.Label className="col-auto ml-0">
-            المحكم الثالث (إختياري):
-          </Form.Label>
-
-          <div className="mb-3 col radios">
-            <Form.Check
-              inline
-              label="صالح للنشر"
-              name="group4"
-              type="radio"
-              value={"صالح للنشر"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-            <Form.Check
-              inline
-              label="صالح مع التعديل"
-              name="group4"
-              type="radio"
-              value={"صالح مع التعديل"}
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-            <Form.Check
-              inline
-              name="group4"
-              label="غير صالح للنشر"
-              value="غير صالح للنشر"
-              type="radio"
-              onClick={(e) =>
-                setResearchData({
-                  ...researchData,
-                  exmn_result: {
-                    ...researchData["exmn_result"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </Form.Group>
+        {renderStep()}
 
         <div className="buttons full-grid-width row justify-content-center">
-          {" "}
-          <Button className="col-auto" variant="danger">
+          <Button className="col-auto" variant="primary" onClick={handleNext}>
+            التالي
+          </Button>
+          <Button className="col-auto" variant="primary" onClick={handlePrev}>
+            السابق
+          </Button>
+          {/* <Button className="col-auto" variant="danger">
             إلغاء
           </Button>
           <Button
@@ -670,7 +162,7 @@ function AddResearch() {
             onClick={handleSubmit}
           >
             تأكيد
-          </Button>
+          </Button> */}
         </div>
       </Form>
     </div>
