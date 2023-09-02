@@ -73,6 +73,10 @@ function AddResearch() {
     setStep(step - 1);
   };
 
+  useEffect(() => {
+    fixStepIndicator(step);
+  }, [step]);
+
   // Render different step components based on the current step
   const renderStep = () => {
     switch (step) {
@@ -135,38 +139,73 @@ function AddResearch() {
     <div className="add-search container-md">
       <Header />
       <div className="d-flex justify-content-between form-container">
-        <h2 className="title ">إضافة بحث</h2>
+        <h2 className="title">إضافة بحث</h2>
         <Link to={"/search"}>
           <Button className="add col-auto form-container" variant="primary">
             صفحة البحث
           </Button>
         </Link>
       </div>
+      <div className="step-bar d-flex gap-4 mb-4">
+        <div className="step pt-2">
+          <img src="./images/personal.png" alt=""></img>
+        </div>
+        <div className="step pt-2">
+          <img src="./images/research.png" alt=""></img>
+        </div>
+        <div className="step pt-2">
+          <img src="./images/journal.png" alt=""></img>
+        </div>
+        <div className="step pt-2">
+          <img src="./images/examination.png" alt=""></img>
+        </div>
+        <div className="step pt-2">
+          <img src="./images/sci-examination.png" alt=""></img>
+        </div>
+      </div>
+
       <Form className="form form-container" onSubmit={handleSubmit}>
         {renderStep()}
-
-        <div className="buttons full-grid-width row justify-content-center">
-          <Button className="col-auto" variant="primary" onClick={handleNext}>
+      </Form>
+      <div className="buttons row justify-content-center">
+        {step < 5 ? (
+          <Button className="col" variant="primary" onClick={handleNext}>
             التالي
           </Button>
-          <Button className="col-auto" variant="primary" onClick={handlePrev}>
-            السابق
-          </Button>
-          {/* <Button className="col-auto" variant="danger">
-            إلغاء
-          </Button>
+        ) : (
           <Button
-            className="col-auto"
+            className="col"
             variant="primary"
             type="submit"
             onClick={handleSubmit}
           >
             تأكيد
-          </Button> */}
-        </div>
-      </Form>
+          </Button>
+        )}
+
+        {step > 1 ? (
+          <Button className="col" variant="primary" onClick={handlePrev}>
+            السابق
+          </Button>
+        ) : null}
+      </div>
     </div>
   );
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  let i,
+    x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].classList.remove("active", "finish");
+  }
+  for (i = 0; i < n - 1; i++) {
+    x[i].classList.add("finish");
+  }
+
+  //... and adds the "active" class on the current step:
+  x[n - 1].className += " active";
 }
 
 export default AddResearch;

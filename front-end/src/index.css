@@ -73,7 +73,7 @@ button {
   width: 100px;
 }
 
-.head-img:first-of-type {
+.head-img:last-of-type {
   width: 120px;
 }
 
@@ -89,7 +89,6 @@ button {
 
 .add-search .title {
   font-weight: 500;
-  margin-bottom: 3rem;
   align-self: flex-start;
   position: relative;
 }
@@ -126,6 +125,61 @@ button {
 
 .invalid-input {
   border: 3px solid rgba(250, 105, 105, 0.767) !important;
+}
+
+.step-bar {
+  direction: ltr;
+}
+
+.step {
+  height: 3.5rem;
+  width: 3.5rem;
+  margin: 0 2px;
+  background-color: #b6b5b5;
+  display: inline-block;
+  opacity: 0.5;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  position: relative;
+  box-shadow: 0px 4px 10px 1px #0000004f;
+}
+
+.step img {
+  width: 70%;
+}
+
+.step:not(.step:last-of-type)::after {
+  position: absolute;
+  content: "";
+  top: 30%;
+  left: 90%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-top: 4px solid #7f7f7f;
+  border-right: 4px solid #7f7f7f;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  box-shadow: 3px -3px 4px 0px #00000045;
+}
+
+.step.active {
+  opacity: 0.9;
+  background-color: #0d6efd;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  opacity: 0.9;
+  background-color: #01b847;
 }
 
 .full-grid-width {
