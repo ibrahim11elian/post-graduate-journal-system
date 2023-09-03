@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 function ResearchInfo({
@@ -9,6 +8,10 @@ function ResearchInfo({
   files,
   setFiles,
 }) {
+  // Display the selected file name
+  const pdf = files.research_pdf ? files.research_pdf.name : "";
+  const en = files.research_summary ? files.research_summary.name : "";
+  const ar = files.research_summary_ar ? files.research_summary_ar.name : "";
   return (
     <>
       <h3 className="full-grid-width up-border">معلومات البحث</h3>
@@ -18,6 +21,7 @@ function ResearchInfo({
           className={
             warn ? (researchData.research_title ? "" : "invalid-input") : ""
           }
+          value={researchData.research_title}
           type="text"
           onChange={(e) =>
             setResearchData({
@@ -34,6 +38,7 @@ function ResearchInfo({
             warn ? (researchData.research_date ? "" : "invalid-input") : ""
           }
           type="date"
+          value={researchData.research_date}
           onChange={(e) =>
             setResearchData({
               ...researchData,
@@ -45,6 +50,7 @@ function ResearchInfo({
 
       <Form.Group controlId="formFile" className="mb-3">
         <Form.Label>نسخة البحث</Form.Label>
+        <span className="file-name">:{pdf}</span>
         <Form.Control
           className={warn ? (files.research_pdf ? "" : "invalid-input") : ""}
           type="file"
@@ -56,10 +62,8 @@ function ResearchInfo({
       </Form.Group>
       <Form.Group controlId="formFile" className="mb-3">
         <Form.Label>ملخص انجليزي</Form.Label>
+        <span className="file-name">:{en}</span>
         <Form.Control
-          className={
-            warn ? (files.research_summary ? "" : "invalid-input") : ""
-          }
           type="file"
           name="summary"
           onChange={(e) =>
@@ -69,10 +73,8 @@ function ResearchInfo({
       </Form.Group>
       <Form.Group controlId="formFile" className="mb-3">
         <Form.Label>ملخص عربي</Form.Label>
+        <span className="file-name">:{ar}</span>
         <Form.Control
-          className={
-            warn ? (files.research_summary ? "" : "invalid-input") : ""
-          }
           type="file"
           name="summary"
           onChange={(e) =>

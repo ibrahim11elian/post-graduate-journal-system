@@ -148,6 +148,7 @@ button {
   -o-border-radius: 50%;
   position: relative;
   box-shadow: 0px 4px 10px 1px #0000004f;
+  border: 2px solid #00000045;
 }
 
 .step img {
@@ -179,7 +180,7 @@ button {
 /* Mark the steps that are finished and valid: */
 .step.finish {
   opacity: 0.9;
-  background-color: #01b847;
+  background-color: #e4c725;
 }
 
 .full-grid-width {
@@ -212,7 +213,7 @@ button {
   margin-left: 2rem;
 }
 
-.row {
+.buttons.row {
   gap: 1rem;
 }
 

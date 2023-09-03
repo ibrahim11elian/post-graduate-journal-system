@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 function PersonalInfo({
@@ -54,7 +53,7 @@ function PersonalInfo({
         <Form.Label>الرتبة</Form.Label>
         <Form.Select
           type="text"
-          value={researchData.rank}
+          value={researchData.rank.split(" ")[0]}
           className={`mb-1 ${
             warn ? (researchData.rank ? "" : "invalid-input") : ""
           }`}

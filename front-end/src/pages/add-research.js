@@ -11,6 +11,10 @@ import ResearchInfo from "../components/research_info";
 import JournalEdition from "../components/journal_edition";
 import SecurityExam from "../components/security_exam";
 import SciExamination from "../components/sci_examination";
+import { personalValid } from "../utilities/validation/personal_info";
+import { researchValid } from "../utilities/validation/research_info";
+import { journalValid } from "../utilities/validation/journal_edition";
+import { securityExamenValid } from "../utilities/validation/security_examen";
 
 const rData = {
   researcher_name: "",
@@ -23,9 +27,12 @@ const rData = {
   journal_edition: 0,
   edition_date: "",
   outgoing_letter: "",
+  outgoing_date: "",
   incoming_letter: "",
+  incoming_date: "",
   result: "",
   judge_namee: "",
+  judge_degree: "",
   judge_letter: "",
   letter_date: "",
   exmn_result: "",
@@ -58,18 +65,26 @@ function AddResearch() {
       ? postData(researchData, files)
       : console.error("form data is not valid!!");
   };
-  const handleNext = () => {
-    // Perform validation checks on formData for the current step
-    // If validation fails, display errors and prevent proceeding
 
-    // Assuming validation passed, update formData and move to the next step
-    setStep(step + 1);
+  // Validation functions for each step
+  const stepValidationFunctions = [
+    () => personalValid(researchData, files, setWarn, setEmailValid),
+    () => researchValid(researchData, files, setWarn),
+    () => journalValid(researchData, setWarn),
+    () => securityExamenValid(researchData, setWarn),
+  ];
+  const handleNext = () => {
+    // Validate data for the current step
+    const isStepValid = stepValidationFunctions[step - 1]();
+
+    if (isStepValid) {
+      // Move to the next step
+      setWarn(false);
+      setStep(step + 1);
+    }
   };
   const handlePrev = () => {
-    // Perform validation checks on formData for the current step
-    // If validation fails, display errors and prevent proceeding
-
-    // Assuming validation passed, update formData and move to the next step
+    // Navigate to the previous step without validation
     setStep(step - 1);
   };
 

@@ -1,8 +1,8 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 function JournalEdition({ setResearchData, researchData, warn }) {
+  // set the edition date based on the release schedule
   const handleEditionNumberChange = (e) => {
     if (e.target.value !== "") {
       const newEditionNumber = parseInt(e.target.value, 10);
@@ -23,6 +23,7 @@ function JournalEdition({ setResearchData, researchData, warn }) {
       });
     }
   };
+
   return (
     <>
       <h3 className="full-grid-width up-border">عدد المجلة</h3>
@@ -32,6 +33,7 @@ function JournalEdition({ setResearchData, researchData, warn }) {
           className={
             warn ? (researchData.journal_edition ? "" : "invalid-input") : ""
           }
+          value={researchData.journal_edition}
           type="number"
           onChange={(e) => handleEditionNumberChange(e)}
         />
