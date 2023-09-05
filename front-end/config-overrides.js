@@ -1,4 +1,4 @@
-export default function override(config, env) {
+module.exports = function override(config, env) {
   // Add resolve fallback configuration
   config.resolve.fallback = {
     path: require.resolve("path-browserify"),
@@ -8,4 +8,4 @@ export default function override(config, env) {
   };
 
   return config;
-}
+};
