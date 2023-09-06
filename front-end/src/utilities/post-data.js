@@ -9,6 +9,7 @@ async function postData(researchData, files) {
   formData.append("cv", files.cv);
   formData.append("researchCopy", files.research_pdf);
   formData.append("researchSummary", files.research_summary);
+  formData.append("researchFinalCopy", files.final_copy);
 
   try {
     await axios.post(`${baseUrl}/research-record`, formData).then((res) => {

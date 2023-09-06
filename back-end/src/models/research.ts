@@ -4,7 +4,8 @@ export type RESEARCH = {
   id?: number;
   research_title: string;
   research_pdf: string;
-  research_summary: string;
+  research_summary?: string;
+  research_summary_ar?: string;
   research_date: string;
   researcher_id: number;
 };
@@ -14,12 +15,13 @@ export class Research {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO research (research_title,research_pdf,research_summary,research_date,researcher_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+        'INSERT INTO research (research_title,research_pdf,research_summary,research_summary_ar,research_date,researcher_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
       const result = await conn.query(sql, [
         research.research_title,
         research.research_pdf,
         research.research_summary,
+        research.research_summary_ar,
         research.research_date,
         research.researcher_id,
       ]);

@@ -11,6 +11,8 @@ export default function uploadFile(
     { name: 'cv', maxCount: 1 },
     { name: 'researchCopy', maxCount: 1 },
     { name: 'researchSummary', maxCount: 1 },
+    { name: 'researchSummaryAr', maxCount: 1 },
+    { name: 'researchFinalCopy', maxCount: 1 },
   ])(req, res, (err: unknown) => {
     if (err) {
       res.status(400).json({ error: 'Failed to upload file' });
@@ -45,16 +47,42 @@ export default function uploadFile(
         `${req.body.researcher_name}-${req.body.research_title}${rsCopyFileExtension}`
       );
 
-      const researchSummaryFile = files['researchSummary'][0];
+      if (files['researchFinalCopy']) {
+        const researchSummaryFile = files['researchFinalCopy'][0];
 
-      const rsSummaryFileExtension = path.extname(
-        researchSummaryFile.originalname
-      );
-      req.body.research_summary = path.join(
-        process.cwd(),
-        'research-summaries',
-        `${req.body.researcher_name}-${req.body.research_title}${rsSummaryFileExtension}`
-      );
+        const rsSummaryFileExtension = path.extname(
+          researchSummaryFile.originalname
+        );
+        req.body.final_copy = path.join(
+          process.cwd(),
+          'research-copies',
+          `${req.body.researcher_name}-${req.body.research_title}-final${rsSummaryFileExtension}`
+        );
+      }
+      if (files['researchSummary']) {
+        const researchSummaryFile = files['researchSummary'][0];
+
+        const rsSummaryFileExtension = path.extname(
+          researchSummaryFile.originalname
+        );
+        req.body.research_summary = path.join(
+          process.cwd(),
+          'research-summaries',
+          `${req.body.researcher_name}-${req.body.research_title}${rsSummaryFileExtension}`
+        );
+      }
+      if (files['researchSummaryAr']) {
+        const researchSummaryFile = files['researchSummaryAr'][0];
+
+        const rsSummaryFileExtension = path.extname(
+          researchSummaryFile.originalname
+        );
+        req.body.research_summary_ar = path.join(
+          process.cwd(),
+          'research-summaries-ar',
+          `${req.body.researcher_name}-${req.body.research_title}${rsSummaryFileExtension}`
+        );
+      }
       next();
     }
   });

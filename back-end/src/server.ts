@@ -28,10 +28,15 @@ export const storage = multer.diskStorage({
     let destinationFolder = '';
     if (file.fieldname === 'cv') {
       destinationFolder = path.join(__dirname, '..', 'cv'); // Specify the destination folder for uploaded files relative to the root of the project
-    } else if (file.fieldname === 'researchCopy') {
+    } else if (
+      file.fieldname === 'researchCopy' ||
+      file.fieldname === 'researchFinalCopy'
+    ) {
       destinationFolder = path.join(__dirname, '..', 'research-copies');
     } else if (file.fieldname === 'researchSummary') {
       destinationFolder = path.join(__dirname, '..', 'research-summaries');
+    } else if (file.fieldname === 'researchSummaryAr') {
+      destinationFolder = path.join(__dirname, '..', 'research-summaries-ar');
     }
     cb(null, destinationFolder);
   },
@@ -40,6 +45,11 @@ export const storage = multer.diskStorage({
     const data = JSON.parse(req.body.data);
     if (file.fieldname === 'cv') {
       cb(null, `${data.researcher_name}${fileExtension}`); // Use the original researcher name for storing the uploaded file
+    } else if (file.fieldname === 'researchFinalCopy') {
+      cb(
+        null,
+        `${data.researcher_name}-${data.research_title}-final${fileExtension}`
+      ); // Use the original researcher name for storing the uploaded file
     } else {
       cb(
         null,
@@ -52,7 +62,7 @@ export const storage = multer.diskStorage({
 // Create a multer instance with the configured storage
 export const upload: Multer = multer({
   storage: storage,
-  limits: { fileSize: 100 * 1024 * 1024 },
+  limits: { fileSize: 200 * 1024 * 1024 },
 });
 
 app.use(
@@ -62,6 +72,10 @@ app.use(
 app.use(
   '/summaries',
   express.static(path.join(__dirname, '../research-summaries'))
+);
+app.use(
+  '/ar-summaries',
+  express.static(path.join(__dirname, '../research-summaries-ar'))
 );
 app.use('/cv', express.static(path.join(__dirname, '../cv')));
 

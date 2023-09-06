@@ -2,9 +2,11 @@ import { db } from '../database';
 
 export type EXAMEN_DETAILS = {
   id?: number;
-  judge_letter: number;
-  letter_date: Date;
-  result: string;
+  judge_letter?: number;
+  letter_date?: Date;
+  result?: string;
+  edit_letter?: number;
+  edit_date?: number;
   judge_id: number;
   sci_Examination_id: number;
 };
@@ -14,13 +16,15 @@ export class ExamenDetails {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO examn_details (judge_letter, letter_date, result, judge_id, sci_examination_id) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+        'INSERT INTO examn_details (judge_letter, letter_date, result,edit_letter, edit_date, judge_id, sci_examination_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
 
       const result = await conn.query(sql, [
-        examenDetails.judge_letter,
-        examenDetails.letter_date,
-        examenDetails.result,
-        examenDetails.judge_id,
+        examenDetails.judge_letter ? examenDetails.judge_letter : null,
+        examenDetails.letter_date ? examenDetails.letter_date : null,
+        examenDetails.result ? examenDetails.result : null,
+        examenDetails.edit_letter ? examenDetails.edit_letter : null,
+        examenDetails.edit_date ? examenDetails.edit_date : null,
+        examenDetails.judge_id ? examenDetails.judge_id : null,
         examenDetails.sci_Examination_id,
       ]);
 

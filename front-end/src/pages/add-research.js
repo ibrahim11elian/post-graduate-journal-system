@@ -15,6 +15,7 @@ import { personalValid } from "../utilities/validation/personal_info";
 import { researchValid } from "../utilities/validation/research_info";
 import { journalValid } from "../utilities/validation/journal_edition";
 import { securityExamenValid } from "../utilities/validation/security_examen";
+import FinalStep from "../components/final_step";
 
 const rData = {
   researcher_name: "",
@@ -35,6 +36,8 @@ const rData = {
   judge_degree: "",
   judge_letter: "",
   letter_date: "",
+  edit_letter: "",
+  edit_date: "",
   exmn_result: "",
 };
 
@@ -61,9 +64,9 @@ function AddResearch() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // eslint-disable-next-line no-unused-expressions
-    isValid({ ...researchData }, { ...files }, setWarn, setEmailValid)
-      ? postData(researchData, files)
-      : console.error("form data is not valid!!");
+    // isValid({ ...researchData }, { ...files }, setWarn, setEmailValid)
+    postData(researchData, files);
+    // : console.error("form data is not valid!!");
   };
 
   // Validation functions for each step
@@ -72,6 +75,8 @@ function AddResearch() {
     () => researchValid(researchData, files, setWarn),
     () => journalValid(researchData, setWarn),
     () => securityExamenValid(researchData, setWarn),
+    () => true,
+    () => true,
   ];
   const handleNext = () => {
     // Validate data for the current step
@@ -80,12 +85,20 @@ function AddResearch() {
     if (isStepValid) {
       // Move to the next step
       setWarn(false);
-      setStep(step + 1);
+      if (step === 4 && researchData.result !== "صالح للتحكيم") {
+        setStep(step + 2);
+      } else {
+        setStep(step + 1);
+      }
     }
   };
   const handlePrev = () => {
     // Navigate to the previous step without validation
-    setStep(step - 1);
+    if (step === 6 && researchData.result !== "صالح للتحكيم") {
+      setStep(step - 2);
+    } else {
+      setStep(step - 1);
+    }
   };
 
   useEffect(() => {
@@ -146,7 +159,9 @@ function AddResearch() {
         );
 
       default:
-      // return <FinalStep data={formData} />;
+        return (
+          <FinalStep data={researchData} setFiles={setFiles} files={files} />
+        );
     }
   };
 
@@ -177,13 +192,16 @@ function AddResearch() {
         <div className="step pt-2">
           <img src="./images/sci-examination.png" alt=""></img>
         </div>
+        <div className="step pt-2">
+          <img src="./images/final.png" alt=""></img>
+        </div>
       </div>
 
       <Form className="form form-container" onSubmit={handleSubmit}>
         {renderStep()}
       </Form>
       <div className="buttons row justify-content-center">
-        {step < 5 ? (
+        {step < 6 ? (
           <Button className="col" variant="primary" onClick={handleNext}>
             التالي
           </Button>

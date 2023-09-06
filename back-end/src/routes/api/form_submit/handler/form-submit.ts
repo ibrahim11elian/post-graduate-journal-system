@@ -11,12 +11,31 @@ import { db } from '../../../../database';
 async function handleFormSubmission(req: Request, res: Response) {
   const formPayload = req.body;
   const { researcher_name, workplace, rank, email, phone, cv } = formPayload;
-  const { research_date, research_title, research_pdf, research_summary } =
-    formPayload;
+  const {
+    research_date,
+    research_title,
+    research_pdf,
+    research_summary,
+    research_summary_ar,
+  } = formPayload;
 
   const { journal_edition, edition_date } = formPayload;
-  const { outgoing_letter, incoming_letter, result } = formPayload;
-  const { judge_namee, judge_letter, letter_date, exmn_result } = formPayload;
+  const {
+    outgoing_letter,
+    outgoing_date,
+    incoming_letter,
+    incoming_date,
+    result,
+  } = formPayload;
+  const {
+    judge_namee,
+    judge_letter,
+    letter_date,
+    edit_letter,
+    edit_date,
+    final_copy,
+    exmn_result,
+  } = formPayload;
   try {
     // Start the transaction
     await db.query('BEGIN');
@@ -40,6 +59,7 @@ async function handleFormSubmission(req: Request, res: Response) {
       research_title,
       research_pdf,
       research_summary,
+      research_summary_ar,
       researcher_id,
     });
 
@@ -52,16 +72,23 @@ async function handleFormSubmission(req: Request, res: Response) {
       research_id,
     });
 
+    // res.status(201).json(formPayload);
+
     const examinationModel = new Examination();
     const examination = await examinationModel.create({
       outgoing_letter,
+      outgoing_date,
       incoming_letter,
+      incoming_date,
       result,
       research_id,
     });
 
     const sciExaminationModel = new SciExamination();
-    const sciExamination = await sciExaminationModel.create({ research_id });
+    const sciExamination = await sciExaminationModel.create({
+      research_id,
+      final_copy,
+    });
     const sciExamination_id: number = sciExamination?.id as number;
 
     const judgeModel = new Judge();
@@ -77,6 +104,8 @@ async function handleFormSubmission(req: Request, res: Response) {
         judge_letter: judge_letter[i],
         letter_date: letter_date[i],
         result: exmn_result[i],
+        edit_date: edit_date[i],
+        edit_letter: edit_letter[i],
         judge_id: judge_id,
         sci_Examination_id: sciExamination_id,
       };
@@ -96,6 +125,8 @@ async function handleFormSubmission(req: Request, res: Response) {
       data: { researcher, research, journal, examination, researchExamination },
     });
   } catch (error) {
+    console.log(error);
+
     // If any insertion fails, rollback the transaction
     await db.query('ROLLBACK');
     res.status(500).json({ status: 'error', message: 'Failed to submit form' });
