@@ -29,6 +29,7 @@ async function handleFormSubmission(req: Request, res: Response) {
   } = formPayload;
   const {
     judge_namee,
+    degree,
     judge_letter,
     letter_date,
     edit_letter,
@@ -97,7 +98,8 @@ async function handleFormSubmission(req: Request, res: Response) {
     const researchExamination: { [key: string]: unknown } = {};
     for (const i in judge_namee) {
       const judge_name = judge_namee[i];
-      const judge = await judgeModel.create({ judge_name });
+      const judge_degree = degree[i];
+      const judge = await judgeModel.create({ judge_name, judge_degree });
       const judge_id: number = judge?.id as number;
 
       const exDetails = {
@@ -112,6 +114,7 @@ async function handleFormSubmission(req: Request, res: Response) {
       const examenDetails = await examenDetailsModel.create(exDetails);
       researchExamination[`judge ${Number(i) + 1}`] = {
         judge_name: judge_name,
+        judge_degree: judge_degree,
         ...examenDetails,
       };
     }
@@ -122,7 +125,13 @@ async function handleFormSubmission(req: Request, res: Response) {
     res.status(201).json({
       status: 'success',
       message: 'Form submitted successfully',
-      data: { researcher, research, journal, examination, researchExamination },
+      data: {
+        researcher,
+        research: { ...research, final_copy },
+        journal,
+        examination,
+        researchExamination,
+      },
     });
   } catch (error) {
     console.log(error);

@@ -52,6 +52,7 @@ async function getResearcher(req: Request, res: Response) {
   const identifier = req.params.identifier;
 
   try {
+    let final_copy: string;
     // Start the transaction
     await db.query('BEGIN');
     let researcherData: RESEARCHER[] | null;
@@ -72,14 +73,17 @@ async function getResearcher(req: Request, res: Response) {
         const sciExaminationData = await sciExamination.showByResearchId(
           researchData?.id as number
         );
+        final_copy = sciExaminationData?.final_copy as string;
         const examenDetailsData = await examenDetails.showByExamenId(
           sciExaminationData?.id as number
         );
 
         const judgeExaminationPromises = examenDetailsData?.map(async (e) => {
           const judgeData = await judge.show(e.judge_id);
+
           return {
             judge_Name: judgeData?.judge_name,
+            judge_degree: judgeData?.judge_degree,
             examination_details: e,
           };
         });
@@ -89,7 +93,7 @@ async function getResearcher(req: Request, res: Response) {
 
         return {
           researcher: i,
-          research: researchData,
+          research: { ...researchData, final_copy },
           journal: journalData,
           examination: examinationData,
           judgeExamination: [...judgeExamination],

@@ -3,15 +3,20 @@ import { db } from '../database';
 export type JUDGE = {
   id?: number;
   judge_name: string;
+  judge_degree: string;
 };
 
 export class Judge {
   async create(judge: JUDGE): Promise<JUDGE | null> {
     try {
       const conn = await db.connect();
-      const sql = 'INSERT INTO the_judge (judge_name) VALUES ($1) RETURNING *';
+      const sql =
+        'INSERT INTO the_judge (judge_name,degree) VALUES ($1, $2) RETURNING *';
 
-      const result = await conn.query(sql, [judge.judge_name]);
+      const result = await conn.query(sql, [
+        judge.judge_name,
+        judge.judge_degree,
+      ]);
 
       conn.release();
 
@@ -41,7 +46,8 @@ export class Judge {
   async show(id: JUDGE['id']): Promise<JUDGE | null> {
     const conn = await db.connect();
     try {
-      const sql = 'SELECT * FROM the_judge WHERE id = $1';
+      const sql =
+        'SELECT id, judge_name, degree AS judge_degree FROM the_judge WHERE id = $1';
 
       const result = await conn.query(sql, [id]);
 

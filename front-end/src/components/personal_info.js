@@ -18,7 +18,7 @@ function PersonalInfo({
   return (
     <>
       <h3 className="full-grid-width up-border">المعلومات الشخصية</h3>
-      <Form.Group className="mb-3 col" controlId="formBasicEmail">
+      <Form.Group className="mb-2 col" controlId="formBasicEmail">
         <Form.Label>إسم الضابط</Form.Label>
         <Form.Control
           className={
@@ -35,7 +35,7 @@ function PersonalInfo({
         />
       </Form.Group>
 
-      <Form.Group className="mb-3 col">
+      <Form.Group className="mb-2 col">
         <Form.Label>جهة العمل</Form.Label>
         <Form.Control
           className={
@@ -49,21 +49,21 @@ function PersonalInfo({
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-2">
         <Form.Label>الرتبة</Form.Label>
         <Form.Select
           type="text"
-          value={researchData.rank.split(" ")[0]}
+          value={prof ? researchData.rank.split(" ")[0] : researchData.rank}
           className={`mb-1 ${
             warn ? (researchData.rank ? "" : "invalid-input") : ""
           }`}
           aria-label="Default select example"
-          onChange={(e) =>
+          onChange={(e) => {
             setResearchData({
               ...researchData,
               rank: e.target.value,
-            })
-          }
+            });
+          }}
         >
           <option value="none" hidden defaultValue>
             إختر الرتبة
@@ -86,7 +86,7 @@ function PersonalInfo({
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-2">
         <Form.Label>البريد الإلكتروني</Form.Label>
         <Form.Control
           className={
@@ -105,7 +105,7 @@ function PersonalInfo({
         />
       </Form.Group>
 
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-2">
         <Form.Label>رقم الهاتف</Form.Label>
         <Form.Control
           className={warn ? (researchData.phone ? "" : "invalid-input") : ""}
@@ -116,7 +116,7 @@ function PersonalInfo({
           }
         />
       </Form.Group>
-      <Form.Group controlId="formFile" className="mb-3">
+      <Form.Group controlId="formFile" className="mb-2">
         <Form.Label>السيرة الذاتية</Form.Label>
         <span className="file-name">:{fileName}</span>
         <Form.Control

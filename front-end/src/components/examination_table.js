@@ -17,8 +17,24 @@ function ExaminationTable({ research }) {
               {research.outgoing_letter}
             </p>
             <p className="td">
+              <span>تاريخ الخطاب الصادر:</span>
+              {new Date(research.outgoing_date).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              })}
+            </p>
+            <p className="td">
               <span>رقم الخطاب الوارد:</span>
               {research.incoming_letter}
+            </p>
+            <p className="td">
+              <span>تاريخ الخطاب الوارد:</span>
+              {new Date(research.incoming_date).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              })}
             </p>
           </td>
           <td className="result">{research.result}</td>

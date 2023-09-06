@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/esm/Button";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Header from "../components/details_header";
 import ExaminationTable from "../components/examination_table";
 import SciExaminationTable from "../components/sci_examination_table";
@@ -65,28 +65,49 @@ function Details() {
             {new Date(research.journal.edition_date).toLocaleDateString(
               "en-US",
               {
-                day: "numeric",
                 month: "numeric",
+                day: "numeric",
                 year: "numeric",
               }
             )}
           </div>
         </div>
         <div className="d-flex justify-content-center gap-5 mt-4">
-          <Link
-            to={`/viewer?data=${extractFileName(
+          <a
+            href={`http://localhost:3000/researches/${extractFileName(
               research.research.research_pdf
             )}`}
           >
             <Button className="add col-auto">اقراء البحث</Button>
-          </Link>
-          <a
-            href={`http://localhost:3000/summaries/${extractFileName(
-              research.research.research_summary
-            )}`}
-          >
-            <Button className="add col-auto">ملخص انجليزي</Button>
           </a>
+
+          {research.research.final_copy ? (
+            <a
+              href={`http://localhost:3000/researches/${extractFileName(
+                research.research.final_copy
+              )}`}
+            >
+              <Button className="add col-auto">النسخة النهائية</Button>
+            </a>
+          ) : null}
+          {research.research.research_summary ? (
+            <a
+              href={`http://localhost:3000/summaries/${extractFileName(
+                research.research.research_summary
+              )}`}
+            >
+              <Button className="add col-auto">ملخص انجليزي</Button>
+            </a>
+          ) : null}
+          {research.research.research_summary_ar ? (
+            <a
+              href={`http://localhost:3000/ar-summaries/${extractFileName(
+                research.research.research_summary_ar
+              )}`}
+            >
+              <Button className="add col-auto">ملخص عربي</Button>
+            </a>
+          ) : null}
         </div>
         <div className="d-flex justify-content-center gap-5 mt-4">
           <ExaminationTable research={research.examination} />

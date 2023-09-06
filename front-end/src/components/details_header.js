@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 
 function Header({ research }) {
   return (
     <header className="add-header">
       <img
         className="head-img"
-        src="./images/police.png"
-        alt="وزارة الداخلية"
+        src="./images/post.png"
+        alt="كلية الدراسات العليا"
       />
       <div className="detail-header">
         <p className="researcher-name">
@@ -16,11 +16,11 @@ function Header({ research }) {
       </div>
       <img
         className="head-img"
-        src="./images/post.png"
-        alt="كلية الدراسات العليا"
+        src="./images/police.png"
+        alt="وزارة الداخلية"
       />
     </header>
   );
 }
 
-export default Header
+export default Header;

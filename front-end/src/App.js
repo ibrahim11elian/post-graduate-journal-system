@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 function App() {
   const [researchDetails, setResearcherDetails] = useState("");
   return (
-    <div className="container-fluid App" lang="ar" dir="rtl">
+    <div className="container-xxl App" lang="ar" dir="rtl">
       <ToastContainer />
       <Routes>
         <Route path="/" element={<AddResearch />} />

@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 
 function SciExamination({ setResearchData, researchData, warn }) {
-  const diplay3rd = () => {
+  const display3rd = () => {
     if (
       researchData.exmn_result["0"] === "غير صالح للنشر" &&
       researchData.exmn_result["1"] === "غير صالح للنشر"
@@ -18,34 +18,40 @@ function SciExamination({ setResearchData, researchData, warn }) {
       return false;
     }
   };
+
   return (
     <>
       <h3 className="full-grid-width up-border mb-3">الفحص العلمي</h3>
-      <div className="full-grid-width row">
-        <Form.Group className="mb-3 col">
+      <div className="full-grid-width row mb-2">
+        <Form.Group className="col">
           <Form.Label>الدرجة العلمية</Form.Label>
           <Form.Select
             type="text"
             className={`mb-1`}
-            value={researchData?.judge_degree["0"]}
+            value={researchData?.degree["0"]}
             onChange={(e) => {
+              const selectedValue = e.target.value;
               setResearchData({
                 ...researchData,
-                judge_degree: {
-                  ...researchData["judge_degree"],
-                  0: e.target.value,
+                degree: {
+                  ...researchData["degree"],
+                  0:
+                    selectedValue === "اختر الدرجة العلمية"
+                      ? ""
+                      : selectedValue,
                 },
               });
             }}
             aria-label="Default select example"
           >
+            <option value={null}>اختر الدرجة العلمية</option>
             <option value="لواء أستاذ دكتور">لواء أستاذ دكتور</option>
             <option value="عميد أستاذ دكتور">عميد أستاذ دكتور</option>
             <option value="عقيد أستاذ دكتور">عقيد أستاذ دكتور</option>
             <option value="أستاذ دكتور">أستاذ دكتور</option>
           </Form.Select>
         </Form.Group>
-        <Form.Group className="mb-3 col">
+        <Form.Group className="col">
           <Form.Label>إسم المحكم الأول</Form.Label>
           <Form.Control
             className={
@@ -69,7 +75,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3 col">
+        <Form.Group className="col">
           <Form.Label> رقم الخطاب </Form.Label>
           <Form.Control
             className={
@@ -94,7 +100,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3 col">
+        <Form.Group className="col">
           <Form.Label> تاريخ الإرسال </Form.Label>
           <Form.Control
             className={
@@ -145,31 +151,45 @@ function SciExamination({ setResearchData, researchData, warn }) {
           </Form.Select>
         </Form.Group>
       </div>
-      <div className="full-grid-width row">
-        <Form.Group className="mb-3 col">
+      {researchData.exmn_result &&
+      researchData.exmn_result["0"] === "صالح مع التعديل" ? (
+        <Edit
+          researchData={researchData}
+          setResearchData={setResearchData}
+          i={0}
+        />
+      ) : null}
+
+      <div className="full-grid-width row mb-2">
+        <Form.Group className="col">
           <Form.Label>الدرجة العلمية</Form.Label>
           <Form.Select
             type="text"
             className={`mb-1`}
-            value={researchData?.judge_degree["1"]}
+            value={researchData?.degree["1"]}
             onChange={(e) => {
+              const selectedValue = e.target.value;
               setResearchData({
                 ...researchData,
-                judge_degree: {
-                  ...researchData["judge_degree"],
-                  1: e.target.value,
+                degree: {
+                  ...researchData["degree"],
+                  1:
+                    selectedValue === "اختر الدرجة العلمية"
+                      ? ""
+                      : selectedValue,
                 },
               });
             }}
             aria-label="Default select example"
           >
+            <option value={null}>اختر الدرجة العلمية</option>
             <option value="لواء أستاذ دكتور">لواء أستاذ دكتور</option>
             <option value="عميد أستاذ دكتور">عميد أستاذ دكتور</option>
             <option value="عقيد أستاذ دكتور">عقيد أستاذ دكتور</option>
             <option value="أستاذ دكتور">أستاذ دكتور</option>
           </Form.Select>
         </Form.Group>
-        <Form.Group className="mb-3 col">
+        <Form.Group className="col">
           <Form.Label>إسم المحكم الثاني</Form.Label>
           <Form.Control
             className={
@@ -192,7 +212,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3 col">
+        <Form.Group className="col">
           <Form.Label> رقم الخطاب </Form.Label>
           <Form.Control
             className={
@@ -216,7 +236,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3 col">
+        <Form.Group className="col">
           <Form.Label> تاريخ الإرسال </Form.Label>
           <Form.Control
             className={
@@ -267,32 +287,45 @@ function SciExamination({ setResearchData, researchData, warn }) {
           </Form.Select>
         </Form.Group>
       </div>
-      {diplay3rd() ? (
-        <div className="full-grid-width row">
-          <Form.Group className="mb-3 col">
+      {researchData.exmn_result &&
+      researchData.exmn_result["1"] === "صالح مع التعديل" ? (
+        <Edit
+          researchData={researchData}
+          setResearchData={setResearchData}
+          i={1}
+        />
+      ) : null}
+      {display3rd() ? (
+        <div className="full-grid-width row mb-2">
+          <Form.Group className="col">
             <Form.Label>الدرجة العلمية</Form.Label>
             <Form.Select
               type="text"
               className={`mb-1`}
-              value={researchData?.judge_degree["2"]}
+              value={researchData?.degree["2"]}
               onChange={(e) => {
+                const selectedValue = e.target.value;
                 setResearchData({
                   ...researchData,
-                  judge_degree: {
-                    ...researchData["judge_degree"],
-                    2: e.target.value,
+                  degree: {
+                    ...researchData["degree"],
+                    2:
+                      selectedValue === "اختر الدرجة العلمية"
+                        ? ""
+                        : selectedValue,
                   },
                 });
               }}
               aria-label="Default select example"
             >
+              <option value={null}>اختر الدرجة العلمية</option>
               <option value="لواء أستاذ دكتور">لواء أستاذ دكتور</option>
               <option value="عميد أستاذ دكتور">عميد أستاذ دكتور</option>
               <option value="عقيد أستاذ دكتور">عقيد أستاذ دكتور</option>
               <option value="أستاذ دكتور">أستاذ دكتور</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group className="mb-3 col">
+          <Form.Group className="col">
             <Form.Label>إسم المحكم الثالث</Form.Label>
             <Form.Control
               className={
@@ -315,7 +348,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 col">
+          <Form.Group className="col">
             <Form.Label> رقم الخطاب </Form.Label>
             <Form.Control
               className={
@@ -339,7 +372,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3 col">
+          <Form.Group className="col">
             <Form.Label> تاريخ الإرسال </Form.Label>
             <Form.Control
               className={
@@ -391,7 +424,55 @@ function SciExamination({ setResearchData, researchData, warn }) {
           </Form.Group>
         </div>
       ) : null}
+      {researchData.exmn_result &&
+      researchData.exmn_result["2"] === "صالح مع التعديل" ? (
+        <Edit
+          researchData={researchData}
+          setResearchData={setResearchData}
+          i={2}
+        />
+      ) : null}
     </>
+  );
+}
+
+function Edit({ researchData, setResearchData, i }) {
+  return (
+    <div className="full-grid-width row mb-4">
+      <Form.Group className="col">
+        <Form.Label> رقم خطاب التعديل </Form.Label>
+        <Form.Control
+          type="number"
+          value={researchData.edit_letter[i] || ""}
+          onChange={(e) =>
+            setResearchData({
+              ...researchData,
+              edit_letter: {
+                ...researchData["edit_letter"],
+                [i]: e.target.value,
+              },
+            })
+          }
+        />
+      </Form.Group>
+
+      <Form.Group className="col">
+        <Form.Label> تاريخ إرسال التعديل </Form.Label>
+        <Form.Control
+          type="date"
+          value={researchData.edit_date[i] || ""}
+          onChange={(e) =>
+            setResearchData({
+              ...researchData,
+              edit_date: {
+                ...researchData["edit_date"],
+                [i]: e.target.value,
+              },
+            })
+          }
+        />
+      </Form.Group>
+    </div>
   );
 }
 

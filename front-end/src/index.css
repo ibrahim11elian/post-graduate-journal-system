@@ -66,7 +66,7 @@ button {
   justify-content: center;
   height: fit-content;
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .head-img {
@@ -369,6 +369,7 @@ div span {
 
 tr .result {
   padding-top: 2rem !important;
+  text-align: center;
 }
 
 td {
@@ -376,6 +377,9 @@ td {
 }
 
 @media (max-width: 968px) {
+  .form-label {
+    font-size: 0.8rem !important;
+  }
   .add-header p {
     font-size: 2rem;
     text-align: center;

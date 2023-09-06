@@ -18,11 +18,11 @@ export class Examination {
         'INSERT INTO examination (outgoing_letter, outgoing_date, incoming_letter, incoming_date, result, research_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
       const result = await conn.query(sql, [
-        examination.outgoing_letter ? examination.outgoing_letter : null,
-        examination.outgoing_date ? examination.outgoing_date : null,
-        examination.incoming_letter ? examination.incoming_letter : null,
-        examination.incoming_date ? examination.incoming_date : null,
-        examination.result ? examination.result : null,
+        examination.outgoing_letter || null,
+        examination.outgoing_date || null,
+        examination.incoming_letter || null,
+        examination.incoming_date || null,
+        examination.result || null,
         examination.research_id,
       ]);
 

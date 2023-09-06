@@ -2,7 +2,7 @@ import { db } from '../database';
 
 export type SCIEXAMINATION = {
   id?: number;
-  final_copy?: number;
+  final_copy?: string;
   research_id: number;
 };
 

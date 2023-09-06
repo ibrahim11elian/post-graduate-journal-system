@@ -19,12 +19,12 @@ export class ExamenDetails {
         'INSERT INTO examn_details (judge_letter, letter_date, result,edit_letter, edit_date, judge_id, sci_examination_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
 
       const result = await conn.query(sql, [
-        examenDetails.judge_letter ? examenDetails.judge_letter : null,
-        examenDetails.letter_date ? examenDetails.letter_date : null,
-        examenDetails.result ? examenDetails.result : null,
-        examenDetails.edit_letter ? examenDetails.edit_letter : null,
-        examenDetails.edit_date ? examenDetails.edit_date : null,
-        examenDetails.judge_id ? examenDetails.judge_id : null,
+        examenDetails.judge_letter || null,
+        examenDetails.letter_date || null,
+        examenDetails.result || null,
+        examenDetails.edit_letter || null,
+        examenDetails.edit_date || null,
+        examenDetails.judge_id || null,
         examenDetails.sci_Examination_id,
       ]);
 

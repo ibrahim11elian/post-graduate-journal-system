@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import postData from "../utilities/post-data";
 import Header from "../components/header";
-import { isValid } from "../utilities/form-validation";
 import { Link } from "react-router-dom";
 import PersonalInfo from "../components/personal_info";
 import ResearchInfo from "../components/research_info";
@@ -33,7 +33,7 @@ const rData = {
   incoming_date: "",
   result: "",
   judge_namee: "",
-  judge_degree: "",
+  degree: "",
   judge_letter: "",
   letter_date: "",
   edit_letter: "",
@@ -46,8 +46,10 @@ function AddResearch() {
   const [files, setFiles] = useState({});
   const [prof, setProf] = useState(false);
   const [warn, setWarn] = useState(false);
+  const [reload, setReload] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setResearchData({
@@ -61,13 +63,15 @@ function AddResearch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prof]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setReload(false);
     e.preventDefault();
-    // eslint-disable-next-line no-unused-expressions
-    // isValid({ ...researchData }, { ...files }, setWarn, setEmailValid)
-    postData(researchData, files);
-    // : console.error("form data is not valid!!");
+    await postData(researchData, files, setReload);
   };
+
+  useEffect(() => {
+    reload ? navigate("/search") : null;
+  }, [reload, navigate]);
 
   // Validation functions for each step
   const stepValidationFunctions = [
@@ -166,7 +170,7 @@ function AddResearch() {
   };
 
   return (
-    <div className="add-search container-md">
+    <div className="add-search">
       <Header />
       <div className="d-flex justify-content-between form-container">
         <h2 className="title">إضافة بحث</h2>
@@ -176,7 +180,7 @@ function AddResearch() {
           </Button>
         </Link>
       </div>
-      <div className="step-bar d-flex gap-4 mb-4">
+      <div className="step-bar d-flex gap-4 mb-4 mt-4">
         <div className="step pt-2">
           <img src="./images/personal.png" alt=""></img>
         </div>

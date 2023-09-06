@@ -90,16 +90,15 @@ function SecurityExam({ setResearchData, researchData, warn }) {
               : ""
           }`}
           aria-label="Default select example"
-          onChange={(e) =>
+          onChange={(e) => {
+            const selectedValue = e.target.value;
             setResearchData({
               ...researchData,
-              result: e.target.value,
-            })
-          }
+              result: selectedValue === "اختر النتيجة" ? "" : selectedValue,
+            });
+          }}
         >
-          <option value="none" hidden defaultValue>
-            اختر النتيجة
-          </option>
+          <option value={null}>اختر النتيجة</option>
           <option value="صالح للتحكيم">صالح للتحكيم</option>
           <option value="غير صالح للتحكيم">غير صالح للتحكيم</option>
         </Form.Select>

@@ -16,7 +16,7 @@ function SciExaminationTable({ research }) {
               <td>
                 <p className="td">
                   <span>اسم المحكم :</span>
-                  {e.judge_Name}
+                  {`${e.judge_degree}/ ${e.judge_Name}`}
                 </p>
                 <p className="td">
                   <span>رقم الخطاب:</span>
@@ -32,6 +32,24 @@ function SciExaminationTable({ research }) {
                     year: "numeric",
                   })}
                 </p>
+                {e.examination_details.edit_letter ? (
+                  <p className="td">
+                    <span>خطاب التعديل:</span>
+                    {e.examination_details.judge_letter}
+                  </p>
+                ) : null}
+                {e.examination_details.edit_date ? (
+                  <p className="td">
+                    <span>تاريخ التعديل:</span>
+                    {new Date(
+                      e.examination_details.edit_date
+                    ).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                ) : null}
               </td>
               <td className="result">{e.examination_details.result}</td>
             </tr>
