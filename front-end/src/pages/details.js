@@ -34,7 +34,7 @@ function Details() {
               research.researcher.cv
             )}`}
           >
-            <Button className="add col-auto">السيرة الذاتية</Button>
+            <Button className="add col-auto outline">السيرة الذاتية</Button>
           </a>
         </div>
       </div>
@@ -78,7 +78,7 @@ function Details() {
               research.research.research_pdf
             )}`}
           >
-            <Button className="add col-auto">اقراء البحث</Button>
+            <Button className="add col-auto outline">اقراء البحث</Button>
           </a>
 
           {research.research.final_copy ? (
@@ -87,7 +87,7 @@ function Details() {
                 research.research.final_copy
               )}`}
             >
-              <Button className="add col-auto">النسخة النهائية</Button>
+              <Button className="add col-auto outline">النسخة النهائية</Button>
             </a>
           ) : null}
           {research.research.research_summary ? (
@@ -96,7 +96,7 @@ function Details() {
                 research.research.research_summary
               )}`}
             >
-              <Button className="add col-auto">ملخص انجليزي</Button>
+              <Button className="add col-auto outline">ملخص انجليزي</Button>
             </a>
           ) : null}
           {research.research.research_summary_ar ? (
@@ -105,12 +105,15 @@ function Details() {
                 research.research.research_summary_ar
               )}`}
             >
-              <Button className="add col-auto">ملخص عربي</Button>
+              <Button className="add col-auto outline">ملخص عربي</Button>
             </a>
           ) : null}
         </div>
         <div className="d-flex justify-content-center gap-5 mt-4">
-          <ExaminationTable research={research.examination} />
+          {research.examination ? (
+            <ExaminationTable research={research.examination} />
+          ) : null}
+
           {research.judgeExamination ? (
             <SciExaminationTable research={research.judgeExamination} />
           ) : null}

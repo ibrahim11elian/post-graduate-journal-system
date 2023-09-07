@@ -8,6 +8,7 @@ describe('Judge Endpoints', () => {
   it('should create a new judge', async () => {
     const newJudge: JUDGE = {
       judge_name: 'John Smith',
+      judge_degree: 'captain',
     };
 
     const response = await request(app).post('/api/judge').send(newJudge);

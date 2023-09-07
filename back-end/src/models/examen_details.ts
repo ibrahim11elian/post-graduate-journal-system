@@ -88,7 +88,9 @@ export class ExamenDetails {
     try {
       const conn = await db.connect();
       const keys = Object.keys(updatedColumns);
+
       const values = Object.values(updatedColumns);
+
       const setExpressions = keys
         .map((key, index) => `${key} = $${index + 2}`)
         .join(', ');

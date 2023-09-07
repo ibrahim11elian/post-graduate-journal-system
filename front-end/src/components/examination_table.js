@@ -18,11 +18,13 @@ function ExaminationTable({ research }) {
             </p>
             <p className="td">
               <span>تاريخ الخطاب الصادر:</span>
-              {new Date(research.outgoing_date).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "numeric",
-                year: "numeric",
-              })}
+              {research.outgoing_date
+                ? new Date(research.outgoing_date).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                  })
+                : null}
             </p>
             <p className="td">
               <span>رقم الخطاب الوارد:</span>
@@ -30,11 +32,13 @@ function ExaminationTable({ research }) {
             </p>
             <p className="td">
               <span>تاريخ الخطاب الوارد:</span>
-              {new Date(research.incoming_date).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "numeric",
-                year: "numeric",
-              })}
+              {research.incoming_date
+                ? new Date(research.incoming_date).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                  })
+                : null}
             </p>
           </td>
           <td className="result">{research.result}</td>

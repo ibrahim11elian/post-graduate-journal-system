@@ -15,6 +15,7 @@ describe('Judge Model', () => {
   it('should create a new judge', async () => {
     const newJudge: JUDGE = {
       judge_name: 'Test Judge',
+      judge_degree: 'captain',
     };
 
     createdJudge = await judge.create(newJudge);

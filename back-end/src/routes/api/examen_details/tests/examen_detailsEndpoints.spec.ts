@@ -64,6 +64,7 @@ describe('Examen Details Endpoints', () => {
   beforeAll(async () => {
     const judgeData: JUDGE = {
       judge_name: 'test name',
+      judge_degree: 'captain',
     };
 
     createdJudge = await judge.create(judgeData);
@@ -74,6 +75,8 @@ describe('Examen Details Endpoints', () => {
       judge_letter: 1,
       letter_date: new Date(),
       result: 'Pass',
+      edit_date: 122324,
+      edit_letter: 232,
       judge_id: createdJudge?.id as number,
       sci_Examination_id: createdSciExamination?.id as number,
     };

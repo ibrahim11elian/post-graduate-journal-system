@@ -21,6 +21,7 @@ describe('ExamenDetails Model', () => {
     // Create a judge for testing
     const newJudge: JUDGE = {
       judge_name: 'Test Judge',
+      judge_degree: 'captain',
     };
     createdJudge = await judge.create(newJudge);
 

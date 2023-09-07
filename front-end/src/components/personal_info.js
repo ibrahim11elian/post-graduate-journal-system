@@ -9,12 +9,10 @@ function PersonalInfo({
   prof,
   setEmailValid,
   emailValid,
+  fileName,
   files,
   setFiles,
 }) {
-  // Display the selected file name
-  const fileName = files.cv ? files.cv.name : "";
-
   return (
     <>
       <h3 className="full-grid-width up-border">المعلومات الشخصية</h3>
@@ -118,7 +116,7 @@ function PersonalInfo({
       </Form.Group>
       <Form.Group controlId="formFile" className="mb-2">
         <Form.Label>السيرة الذاتية</Form.Label>
-        <span className="file-name">:{fileName}</span>
+        <span className="file-name">:{fileName || ""}</span>
         <Form.Control
           className={warn ? (files.cv ? "" : "invalid-input") : ""}
           type="file"

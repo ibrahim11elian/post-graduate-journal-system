@@ -6,7 +6,7 @@ import Table from "../components/search_result_table";
 
 const baseUrl = "http://localhost:3000";
 
-function Search({ setResearch }) {
+function Search() {
   const [route, setRoute] = useState("");
   const [params, setParams] = useState("");
   const [searchQuery, setResearchQuery] = useState("");
@@ -21,7 +21,7 @@ function Search({ setResearch }) {
         setRoute={setRoute}
         setResearchQuery={setResearchQuery}
       />
-      <Table fetchedData={fetchedData} setResearch={setResearch} />
+      <Table fetchedData={fetchedData} />
     </>
   );
 }

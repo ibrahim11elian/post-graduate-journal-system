@@ -6,8 +6,9 @@ import examination from './examination/handler/examination';
 import judge from './judge/handler/judge';
 import sciExamination from './sciExamination/handler/sciExamination';
 import examen_details from './examen_details/handler/examen_details';
-import handleFormSubmission from './form_submit/handler/form-submit';
+import handleFormSubmission from './form_submit/handler/add-research';
 import uploadFile from '../../middleware/upload-files';
+import updateResearch from './form_submit/handler/update-research';
 
 const route = Router();
 
@@ -72,7 +73,7 @@ route.delete('/examen-details/:id', examen_details.deleteExamenDetail);
 
 // ===========================================================
 // form submission handler
-
 route.post('/research-record', uploadFile, handleFormSubmission);
+route.put('/research-record', uploadFile, updateResearch);
 
 export default route;

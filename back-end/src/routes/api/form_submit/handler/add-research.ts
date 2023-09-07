@@ -95,7 +95,8 @@ async function handleFormSubmission(req: Request, res: Response) {
     const judgeModel = new Judge();
 
     const examenDetailsModel = new ExamenDetails();
-    const researchExamination: { [key: string]: unknown } = {};
+    const judgeExamination = [];
+
     for (const i in judge_namee) {
       const judge_name = judge_namee[i];
       const judge_degree = degree[i];
@@ -112,11 +113,11 @@ async function handleFormSubmission(req: Request, res: Response) {
         sci_Examination_id: sciExamination_id,
       };
       const examenDetails = await examenDetailsModel.create(exDetails);
-      researchExamination[`judge ${Number(i) + 1}`] = {
-        judge_name: judge_name,
+      judgeExamination.push({
+        judge_Name: judge_name,
         judge_degree: judge_degree,
-        ...examenDetails,
-      };
+        examination_details: { ...examenDetails },
+      });
     }
 
     // If all insertions succeed, commit the transaction
@@ -130,7 +131,7 @@ async function handleFormSubmission(req: Request, res: Response) {
         research: { ...research, final_copy },
         journal,
         examination,
-        researchExamination,
+        judgeExamination,
       },
     });
   } catch (error) {

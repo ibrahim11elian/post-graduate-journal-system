@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function SecurityExam({ setResearchData, researchData, warn }) {
   return (
@@ -12,7 +14,7 @@ function SecurityExam({ setResearchData, researchData, warn }) {
             warn ? (researchData.outgoing_letter ? "" : "invalid-input") : ""
           }
           type="number"
-          value={researchData.outgoing_letter}
+          value={researchData.outgoing_letter || ""}
           onChange={(e) =>
             setResearchData({
               ...researchData,
@@ -23,18 +25,24 @@ function SecurityExam({ setResearchData, researchData, warn }) {
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label> تاريخ الخطاب الصادر </Form.Label>
-        <Form.Control
+        <DatePicker
           className={
-            warn ? (researchData.outgoing_date ? "" : "invalid-input") : ""
+            warn
+              ? researchData.outgoing_date
+                ? "form-control"
+                : "invalid-input form-control"
+              : "form-control"
           }
-          type="date"
-          value={researchData.outgoing_date}
-          onChange={(e) =>
+          selected={researchData.outgoing_date || ""}
+          dateFormat="dd/MM/yyyy" // Set the desired format here
+          isClearable
+          placeholderText="DD/MM/YYY"
+          onChange={(e) => {
             setResearchData({
               ...researchData,
-              outgoing_date: e.target.value,
-            })
-          }
+              outgoing_date: e,
+            });
+          }}
         />
       </Form.Group>
       <Form.Group className="mb-3">
@@ -48,7 +56,7 @@ function SecurityExam({ setResearchData, researchData, warn }) {
               : ""
           }
           type="number"
-          value={researchData.incoming_letter}
+          value={researchData.incoming_letter || ""}
           onChange={(e) =>
             setResearchData({
               ...researchData,
@@ -59,29 +67,31 @@ function SecurityExam({ setResearchData, researchData, warn }) {
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label> تاريخ الخطاب الوارد </Form.Label>
-        <Form.Control
+        <DatePicker
           className={
             warn && (researchData.incoming_letter || researchData.result)
               ? researchData.incoming_date
-                ? ""
-                : "invalid-input"
-              : ""
+                ? "form-control"
+                : "invalid-input form-control"
+              : "form-control"
           }
-          type="date"
-          value={researchData.incoming_date}
-          onChange={(e) =>
+          selected={researchData.incoming_date || ""}
+          dateFormat="dd/MM/yyyy" // Set the desired format here
+          isClearable
+          placeholderText="DD/MM/YYY"
+          onChange={(e) => {
             setResearchData({
               ...researchData,
-              incoming_date: e.target.value,
-            })
-          }
+              incoming_date: e,
+            });
+          }}
         />
       </Form.Group>
       <Form.Group>
         <Form.Label className="col-auto">نتيجة الفحص:</Form.Label>
         <Form.Select
           type="text"
-          value={researchData.result}
+          value={researchData.result || ""}
           className={`mb-1 ${
             warn && (researchData.incoming_letter || researchData.incoming_date)
               ? researchData.result

@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function ResearchInfo({
   setResearchData,
@@ -31,20 +33,27 @@ function ResearchInfo({
           }
         />
       </Form.Group>
+
       <Form.Group className="mb-3">
         <Form.Label> تاريخ تقديم البحث</Form.Label>
-        <Form.Control
+        <DatePicker
           className={
-            warn ? (researchData.research_date ? "" : "invalid-input") : ""
+            warn
+              ? researchData.research_date
+                ? "form-control"
+                : "invalid-input form-control"
+              : "form-control"
           }
-          type="date"
-          value={researchData.research_date}
-          onChange={(e) =>
+          selected={researchData.research_date}
+          dateFormat="dd/MM/yyyy" // Set the desired format here
+          isClearable
+          placeholderText="DD/MM/YYY"
+          onChange={(e) => {
             setResearchData({
               ...researchData,
-              research_date: e.target.value,
-            })
-          }
+              research_date: e,
+            });
+          }}
         />
       </Form.Group>
 

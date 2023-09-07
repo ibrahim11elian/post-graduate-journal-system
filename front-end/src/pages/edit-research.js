@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import postData from "../utilities/post-data";
+import updateData from "../utilities/update-research";
 import Header from "../components/header";
 import { Link } from "react-router-dom";
 import PersonalInfo from "../components/personal_info";
@@ -17,34 +17,94 @@ import { journalValid } from "../utilities/validation/journal_edition";
 import { securityExamenValid } from "../utilities/validation/security_examen";
 import FinalStep from "../components/final_step";
 
-const rData = {
-  researcher_name: "",
-  workplace: "",
-  rank: "",
-  email: "",
-  phone: "",
-  research_date: "",
-  research_title: "",
-  journal_edition: 0,
-  edition_date: "",
-  outgoing_letter: "",
-  outgoing_date: "",
-  incoming_letter: "",
-  incoming_date: "",
-  result: "",
-  judge_namee: "",
-  degree: "",
-  judge_letter: "",
-  letter_date: "",
-  edit_letter: "",
-  edit_date: "",
-  exmn_result: "",
-};
+function extractFileName(path) {
+  const pathSegments = path.split("\\");
+  return pathSegments[pathSegments.length - 1];
+}
 
-function AddResearch() {
+function EditResearch() {
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const data = JSON.parse(decodeURIComponent(query.get("data")));
+  const fileName = extractFileName(data.researcher.cv);
+  const pdf = extractFileName(data.research.research_pdf);
+  const en = extractFileName(data.research.research_summary || "");
+  const ar = extractFileName(data.research.research_summary_ar || "");
+  const final_copy = extractFileName(data.research.final_copy || "");
+
+  let judge_namee = {},
+    degree = {},
+    judge_letter = {},
+    letter_date = {},
+    edit_letter = {},
+    edit_date = {},
+    exmn_result = {},
+    judge_id = {},
+    examination_details = {};
+
+  data.judgeExamination.forEach((e, i) => {
+    judge_namee[i] = e.judge_Name;
+    degree[i] = e.judge_degree;
+    judge_letter[i] = e.examination_details.judge_letter;
+    letter_date[i] = e.examination_details.letter_date
+      ? new Date(e.examination_details.letter_date)
+      : null;
+    edit_letter[i] = e.examination_details.edit_letter;
+    edit_date[i] = e.examination_details.edit_date
+      ? new Date(e.examination_details.edit_date)
+      : null;
+    exmn_result[i] = e.examination_details.result;
+    judge_id[i] = e.examination_details.judge_id;
+    examination_details[i] = e.examination_details.id;
+  });
+
+  const rData = {
+    researcher_name: data.researcher.researcher_name,
+    workplace: data.researcher.workplace,
+    rank: data.researcher.rank,
+    email: data.researcher.email,
+    phone: data.researcher.phone,
+    research_date: data.research.research_date
+      ? new Date(data.research.research_date)
+      : null,
+    research_title: data.research.research_title,
+    journal_edition: data.journal.journal_edition,
+    edition_date: data.journal.edition_date,
+    outgoing_letter: data.examination.outgoing_letter,
+    outgoing_date: data.examination.outgoing_date
+      ? new Date(data.examination.outgoing_date)
+      : null,
+    incoming_letter: data.examination.incoming_letter,
+    incoming_date: data.examination.incoming_date
+      ? new Date(data.examination.incoming_date)
+      : null,
+    result: data.examination.result,
+    judge_namee: { ...judge_namee },
+    degree: { ...degree },
+    judge_letter: { ...judge_letter },
+    letter_date: { ...letter_date },
+    edit_letter: { ...edit_letter },
+    edit_date: { ...edit_date },
+    exmn_result: { ...exmn_result },
+    researcher_id: data.researcher.id,
+    research_id: data.research.id,
+    journal_id: data.journal.id,
+    examination_id: data.examination.id,
+    judge_id: { ...judge_id },
+    examination_details_id: { ...examination_details },
+  };
+
   const [researchData, setResearchData] = useState({ ...rData });
-  const [files, setFiles] = useState({});
-  const [prof, setProf] = useState(false);
+  const [files, setFiles] = useState({
+    cv: { name: fileName },
+    research_pdf: { name: pdf },
+    research_summary: { name: en },
+    research_summary_ar: { name: ar },
+    final_copy: { name: final_copy },
+  });
+  const [prof, setProf] = useState(
+    researchData.rank.split(" ").pop() === "دكتور" ? true : false
+  );
   const [warn, setWarn] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [step, setStep] = useState(1);
@@ -67,7 +127,7 @@ function AddResearch() {
     setRes(null);
     e.preventDefault();
     try {
-      await postData(researchData, files, setRes);
+      await updateData(researchData, files, setRes);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +140,6 @@ function AddResearch() {
         )
       : null;
   }, [res, navigate]);
-
   // Validation functions for each step
   const stepValidationFunctions = [
     () => personalValid(researchData, files, setWarn, setEmailValid),
@@ -178,14 +237,11 @@ function AddResearch() {
     }
   };
 
-  // Display the selected file name
-  const fileName = files.cv ? files.cv.name : "";
-
   return (
     <div className="add-search">
       <Header />
       <div className="d-flex justify-content-between form-container">
-        <h2 className="title">إضافة بحث</h2>
+        <h2 className="title">تعديل بحث</h2>
         <Link to={"/search"}>
           <Button className="add col-auto form-container" variant="primary">
             صفحة البحث
@@ -213,9 +269,7 @@ function AddResearch() {
         </div>
       </div>
 
-      <Form className="form form-container" onSubmit={handleSubmit}>
-        {renderStep()}
-      </Form>
+      <Form className="form form-container">{renderStep()}</Form>
       <div className="buttons row justify-content-center">
         {step < 6 ? (
           <Button className="col" variant="primary" onClick={handleNext}>
@@ -257,4 +311,4 @@ function fixStepIndicator(n) {
   x[n - 1].className += " active";
 }
 
-export default AddResearch;
+export default EditResearch;

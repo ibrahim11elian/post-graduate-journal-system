@@ -4,6 +4,6 @@ create table research (
 	research_pdf VARCHAR(300) NOT NULL,
 	research_summary VARCHAR(300),
 	research_summary_ar VARCHAR(300),
-	research_date DATE NOT NULL,
+	research_date VARCHAR(100) NOT NULL,
 	researcher_id INT REFERENCES researcher(id)
 );

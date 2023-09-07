@@ -29,23 +29,27 @@ export default function uploadFile(
       res.status(400).json({ error: 'No files uploaded' });
       return;
     } else {
-      const cvFile = files['cv'][0];
+      if (files['cv']) {
+        const cvFile = files['cv'][0];
 
-      const cvFileExtension = path.extname(cvFile.originalname);
-      req.body.cv = path.join(
-        process.cwd(),
-        'cv',
-        `${req.body.researcher_name}${cvFileExtension}`
-      );
+        const cvFileExtension = path.extname(cvFile.originalname);
+        req.body.cv = path.join(
+          process.cwd(),
+          'cv',
+          `${req.body.researcher_name}${cvFileExtension}`
+        );
+      }
 
-      const researchCopyFile = files['researchCopy'][0];
+      if (files['researchCopy']) {
+        const researchCopyFile = files['researchCopy'][0];
 
-      const rsCopyFileExtension = path.extname(researchCopyFile.originalname);
-      req.body.research_pdf = path.join(
-        process.cwd(),
-        'research-copies',
-        `${req.body.researcher_name}-${req.body.research_title}${rsCopyFileExtension}`
-      );
+        const rsCopyFileExtension = path.extname(researchCopyFile.originalname);
+        req.body.research_pdf = path.join(
+          process.cwd(),
+          'research-copies',
+          `${req.body.researcher_name}-${req.body.research_title}${rsCopyFileExtension}`
+        );
+      }
 
       if (files['researchFinalCopy']) {
         const researchSummaryFile = files['researchFinalCopy'][0];
@@ -59,6 +63,7 @@ export default function uploadFile(
           `${req.body.researcher_name}-${req.body.research_title}-final${rsSummaryFileExtension}`
         );
       }
+
       if (files['researchSummary']) {
         const researchSummaryFile = files['researchSummary'][0];
 
@@ -71,6 +76,7 @@ export default function uploadFile(
           `${req.body.researcher_name}-${req.body.research_title}${rsSummaryFileExtension}`
         );
       }
+
       if (files['researchSummaryAr']) {
         const researchSummaryFile = files['researchSummaryAr'][0];
 

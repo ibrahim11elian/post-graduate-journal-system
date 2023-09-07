@@ -3,7 +3,7 @@ import { alert } from "./alert";
 
 const baseUrl = "http://localhost:3000/api";
 
-async function postData(researchData, files, setRes) {
+async function updateData(researchData, files, setRes) {
   const formData = new FormData();
   formData.append("data", JSON.stringify(researchData));
   formData.append("cv", files.cv);
@@ -13,8 +13,8 @@ async function postData(researchData, files, setRes) {
   formData.append("researchFinalCopy", files.final_copy);
 
   try {
-    await axios.post(`${baseUrl}/research-record`, formData).then((res) => {
-      if (res.status === 201) {
+    await axios.put(`${baseUrl}/research-record`, formData).then((res) => {
+      if (res.status === 200) {
         alert("تمت العملية بنجاح", "success");
         setRes(res);
       } else {
@@ -26,4 +26,4 @@ async function postData(researchData, files, setRes) {
   }
 }
 
-export default postData;
+export default updateData;

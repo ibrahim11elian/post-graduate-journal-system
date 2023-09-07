@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function SciExamination({ setResearchData, researchData, warn }) {
   const display3rd = () => {
@@ -28,7 +30,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           <Form.Select
             type="text"
             className={`mb-1`}
-            value={researchData?.degree["0"]}
+            value={researchData?.degree["0"] || ""}
             onChange={(e) => {
               const selectedValue = e.target.value;
               setResearchData({
@@ -62,7 +64,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                   : "invalid-input"
                 : ""
             }
-            value={researchData.judge_namee["0"]}
+            value={researchData.judge_namee["0"] || ""}
             onChange={(e) =>
               setResearchData({
                 ...researchData,
@@ -87,7 +89,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                 : ""
             }
             type="number"
-            value={researchData.judge_letter["0"]}
+            value={researchData.judge_letter["0"] || ""}
             onChange={(e) =>
               setResearchData({
                 ...researchData,
@@ -102,32 +104,34 @@ function SciExamination({ setResearchData, researchData, warn }) {
 
         <Form.Group className="col">
           <Form.Label> تاريخ الإرسال </Form.Label>
-          <Form.Control
+          <DatePicker
             className={
               warn
                 ? researchData.letter_date && researchData.letter_date["0"]
-                  ? ""
-                  : "invalid-input"
-                : ""
+                  ? "form-control"
+                  : "invalid-input form-control"
+                : "form-control"
             }
-            type="date"
-            value={researchData.letter_date["0"]}
-            onChange={(e) =>
+            selected={researchData.letter_date["0"] || ""}
+            dateFormat="dd/MM/yyyy" // Set the desired format here
+            isClearable
+            placeholderText="DD/MM/YYY"
+            onChange={(e) => {
               setResearchData({
                 ...researchData,
                 letter_date: {
                   ...researchData["letter_date"],
-                  0: e.target.value,
+                  0: e,
                 },
-              })
-            }
+              });
+            }}
           />
         </Form.Group>
         <Form.Group className="col">
           <Form.Label>النتيجة</Form.Label>
           <Form.Select
             type="text"
-            value={researchData.exmn_result["0"]}
+            value={researchData.exmn_result["0"] || ""}
             className={`mb-1 ${
               warn ? (researchData.result ? "" : "invalid-input") : ""
             }`}
@@ -166,7 +170,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           <Form.Select
             type="text"
             className={`mb-1`}
-            value={researchData?.degree["1"]}
+            value={researchData?.degree["1"] || ""}
             onChange={(e) => {
               const selectedValue = e.target.value;
               setResearchData({
@@ -199,7 +203,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                   : "invalid-input"
                 : ""
             }
-            value={researchData.judge_namee["1"]}
+            value={researchData.judge_namee["1"] || ""}
             onChange={(e) =>
               setResearchData({
                 ...researchData,
@@ -223,7 +227,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                 : ""
             }
             type="number"
-            value={researchData.judge_letter["1"]}
+            value={researchData.judge_letter["1"] || ""}
             onChange={(e) =>
               setResearchData({
                 ...researchData,
@@ -238,32 +242,34 @@ function SciExamination({ setResearchData, researchData, warn }) {
 
         <Form.Group className="col">
           <Form.Label> تاريخ الإرسال </Form.Label>
-          <Form.Control
+          <DatePicker
             className={
               warn
                 ? researchData.letter_date && researchData.letter_date["1"]
-                  ? ""
-                  : "invalid-input"
-                : ""
+                  ? "form-control"
+                  : "invalid-input form-control"
+                : "form-control"
             }
-            type="date"
-            value={researchData.letter_date["1"]}
-            onChange={(e) =>
+            selected={researchData.letter_date["1"] || ""}
+            dateFormat="dd/MM/yyyy" // Set the desired format here
+            isClearable
+            placeholderText="DD/MM/YYY"
+            onChange={(e) => {
               setResearchData({
                 ...researchData,
                 letter_date: {
                   ...researchData["letter_date"],
-                  1: e.target.value,
+                  1: e,
                 },
-              })
-            }
+              });
+            }}
           />
         </Form.Group>
         <Form.Group className="col">
           <Form.Label>النتيجة</Form.Label>
           <Form.Select
             type="text"
-            value={researchData.exmn_result["1"]}
+            value={researchData.exmn_result["1"] || ""}
             className={`mb-1 ${
               warn ? (researchData.result ? "" : "invalid-input") : ""
             }`}
@@ -302,7 +308,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
             <Form.Select
               type="text"
               className={`mb-1`}
-              value={researchData?.degree["2"]}
+              value={researchData?.degree["2"] || ""}
               onChange={(e) => {
                 const selectedValue = e.target.value;
                 setResearchData({
@@ -335,7 +341,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                     : "invalid-input"
                   : ""
               }
-              value={researchData.judge_namee["2"]}
+              value={researchData.judge_namee["2"] || ""}
               onChange={(e) =>
                 setResearchData({
                   ...researchData,
@@ -359,7 +365,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                   : ""
               }
               type="number"
-              value={researchData.judge_letter["2"]}
+              value={researchData.judge_letter["2"] || ""}
               onChange={(e) =>
                 setResearchData({
                   ...researchData,
@@ -374,25 +380,27 @@ function SciExamination({ setResearchData, researchData, warn }) {
 
           <Form.Group className="col">
             <Form.Label> تاريخ الإرسال </Form.Label>
-            <Form.Control
+            <DatePicker
               className={
                 warn
                   ? researchData.letter_date && researchData.letter_date["2"]
-                    ? ""
-                    : "invalid-input"
-                  : ""
+                    ? "form-control"
+                    : "invalid-input form-control"
+                  : "form-control"
               }
-              type="date"
-              value={researchData.letter_date["2"]}
-              onChange={(e) =>
+              selected={researchData.letter_date["2"] || ""}
+              dateFormat="dd/MM/yyyy" // Set the desired format here
+              isClearable
+              placeholderText="DD/MM/YYY"
+              onChange={(e) => {
                 setResearchData({
                   ...researchData,
                   letter_date: {
                     ...researchData["letter_date"],
-                    2: e.target.value,
+                    2: e,
                   },
-                })
-              }
+                });
+              }}
             />
           </Form.Group>
           <Form.Group className="col">
@@ -403,7 +411,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                 warn ? (researchData.result ? "" : "invalid-input") : ""
               }`}
               aria-label="Default select example"
-              value={researchData.exmn_result["2"]}
+              value={researchData.exmn_result["2"] || ""}
               onChange={(e) =>
                 setResearchData({
                   ...researchData,
@@ -458,18 +466,21 @@ function Edit({ researchData, setResearchData, i }) {
 
       <Form.Group className="col">
         <Form.Label> تاريخ إرسال التعديل </Form.Label>
-        <Form.Control
-          type="date"
-          value={researchData.edit_date[i] || ""}
-          onChange={(e) =>
+        <DatePicker
+          className={"form-control"}
+          selected={researchData.edit_date[i] || ""}
+          dateFormat="dd/MM/yyyy" // Set the desired format here
+          isClearable
+          placeholderText="DD/MM/YYY"
+          onChange={(e) => {
             setResearchData({
               ...researchData,
               edit_date: {
                 ...researchData["edit_date"],
-                [i]: e.target.value,
+                [i]: e,
               },
-            })
-          }
+            });
+          }}
         />
       </Form.Group>
     </div>

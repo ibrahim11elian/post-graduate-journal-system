@@ -294,6 +294,16 @@ td .name,
   color: #677289 !important;
 }
 
+.outline {
+  background: transparent !important;
+  border: 2px solid black !important;
+  color: #000 !important;
+}
+
+.outline:hover {
+  background: rgb(133, 188, 240) !important;
+}
+
 .search {
   grid-template-columns: repeat(3, minmax(10rem, 1fr));
   column-gap: 0.5rem;
@@ -335,6 +345,19 @@ td .name,
   background: #000;
 }
 
+.react-datepicker-wrapper {
+  display: block !important;
+}
+
+.react-datepicker__input-container input {
+  text-align: end;
+}
+
+.react-datepicker__close-icon::after {
+  background-color: #00050dc4 !important;
+  border-radius: 10%;
+}
+
 .personal {
   padding: 0 2rem;
 }
@@ -374,6 +397,10 @@ tr .result {
 
 td {
   background: transparent !important;
+}
+
+.tc-btn {
+  display: flex;
 }
 
 @media (max-width: 968px) {
