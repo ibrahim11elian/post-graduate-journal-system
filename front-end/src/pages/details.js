@@ -5,6 +5,7 @@ import Header from "../components/details_header";
 import ExaminationTable from "../components/examination_table";
 import SciExaminationTable from "../components/sci_examination_table";
 import { FaArrowLeft } from "react-icons/fa";
+import { alert } from "../utilities/alert";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -27,6 +28,20 @@ function Details() {
       navigate("/search");
     }
   };
+
+  function deleteItem() {
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("حذف البحث ؟");
+
+    // Check if the user confirmed the action
+    if (isConfirmed) {
+      alert("تمت عملية الحذف بنجاح", "success");
+      navigate("/");
+    } else {
+      // The user canceled the action
+      alert("تم الالغاء", "success");
+    }
+  }
   return (
     <div>
       <Header research={research} />
@@ -50,6 +65,9 @@ function Details() {
           >
             <Button className="add col-auto outline">السيرة الذاتية</Button>
           </a>
+          <Button variant="danger" onClick={() => deleteItem()}>
+            حذف
+          </Button>
           <Button
             className="search-btn"
             variant="outline-secondary"
