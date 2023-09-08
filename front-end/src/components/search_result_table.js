@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import { useNavigate } from "react-router-dom";
 
-function Table({ fetchedData }) {
+function Table({ fetchedData, searchQuery, route }) {
+  const navigate = useNavigate();
   const researchStatus = (research) => {
     if (research.examination.result === "صالح للتحكيم") {
       let validResponses = 0;
@@ -31,6 +32,18 @@ function Table({ fetchedData }) {
       return "جاري الفحص";
     }
   };
+
+  const handleResultClick = (data) => {
+    // Navigate to the details page and pass search query and results as state
+    navigate(`/details`, {
+      state: {
+        data: JSON.stringify(data),
+        searchQuery: JSON.stringify(searchQuery),
+        route: JSON.stringify(route),
+      },
+    });
+  };
+
   return (
     <>
       <Container fluid>
@@ -45,12 +58,12 @@ function Table({ fetchedData }) {
               <th scope="col">البريد الإلكتروني</th>
               <th scope="col rounded-end">حالة البحث</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {typeof fetchedData.data === "object" &&
-            Object.keys(fetchedData.data).includes("data")
-              ? fetchedData.data.data.map((e) => {
+            {typeof fetchedData.data === "object"
+              ? fetchedData.data.map((e) => {
                   return (
                     <tr key={e.researcher.id}>
                       <td>
@@ -72,21 +85,27 @@ function Table({ fetchedData }) {
                       <td>{e.researcher.phone}</td>
                       <td>{e.researcher.email}</td>
                       <td>{researchStatus(e)}</td>
-                      <td className="tc-btn">
-                        <Link
-                          to={`/details?data=${encodeURIComponent(
-                            JSON.stringify(e)
-                          )}`}
+                      <td>
+                        <Button
+                          className="btn-details"
+                          onClick={() => handleResultClick(e)}
                         >
-                          <Button className="btn-details">تفاصيل</Button>
-                        </Link>
-                        <Link
-                          to={`/edit?data=${encodeURIComponent(
-                            JSON.stringify(e)
-                          )}`}
+                          تفاصيل
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          className="btn-details"
+                          onClick={() =>
+                            navigate(`/edit`, {
+                              state: {
+                                data: JSON.stringify(e),
+                              },
+                            })
+                          }
                         >
-                          <Button className="btn-details">تعديل</Button>
-                        </Link>
+                          تعديل
+                        </Button>
                       </td>
                     </tr>
                   );

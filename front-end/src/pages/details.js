@@ -1,9 +1,10 @@
 import React from "react";
 import Button from "react-bootstrap/esm/Button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/details_header";
 import ExaminationTable from "../components/examination_table";
 import SciExaminationTable from "../components/sci_examination_table";
+import { FaArrowLeft } from "react-icons/fa";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -12,8 +13,20 @@ function extractFileName(path) {
 
 function Details() {
   const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const research = JSON.parse(decodeURIComponent(query.get("data")));
+  const data = location.state || {};
+  const research = JSON.parse(data.data || "null");
+
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    if (data.searchQuery && data.route) {
+      navigate("/search", {
+        state: { searchQuery: data.searchQuery, route: data.route },
+      }); // Go back to the previous page
+    } else {
+      navigate("/search");
+    }
+  };
   return (
     <div>
       <Header research={research} />
@@ -21,6 +34,7 @@ function Details() {
         <h3 className="full-grid-width up-border mb-3 head">
           المعلومات الشخصية
         </h3>
+
         <div>
           <div className="phone">
             <span>الهاتف: </span> {research.researcher.phone}
@@ -36,6 +50,13 @@ function Details() {
           >
             <Button className="add col-auto outline">السيرة الذاتية</Button>
           </a>
+          <Button
+            className="search-btn"
+            variant="outline-secondary"
+            onClick={() => goBack()}
+          >
+            <FaArrowLeft /> الرجوع
+          </Button>
         </div>
       </div>
 

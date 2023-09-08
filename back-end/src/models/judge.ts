@@ -2,8 +2,8 @@ import { db } from '../database';
 
 export type JUDGE = {
   id?: number;
-  judge_name: string;
-  judge_degree: string;
+  judge_name?: string;
+  judge_degree?: string;
 };
 
 export class Judge {

@@ -2,20 +2,25 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import { alert } from "../utilities/alert";
+import { FaSearch } from "react-icons/fa";
 
 function SearchForm({
-  route,
+  handleSearch,
+  loading,
   searchQuery,
-  setParams,
-  setRoute,
   setResearchQuery,
+  route,
+  setRoute,
 }) {
   const HandleSubmit = (e) => {
     e.preventDefault();
-    if (!route) {
-      alert("من فضلك اختر نوع البحث");
+    if (!searchQuery) {
+      alert("من فضلك ادخل نص البحث", "warning");
+    } else if (!route) {
+      alert("من فضلك اختر نوع البحث", "warning");
     } else {
-      setParams(`/api/${route}/${searchQuery}`);
+      handleSearch(`/api/${route}/${searchQuery}`);
     }
   };
   return (
@@ -32,25 +37,41 @@ function SearchForm({
       <Form.Select
         type="text"
         className="mb-1"
+        defaultValue={routes[route]}
         aria-label="Default select example"
         onChange={(e) => setRoute(e.target.value)}
       >
         <option value="none" hidden>
           اختيارات البحث
         </option>
-        <option value="researcher" defaultValue>
-          البحث عن باحث
-        </option>
+        <option value="researcher">البحث عن باحث</option>
       </Form.Select>
-      <Form.Control
-        className="search-input"
-        type="text"
-        placeholder="ابحث بإسم الباحث"
-        value={searchQuery}
-        onChange={(e) => setResearchQuery(e.target.value)}
-      ></Form.Control>
+      <div className="d-flex">
+        <Form.Control
+          className="search-input"
+          type="text"
+          placeholder="ابحث بإسم الباحث"
+          value={searchQuery}
+          onChange={(e) => setResearchQuery(e.target.value)}
+        ></Form.Control>
+        {loading ? (
+          <div className="loading-spinner"></div>
+        ) : (
+          <Button
+            variant="outline-secondary"
+            onClick={(e) => HandleSubmit(e)}
+            className="search-btn"
+          >
+            <FaSearch />
+          </Button>
+        )}
+      </div>
     </Form>
   );
 }
+
+const routes = {
+  researcher: "البحث عن باحث",
+};
 
 export default SearchForm;

@@ -75,9 +75,7 @@ function AddResearch() {
 
   useEffect(() => {
     res
-      ? navigate(
-          `/details?data=${encodeURIComponent(JSON.stringify(res.data.data))}`
-        )
+      ? navigate(`/details`, { state: { data: JSON.stringify(res.data.data) } })
       : null;
   }, [res, navigate]);
 
@@ -237,6 +235,9 @@ function AddResearch() {
             السابق
           </Button>
         ) : null}
+        <Link className="col" to={"/search"}>
+          <Button variant="danger">الغاء</Button>
+        </Link>
       </div>
     </div>
   );

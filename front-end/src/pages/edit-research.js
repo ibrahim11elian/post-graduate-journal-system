@@ -24,8 +24,8 @@ function extractFileName(path) {
 
 function EditResearch() {
   const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const data = JSON.parse(decodeURIComponent(query.get("data")));
+  const research = location.state || {};
+  const data = JSON.parse(research.data || "null");
   const fileName = extractFileName(data.researcher.cv);
   const pdf = extractFileName(data.research.research_pdf);
   const en = extractFileName(data.research.research_summary || "");
@@ -135,11 +135,10 @@ function EditResearch() {
 
   useEffect(() => {
     res
-      ? navigate(
-          `/details?data=${encodeURIComponent(JSON.stringify(res.data.data))}`
-        )
+      ? navigate(`/details`, { state: { data: JSON.stringify(res.data.data) } })
       : null;
   }, [res, navigate]);
+
   // Validation functions for each step
   const stepValidationFunctions = [
     () => personalValid(researchData, files, setWarn, setEmailValid),
@@ -291,6 +290,9 @@ function EditResearch() {
             السابق
           </Button>
         ) : null}
+        <Link className="col" to={"/search"}>
+          <Button variant="danger">الغاء</Button>
+        </Link>
       </div>
     </div>
   );

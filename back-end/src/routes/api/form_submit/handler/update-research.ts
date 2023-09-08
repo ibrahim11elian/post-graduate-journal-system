@@ -4,7 +4,10 @@ import { Journal } from '../../../../models/journal';
 import { Examination } from '../../../../models/examination';
 import { SciExamination } from '../../../../models/sciExamination';
 import { Judge } from '../../../../models/judge';
-import { ExamenDetails } from '../../../../models/examen_details';
+import {
+  ExamenDetails,
+  EXAMEN_DETAILS,
+} from '../../../../models/examen_details';
 import { Request, Response } from 'express';
 import { db } from '../../../../database';
 
@@ -122,12 +125,16 @@ async function updateResearch(req: Request, res: Response) {
     const sciExamination = await sciExaminationModel.showByResearchId(
       research_id
     );
-
-    if (final_copy) {
-      const sciExamination_id: number = sciExamination?.id as number;
-      await sciExaminationModel.update(sciExamination_id, {
-        final_copy,
-      });
+    let sciExamination_id = sciExamination?.id as number;
+    if (!sciExamination) {
+      const sciExamination = await sciExaminationModel.create(research_id);
+      sciExamination_id = sciExamination?.id as number;
+    } else {
+      if (final_copy) {
+        await sciExaminationModel.update(sciExamination_id, {
+          final_copy,
+        });
+      }
     }
 
     const judgeModel = new Judge();
@@ -138,28 +145,52 @@ async function updateResearch(req: Request, res: Response) {
     for (const i in judge_namee) {
       const judge_name = judge_namee[i];
       const judge_degree = degree[i];
-      await judgeModel.update(judge_id[i], {
-        judge_name,
-        degree: judge_degree,
-      });
+      const oldJudge = await judgeModel.show(judge_id[i]);
+      if (oldJudge) {
+        await judgeModel.update(judge_id[i], {
+          judge_name,
+          degree: judge_degree,
+        });
 
-      const exDetails = {
-        judge_letter: judge_letter[i],
-        letter_date: letter_date[i],
-        result: exmn_result[i],
-        edit_date: edit_date[i],
-        edit_letter: edit_letter[i],
-      };
+        const exDetails = {
+          judge_letter: judge_letter[i],
+          letter_date: letter_date[i],
+          result: exmn_result[i],
+          edit_date: edit_date[i],
+          edit_letter: edit_letter[i],
+        };
 
-      const examenDetails = await examenDetailsModel.update(
-        examination_details_id[i],
-        { ...exDetails }
-      );
-      judgeExamination.push({
-        judge_Name: judge_name,
-        judge_degree: judge_degree,
-        examination_details: { ...examenDetails },
-      });
+        const examenDetails = await examenDetailsModel.update(
+          examination_details_id[i],
+          { ...exDetails }
+        );
+        judgeExamination.push({
+          judge_Name: judge_name,
+          judge_degree: judge_degree,
+          examination_details: { ...examenDetails },
+        });
+      } else {
+        const newJudge = await judgeModel.create({
+          judge_name,
+          judge_degree: judge_degree,
+        });
+        const judge_id = newJudge?.id as number;
+        const exDetails: EXAMEN_DETAILS = {
+          judge_letter: judge_letter[i],
+          letter_date: letter_date[i],
+          result: exmn_result[i],
+          edit_date: edit_date[i],
+          edit_letter: edit_letter[i],
+          judge_id: judge_id,
+          sci_Examination_id: sciExamination_id as number,
+        };
+        const examenDetails = await examenDetailsModel.create(exDetails);
+        judgeExamination.push({
+          judge_Name: judge_name,
+          judge_degree: judge_degree,
+          examination_details: { ...examenDetails },
+        });
+      }
     }
 
     // If all insertions succeed, commit the transaction

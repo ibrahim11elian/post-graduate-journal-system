@@ -280,6 +280,11 @@ td .name,
   color: #677289;
 }
 
+.search-btn {
+  height: 90% !important;
+  border: none !important;
+}
+
 .btn-details {
   height: 30px;
   padding: 3px 15px !important;
@@ -292,6 +297,26 @@ td .name,
   background: #f3f6f9 !important;
   border: none !important;
   color: #677289 !important;
+}
+
+/* loading.css */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
 }
 
 .outline {
@@ -397,10 +422,6 @@ tr .result {
 
 td {
   background: transparent !important;
-}
-
-.tc-btn {
-  display: flex;
 }
 
 @media (max-width: 968px) {
