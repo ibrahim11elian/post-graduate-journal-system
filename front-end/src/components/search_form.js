@@ -45,6 +45,7 @@ function SearchForm({
           اختيارات البحث
         </option>
         <option value="researcher">البحث عن باحث</option>
+        <option value="research">البحث بعنوان بحث</option>
       </Form.Select>
       <div className="d-flex">
         <Form.Control
@@ -72,6 +73,7 @@ function SearchForm({
 
 const routes = {
   researcher: "البحث عن باحث",
+  research: "البحث بعنوان بحث",
 };
 
 export default SearchForm;

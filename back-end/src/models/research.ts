@@ -10,6 +10,26 @@ export type RESEARCH = {
   researcher_id: number;
 };
 
+// The normalize('NFKD') method ensures that all Arabic characters are decomposed into their basic components, and the replace method removes any combining diacritical marks (like harakat) from the text.
+function normalizeArabicText(text: string) {
+  return text.normalize('NFKD').replace(/[\u064B-\u065F]/g, '');
+}
+
+function addDoubleAmpersand(inputText: string) {
+  const words = inputText.split(' ');
+  let resultText = '';
+
+  for (let i = 0; i < words.length; i++) {
+    resultText += words[i];
+
+    if (i < words.length - 1) {
+      resultText += ' & ';
+    }
+  }
+
+  return resultText;
+}
+
 export class Research {
   async create(research: RESEARCH): Promise<RESEARCH | null> {
     try {
@@ -68,10 +88,14 @@ export class Research {
 
   async show(title: RESEARCH['research_title']): Promise<RESEARCH[] | null> {
     const conn = await db.connect();
-    try {
-      const sql = 'SELECT * FROM research WHERE research_title = $1';
+    const normalizedQuery = addDoubleAmpersand(normalizeArabicText(title));
+    console.log(normalizedQuery);
 
-      const result = await conn.query(sql, [title]);
+    try {
+      const sql = `SELECT * FROM research WHERE to_tsvector('arabic', unaccent(research_title)) @@ to_tsquery('arabic', unaccent($1));`;
+
+      const result = await conn.query(sql, [`${normalizedQuery}`]);
+      console.log(result.rows);
 
       return result.rows;
     } catch (error) {
