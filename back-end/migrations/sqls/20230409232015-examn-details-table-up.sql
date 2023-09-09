@@ -5,6 +5,6 @@ create table examn_details (
     edit_letter VARCHAR(50),
     edit_date VARCHAR(100),
     result VARCHAR(50),
-	judge_id INT REFERENCES the_judge(id),
-    sci_examination_id INT REFERENCES sci_examination(id)
+	judge_id INT REFERENCES the_judge(id) ON DELETE CASCADE,
+    sci_examination_id INT REFERENCES sci_examination(id) ON DELETE CASCADE
 );

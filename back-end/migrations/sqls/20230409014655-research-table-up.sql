@@ -5,5 +5,5 @@ create table research (
 	research_summary VARCHAR(300),
 	research_summary_ar VARCHAR(300),
 	research_date VARCHAR(100) NOT NULL,
-	researcher_id INT REFERENCES researcher(id)
+	researcher_id INT REFERENCES researcher(id) ON DELETE CASCADE
 );

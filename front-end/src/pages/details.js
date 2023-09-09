@@ -6,6 +6,7 @@ import ExaminationTable from "../components/examination_table";
 import SciExaminationTable from "../components/sci_examination_table";
 import { FaArrowLeft } from "react-icons/fa";
 import { alert } from "../utilities/alert";
+import deleteResearch from "../utilities/delete-research";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -25,17 +26,26 @@ function Details() {
         state: { searchQuery: data.searchQuery, route: data.route },
       }); // Go back to the previous page
     } else {
-      navigate("/search");
+      navigate("/");
     }
   };
 
-  function deleteItem() {
+  async function deleteItem() {
+    let judgeIds;
+    if (research.judgeExamination) {
+      // eslint-disable-next-line array-callback-return
+      judgeIds = research.judgeExamination.map((e) => {
+        if (e.examination_details) {
+          return e.examination_details.judge_id;
+        }
+      });
+    }
+
     // Display a confirmation dialog
     const isConfirmed = window.confirm("حذف البحث ؟");
-
     // Check if the user confirmed the action
     if (isConfirmed) {
-      alert("تمت عملية الحذف بنجاح", "success");
+      await deleteResearch(research.researcher.id, judgeIds);
       navigate("/");
     } else {
       // The user canceled the action
@@ -65,6 +75,18 @@ function Details() {
           >
             <Button className="add col-auto outline">السيرة الذاتية</Button>
           </a>
+          <Button
+            className="btn-details"
+            onClick={() =>
+              navigate(`/edit`, {
+                state: {
+                  data: JSON.stringify(research),
+                },
+              })
+            }
+          >
+            تعديل
+          </Button>
           <Button variant="danger" onClick={() => deleteItem()}>
             حذف
           </Button>
@@ -73,7 +95,8 @@ function Details() {
             variant="outline-secondary"
             onClick={() => goBack()}
           >
-            <FaArrowLeft /> الرجوع
+            <FaArrowLeft />{" "}
+            {data.searchQuery && data.route ? "الرجوع" : "الرئيسية"}
           </Button>
         </div>
       </div>

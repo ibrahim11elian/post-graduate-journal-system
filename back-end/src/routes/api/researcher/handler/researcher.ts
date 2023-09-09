@@ -162,6 +162,7 @@ async function updateResearcher(req: Request, res: Response) {
 // Delete a researcher by ID
 async function deleteResearcher(req: Request, res: Response) {
   const id = parseInt(req.params.id);
+  const judgeId = req.body.judgeId;
 
   try {
     const existingResearcher = await researcher.showById(id);
@@ -174,6 +175,11 @@ async function deleteResearcher(req: Request, res: Response) {
 
     await researcher.delete(id);
 
+    if (judgeId) {
+      judgeId.forEach(async (e: number) => {
+        await judge.delete(e);
+      });
+    }
     res.status(200).json({
       status: 'success',
       message: `Researcher with ID ${id} has been deleted`,

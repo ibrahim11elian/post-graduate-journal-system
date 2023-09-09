@@ -50,7 +50,7 @@ function SearchForm({
         <Form.Control
           className="search-input"
           type="text"
-          placeholder="ابحث بإسم الباحث"
+          placeholder="ادخل محتوى البحث"
           value={searchQuery}
           onChange={(e) => setResearchQuery(e.target.value)}
         ></Form.Control>

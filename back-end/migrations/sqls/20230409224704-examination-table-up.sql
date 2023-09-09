@@ -5,5 +5,5 @@ create table examination (
 	incoming_letter VARCHAR(50),
 	incoming_date VARCHAR(100),
     result VARCHAR(50),
-	research_id INT REFERENCES research(id)
+	research_id INT REFERENCES research(id) ON DELETE CASCADE
 );

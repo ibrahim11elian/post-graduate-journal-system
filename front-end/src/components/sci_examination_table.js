@@ -17,7 +17,7 @@ function SciExaminationTable({ research }) {
                   <td>
                     <p className="td">
                       <span>اسم المحكم :</span>
-                      {`${e.judge_degree}/ ${e.judge_Name}`}
+                      {`${e.judge_degree || ""}/ ${e.judge_Name || ""}`}
                     </p>
                     <p className="td">
                       <span>رقم الخطاب:</span>
