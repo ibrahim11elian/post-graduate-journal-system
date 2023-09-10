@@ -60,6 +60,23 @@ export class Journal {
     }
   }
 
+  async showByEdition(
+    number: JOURNAL['journal_edition']
+  ): Promise<JOURNAL[] | null> {
+    const conn = await db.connect();
+    try {
+      const sql = 'SELECT * FROM journal WHERE journal_edition = $1';
+
+      const result = await conn.query(sql, [number]);
+
+      return result.rows;
+    } catch (error) {
+      throw new Error(`unable to retrieve journal: ${error}`);
+    } finally {
+      conn.release();
+    }
+  }
+
   async showByResearchId(ResearchId: number): Promise<JOURNAL | null> {
     const conn = await db.connect();
     try {
