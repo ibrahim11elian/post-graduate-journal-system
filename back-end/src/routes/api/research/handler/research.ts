@@ -48,7 +48,7 @@ async function getResearch(req: Request, res: Response) {
     let final_copy: string;
     // Start the transaction
     await db.query('BEGIN');
-    let researchData: RESEARCH[] | null;
+    let researchData: RESEARCH | RESEARCH[] | null;
 
     if (isNaN(Number(identifier))) {
       researchData = await research.show(identifier);
@@ -108,14 +108,14 @@ async function getResearch(req: Request, res: Response) {
     } else {
       const id = parseInt(identifier);
       researchData = await research.showById(id);
-      if (!researchData || researchData.length === 0) {
+      if (!researchData) {
         return res
           .status(404)
           .json({ status: 'error', message: 'Research not found' });
       }
       // If all insertions succeed, commit the transaction
       await db.query('COMMIT');
-      res.status(200).json({ status: 'success', data: researchData[0] });
+      res.status(200).json({ status: 'success', data: researchData });
     }
   } catch (error) {
     // If any insertion fails, rollback the transaction

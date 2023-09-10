@@ -71,14 +71,14 @@ export class Research {
     }
   }
 
-  async showById(id: RESEARCH['id']): Promise<RESEARCH[] | null> {
+  async showById(id: RESEARCH['id']): Promise<RESEARCH | null> {
     const conn = await db.connect();
     try {
       const sql = 'SELECT * FROM research WHERE id = $1';
 
       const result = await conn.query(sql, [id]);
 
-      return result.rows;
+      return result.rows[0];
     } catch (error) {
       throw new Error(`unable to retrieve research: ${error}`);
     } finally {
@@ -89,13 +89,11 @@ export class Research {
   async show(title: RESEARCH['research_title']): Promise<RESEARCH[] | null> {
     const conn = await db.connect();
     const normalizedQuery = addDoubleAmpersand(normalizeArabicText(title));
-    console.log(normalizedQuery);
 
     try {
       const sql = `SELECT * FROM research WHERE to_tsvector('arabic', unaccent(research_title)) @@ to_tsquery('arabic', unaccent($1));`;
 
       const result = await conn.query(sql, [`${normalizedQuery}`]);
-      console.log(result.rows);
 
       return result.rows;
     } catch (error) {
