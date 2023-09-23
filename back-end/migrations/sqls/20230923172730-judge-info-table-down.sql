@@ -1,0 +1,1 @@
+DROP TABLE judge_info;
