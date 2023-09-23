@@ -6,6 +6,7 @@ import Error from "./pages/error";
 import Details from "./pages/details";
 import { ToastContainer } from "react-toastify";
 import EditResearch from "./pages/edit-research";
+import JudgeInfo from "./pages/judge-info";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/details" element={<Details />} />
         <Route path="/edit" element={<EditResearch />} />
+        <Route path="/judge" element={<JudgeInfo />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </div>

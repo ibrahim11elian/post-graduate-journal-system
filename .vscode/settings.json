@@ -56,5 +56,6 @@
     "editor.formatOnType": true
   },
   "js/ts.implicitProjectConfig.module": "ES6",
-  "figma.autocompleteBlocks": true
+  "figma.autocompleteBlocks": true,
+  "cSpell.words": ["JUDGEINFO"]
 }

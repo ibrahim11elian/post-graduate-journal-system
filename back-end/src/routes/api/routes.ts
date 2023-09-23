@@ -9,6 +9,7 @@ import examen_details from './examen_details/handler/examen_details';
 import handleFormSubmission from './form_submit/handler/add-research';
 import uploadFile from '../../middleware/upload-files';
 import updateResearch from './form_submit/handler/update-research';
+import judge_info from './judge_info/handler/judge_info';
 
 const route = Router();
 
@@ -53,6 +54,15 @@ route.get('/judge', judge.index);
 route.get('/judge/:identifier', judge.getJudge);
 route.put('/judge/:id', judge.updateJudge);
 route.delete('/judge/:id', judge.deleteJudge);
+
+// ===========================================================
+
+// judgeInfo Endpoints
+route.post('/judge-info', judge_info.create);
+route.get('/judge-info', judge_info.index);
+route.get('/judge-info/:spec', judge_info.getJudgeInfo);
+route.put('/judge-info/:id', judge_info.updateJudgeInfo);
+route.delete('/judge-info/:id', judge_info.deleteJudgeInfo);
 
 // ===========================================================
 

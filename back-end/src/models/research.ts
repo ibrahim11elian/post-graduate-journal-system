@@ -93,7 +93,7 @@ export class Research {
     try {
       const sql = `SELECT * FROM research WHERE to_tsvector('arabic', unaccent(research_title)) @@ to_tsquery('arabic', unaccent($1));`;
 
-      const result = await conn.query(sql, [`${normalizedQuery}`]);
+      const result = await conn.query(sql, [normalizedQuery]);
 
       return result.rows;
     } catch (error) {
