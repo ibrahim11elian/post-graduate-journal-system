@@ -2,6 +2,10 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { spec } from "../pages/judge-info";
+import { useFetch } from "../hooks/usefetch";
+
+const baseUrl = "http://localhost:3000";
 
 function SciExamination({ setResearchData, researchData, warn }) {
   const display3rd = () => {
@@ -21,10 +25,73 @@ function SciExamination({ setResearchData, researchData, warn }) {
     }
   };
 
+  // const { fetchedData, fetchData } = useFetch();
+  // const handleSearch = (params) => {
+  //   fetchData(`${baseUrl}${params}`);
+  // };
   return (
     <>
       <h3 className="full-grid-width up-border mb-3">الفحص العلمي</h3>
       <div className="full-grid-width row mb-2">
+        {/* <Form.Group className="col">
+          <Form.Label>التخصص</Form.Label>
+          <Form.Select
+            type="text"
+            // value={}
+            onChange={(e) => {
+              const selectedValue = e.target.value;
+              handleSearch(`/api/judge-info/${selectedValue}`);
+            }}
+            aria-label="Default select example"
+          >
+            <option value="">اختر التخصص العلمي</option>
+            {spec.map((e, i) => {
+              return (
+                <option key={i} value={e}>
+                  {e}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="col">
+          <Form.Label>المحكم الأول</Form.Label>
+          <Form.Select
+            type="text"
+            className={`mb-1`}
+            value={researchData?.judge_namee["0"]}
+            onChange={(e) => {
+              const [degree, name] = e.target.value.split("/");
+              setResearchData({
+                ...researchData,
+                degree: {
+                  ...researchData["degree"],
+                  0: degree,
+                },
+                judge_namee: {
+                  ...researchData["judge_namee"],
+                  0: name,
+                },
+              });
+            }}
+            aria-label="Default select example"
+          >
+            <option value="" hidden>
+              اختر المحكم
+            </option>
+            {fetchedData.data
+              ? fetchedData.data.map((ele) => {
+                  return (
+                    <option
+                      key={ele.id}
+                      value={`${ele.degree}/ ${ele.j_name}`}
+                    >{`${ele.degree}/ ${ele.j_name}`}</option>
+                  );
+                })
+              : null}
+          </Form.Select>
+        </Form.Group> */}
         <Form.Group className="col">
           <Form.Label>الدرجة العلمية</Form.Label>
           <Form.Select
