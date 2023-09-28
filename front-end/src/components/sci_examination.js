@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { spec } from "../pages/judge-info";
 import { useFetch } from "../hooks/usefetch";
+import Button from "react-bootstrap/Button";
+import { AiOutlineMore } from "react-icons/ai";
 
 const baseUrl = "http://localhost:3000";
 
 function SciExamination({ setResearchData, researchData, warn }) {
+  const [chose, setChose] = useState({
+    0: researchData.judge_namee["0"] ? false : true,
+    1: researchData.judge_namee["1"] ? false : true,
+    2: researchData.judge_namee["2"] ? false : true,
+  });
+
   const display3rd = () => {
     if (
       researchData.exmn_result["0"] === "غير صالح للنشر" &&
@@ -25,137 +33,97 @@ function SciExamination({ setResearchData, researchData, warn }) {
     }
   };
 
-  // const { fetchedData, fetchData } = useFetch();
-  // const handleSearch = (params) => {
-  //   fetchData(`${baseUrl}${params}`);
-  // };
+  const { fetchedData, fetchData } = useFetch();
+  const handleSearch = (params) => {
+    fetchData(`${baseUrl}${params}`);
+  };
+
+  useEffect(() => {
+    researchData.judge_namee["0"]
+      ? setChose({ ...chose, 0: false })
+      : setChose({ ...chose, 0: true });
+
+    researchData.judge_namee["1"]
+      ? setChose({ ...chose, 1: false })
+      : setChose({ ...chose, 1: true });
+
+    researchData.judge_namee["2"]
+      ? setChose({ ...chose, 2: false })
+      : setChose({ ...chose, 2: true });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <h3 className="full-grid-width up-border mb-3">الفحص العلمي</h3>
-      <div className="full-grid-width row mb-2">
-        {/* <Form.Group className="col">
-          <Form.Label>التخصص</Form.Label>
-          <Form.Select
-            type="text"
-            // value={}
-            onChange={(e) => {
-              const selectedValue = e.target.value;
-              handleSearch(`/api/judge-info/${selectedValue}`);
-            }}
-            aria-label="Default select example"
-          >
-            <option value="">اختر التخصص العلمي</option>
-            {spec.map((e, i) => {
-              return (
-                <option key={i} value={e}>
-                  {e}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Form.Group>
+      <div className="full-grid-width row mb-2 align-items-center">
+        {chose["0"] ? (
+          <>
+            <Specialization handleSearch={handleSearch} />
 
-        <Form.Group className="col">
-          <Form.Label>المحكم الأول</Form.Label>
-          <Form.Select
-            type="text"
-            className={`mb-1`}
-            value={researchData?.judge_namee["0"]}
-            onChange={(e) => {
-              const [degree, name] = e.target.value.split("/");
-              setResearchData({
-                ...researchData,
-                degree: {
-                  ...researchData["degree"],
-                  0: degree,
-                },
-                judge_namee: {
-                  ...researchData["judge_namee"],
-                  0: name,
-                },
-              });
-            }}
-            aria-label="Default select example"
-          >
-            <option value="" hidden>
-              اختر المحكم
-            </option>
-            {fetchedData.data
-              ? fetchedData.data.map((ele) => {
-                  return (
-                    <option
-                      key={ele.id}
-                      value={`${ele.degree}/ ${ele.j_name}`}
-                    >{`${ele.degree}/ ${ele.j_name}`}</option>
-                  );
-                })
-              : null}
-          </Form.Select>
-        </Form.Group> */}
-        <Form.Group className="col">
-          <Form.Label>الدرجة العلمية</Form.Label>
-          <Form.Select
-            type="text"
-            className={`mb-1`}
-            value={researchData?.degree["0"] || ""}
-            onChange={(e) => {
-              const selectedValue = e.target.value;
-              setResearchData({
-                ...researchData,
-                degree: {
-                  ...researchData["degree"],
-                  0:
-                    selectedValue === "اختر الدرجة العلمية"
-                      ? ""
-                      : selectedValue,
-                },
-              });
-            }}
-            aria-label="Default select example"
-          >
-            <option value={null}>اختر الدرجة العلمية</option>
-            <option value="لواء أستاذ دكتور">لواء أستاذ دكتور</option>
-            <option value="عميد أستاذ دكتور">عميد أستاذ دكتور</option>
-            <option value="عقيد أستاذ دكتور">عقيد أستاذ دكتور</option>
-            <option value="أستاذ دكتور">أستاذ دكتور</option>
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className="col">
-          <Form.Label>إسم المحكم الأول</Form.Label>
-          <Form.Control
-            className={
-              warn
-                ? researchData.judge_namee &&
-                  researchData.judge_namee["0"].trim()
-                  ? ""
-                  : "invalid-input"
-                : ""
-            }
-            value={researchData.judge_namee["0"] || ""}
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                judge_namee: {
-                  ...researchData["judge_namee"],
-                  0: e.target.value,
-                },
-              })
-            }
-          />
-        </Form.Group>
+            <Form.Group className="col">
+              <Form.Label>المحكم الأول</Form.Label>
+              <Form.Select
+                type="text"
+                className={`mb-1`}
+                onChange={(e) => {
+                  const [degree, name] = e.target.value.split("/");
+                  setResearchData({
+                    ...researchData,
+                    degree: {
+                      ...researchData["degree"],
+                      0: degree,
+                    },
+                    judge_namee: {
+                      ...researchData["judge_namee"],
+                      0: name,
+                    },
+                  });
+                }}
+                aria-label="Default select example"
+              >
+                <option value="" hidden>
+                  اختر المحكم
+                </option>
+                {fetchedData.data
+                  ? fetchedData.data.map((ele) => {
+                      return (
+                        <option
+                          key={ele.id}
+                          value={`${ele.degree}/ ${ele.j_name}`}
+                        >{`${ele.degree}/ ${ele.j_name}`}</option>
+                      );
+                    })
+                  : null}
+              </Form.Select>
+            </Form.Group>
+          </>
+        ) : (
+          <>
+            <Button
+              style={{
+                width: "fit-content",
+              }}
+              className="mt-4 btn-details"
+              onClick={() => setChose({ ...chose, 0: true })}
+            >
+              <AiOutlineMore color="#0d6efd" size={"1.5rem"} />
+            </Button>
+            <Form.Group className="col">
+              <Form.Label>المحكم الأول</Form.Label>
+              <Form.Control
+                value={`${researchData?.degree["0"]}/ ${researchData?.judge_namee["0"]}`}
+                disabled
+              />
+            </Form.Group>
+          </>
+        )}
 
         <Form.Group className="col">
           <Form.Label> رقم الخطاب </Form.Label>
           <Form.Control
-            className={
-              warn
-                ? researchData.judge_letter &&
-                  researchData.judge_letter["0"].trim()
-                  ? ""
-                  : "invalid-input"
-                : ""
-            }
-            type="number"
+            type="text"
             value={researchData.judge_letter["0"] || ""}
             onChange={(e) =>
               setResearchData({
@@ -172,14 +140,8 @@ function SciExamination({ setResearchData, researchData, warn }) {
         <Form.Group className="col">
           <Form.Label> تاريخ الإرسال </Form.Label>
           <DatePicker
-            className={
-              warn
-                ? researchData.letter_date && researchData.letter_date["0"]
-                  ? "form-control"
-                  : "invalid-input form-control"
-                : "form-control"
-            }
             selected={researchData.letter_date["0"] || ""}
+            className="form-control"
             dateFormat="dd/MM/yyyy" // Set the desired format here
             isClearable
             placeholderText="DD/MM/YYY"
@@ -199,9 +161,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           <Form.Select
             type="text"
             value={researchData.exmn_result["0"] || ""}
-            className={`mb-1 ${
-              warn ? (researchData.result ? "" : "invalid-input") : ""
-            }`}
+            className={`mb-1`}
             aria-label="Default select example"
             onChange={(e) =>
               setResearchData({
@@ -232,68 +192,80 @@ function SciExamination({ setResearchData, researchData, warn }) {
       ) : null}
 
       <div className="full-grid-width row mb-2">
-        <Form.Group className="col">
-          <Form.Label>الدرجة العلمية</Form.Label>
-          <Form.Select
-            type="text"
-            className={`mb-1`}
-            value={researchData?.degree["1"] || ""}
-            onChange={(e) => {
-              const selectedValue = e.target.value;
-              setResearchData({
-                ...researchData,
-                degree: {
-                  ...researchData["degree"],
-                  1:
-                    selectedValue === "اختر الدرجة العلمية"
+        {chose["1"] ? (
+          <>
+            <Specialization handleSearch={handleSearch} />
+
+            <Form.Group className="col">
+              <Form.Label>المحكم الثاني</Form.Label>
+              <Form.Select
+                type="text"
+                className={`mb-1`}
+                onChange={(e) => {
+                  const [degree, name] = e.target.value.split("/");
+                  setResearchData({
+                    ...researchData,
+                    degree: {
+                      ...researchData["degree"],
+                      1: degree,
+                    },
+                    judge_namee: {
+                      ...researchData["judge_namee"],
+                      1: name,
+                    },
+                  });
+                }}
+                aria-label="Default select example"
+              >
+                <option value="" hidden>
+                  اختر المحكم
+                </option>
+                {fetchedData.data
+                  ? fetchedData.data.map((ele) => {
+                      return (
+                        <option
+                          key={ele.id}
+                          value={`${ele.degree}/ ${ele.j_name}`}
+                        >{`${ele.degree}/ ${ele.j_name}`}</option>
+                      );
+                    })
+                  : null}
+              </Form.Select>
+            </Form.Group>
+          </>
+        ) : (
+          <>
+            <Button
+              style={{
+                width: "fit-content",
+              }}
+              className="mt-4 btn-details"
+              onClick={() => setChose({ ...chose, 1: true })}
+            >
+              <AiOutlineMore color="#0d6efd" size={"1.5rem"} />
+            </Button>
+            <Form.Group className="col">
+              <Form.Label>المحكم الثاني</Form.Label>
+              <Form.Control
+                className={
+                  warn
+                    ? researchData.judge_namee &&
+                      researchData.judge_namee["1"].trim()
                       ? ""
-                      : selectedValue,
-                },
-              });
-            }}
-            aria-label="Default select example"
-          >
-            <option value={null}>اختر الدرجة العلمية</option>
-            <option value="لواء أستاذ دكتور">لواء أستاذ دكتور</option>
-            <option value="عميد أستاذ دكتور">عميد أستاذ دكتور</option>
-            <option value="عقيد أستاذ دكتور">عقيد أستاذ دكتور</option>
-            <option value="أستاذ دكتور">أستاذ دكتور</option>
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className="col">
-          <Form.Label>إسم المحكم الثاني</Form.Label>
-          <Form.Control
-            className={
-              warn
-                ? researchData.judge_namee && researchData.judge_namee["1"]
-                  ? ""
-                  : "invalid-input"
-                : ""
-            }
-            value={researchData.judge_namee["1"] || ""}
-            onChange={(e) =>
-              setResearchData({
-                ...researchData,
-                judge_namee: {
-                  ...researchData["judge_namee"],
-                  1: e.target.value,
-                },
-              })
-            }
-          />
-        </Form.Group>
+                      : "invalid-input"
+                    : ""
+                }
+                value={`${researchData?.degree["1"]}/ ${researchData?.judge_namee["1"]}`}
+                disabled
+              />
+            </Form.Group>
+          </>
+        )}
 
         <Form.Group className="col">
           <Form.Label> رقم الخطاب </Form.Label>
           <Form.Control
-            className={
-              warn
-                ? researchData.judge_letter && researchData.judge_letter["1"]
-                  ? ""
-                  : "invalid-input"
-                : ""
-            }
-            type="number"
+            type="text"
             value={researchData.judge_letter["1"] || ""}
             onChange={(e) =>
               setResearchData({
@@ -310,14 +282,8 @@ function SciExamination({ setResearchData, researchData, warn }) {
         <Form.Group className="col">
           <Form.Label> تاريخ الإرسال </Form.Label>
           <DatePicker
-            className={
-              warn
-                ? researchData.letter_date && researchData.letter_date["1"]
-                  ? "form-control"
-                  : "invalid-input form-control"
-                : "form-control"
-            }
             selected={researchData.letter_date["1"] || ""}
+            className="form-control"
             dateFormat="dd/MM/yyyy" // Set the desired format here
             isClearable
             placeholderText="DD/MM/YYY"
@@ -337,9 +303,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
           <Form.Select
             type="text"
             value={researchData.exmn_result["1"] || ""}
-            className={`mb-1 ${
-              warn ? (researchData.result ? "" : "invalid-input") : ""
-            }`}
+            className={`mb-1`}
             aria-label="Default select example"
             onChange={(e) =>
               setResearchData({
@@ -370,68 +334,72 @@ function SciExamination({ setResearchData, researchData, warn }) {
       ) : null}
       {display3rd() ? (
         <div className="full-grid-width row mb-2">
-          <Form.Group className="col">
-            <Form.Label>الدرجة العلمية</Form.Label>
-            <Form.Select
-              type="text"
-              className={`mb-1`}
-              value={researchData?.degree["2"] || ""}
-              onChange={(e) => {
-                const selectedValue = e.target.value;
-                setResearchData({
-                  ...researchData,
-                  degree: {
-                    ...researchData["degree"],
-                    2:
-                      selectedValue === "اختر الدرجة العلمية"
-                        ? ""
-                        : selectedValue,
-                  },
-                });
-              }}
-              aria-label="Default select example"
-            >
-              <option value={null}>اختر الدرجة العلمية</option>
-              <option value="لواء أستاذ دكتور">لواء أستاذ دكتور</option>
-              <option value="عميد أستاذ دكتور">عميد أستاذ دكتور</option>
-              <option value="عقيد أستاذ دكتور">عقيد أستاذ دكتور</option>
-              <option value="أستاذ دكتور">أستاذ دكتور</option>
-            </Form.Select>
-          </Form.Group>
-          <Form.Group className="col">
-            <Form.Label>إسم المحكم الثالث</Form.Label>
-            <Form.Control
-              className={
-                warn
-                  ? researchData.judge_namee && researchData.judge_namee["2"]
-                    ? ""
-                    : "invalid-input"
-                  : ""
-              }
-              value={researchData.judge_namee["2"] || ""}
-              onChange={(e) =>
-                setResearchData({
-                  ...researchData,
-                  judge_namee: {
-                    ...researchData["judge_namee"],
-                    2: e.target.value,
-                  },
-                })
-              }
-            />
-          </Form.Group>
+          {chose["2"] ? (
+            <>
+              <Specialization handleSearch={handleSearch} />
+
+              <Form.Group className="col">
+                <Form.Label>المحكم الأول</Form.Label>
+                <Form.Select
+                  type="text"
+                  className={`mb-1`}
+                  onChange={(e) => {
+                    const [degree, name] = e.target.value.split("/");
+                    setResearchData({
+                      ...researchData,
+                      degree: {
+                        ...researchData["degree"],
+                        2: degree,
+                      },
+                      judge_namee: {
+                        ...researchData["judge_namee"],
+                        2: name,
+                      },
+                    });
+                  }}
+                  aria-label="Default select example"
+                >
+                  <option value="" hidden>
+                    اختر المحكم
+                  </option>
+                  {fetchedData.data
+                    ? fetchedData.data.map((ele) => {
+                        return (
+                          <option
+                            key={ele.id}
+                            value={`${ele.degree}/ ${ele.j_name}`}
+                          >{`${ele.degree}/ ${ele.j_name}`}</option>
+                        );
+                      })
+                    : null}
+                </Form.Select>
+              </Form.Group>
+            </>
+          ) : (
+            <>
+              <Button
+                style={{
+                  width: "fit-content",
+                }}
+                className="mt-4 btn-details"
+                onClick={() => setChose({ ...chose, 2: true })}
+              >
+                <AiOutlineMore color="#0d6efd" size={"1.5rem"} />
+              </Button>
+              <Form.Group className="col">
+                <Form.Label>المحكم الأول</Form.Label>
+                <Form.Control
+                  value={`${researchData?.degree["2"]}/ ${researchData?.judge_namee["2"]}`}
+                  disabled
+                />
+              </Form.Group>
+            </>
+          )}
 
           <Form.Group className="col">
             <Form.Label> رقم الخطاب </Form.Label>
             <Form.Control
-              className={
-                warn
-                  ? researchData.judge_letter && researchData.judge_letter["2"]
-                    ? ""
-                    : "invalid-input"
-                  : ""
-              }
-              type="number"
+              type="text"
               value={researchData.judge_letter["2"] || ""}
               onChange={(e) =>
                 setResearchData({
@@ -448,14 +416,8 @@ function SciExamination({ setResearchData, researchData, warn }) {
           <Form.Group className="col">
             <Form.Label> تاريخ الإرسال </Form.Label>
             <DatePicker
-              className={
-                warn
-                  ? researchData.letter_date && researchData.letter_date["2"]
-                    ? "form-control"
-                    : "invalid-input form-control"
-                  : "form-control"
-              }
               selected={researchData.letter_date["2"] || ""}
+              className="form-control"
               dateFormat="dd/MM/yyyy" // Set the desired format here
               isClearable
               placeholderText="DD/MM/YYY"
@@ -474,9 +436,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
             <Form.Label>النتيجة</Form.Label>
             <Form.Select
               type="text"
-              className={`mb-1 ${
-                warn ? (researchData.result ? "" : "invalid-input") : ""
-              }`}
+              className={`mb-1`}
               aria-label="Default select example"
               value={researchData.exmn_result["2"] || ""}
               onChange={(e) =>
@@ -517,7 +477,7 @@ function Edit({ researchData, setResearchData, i }) {
       <Form.Group className="col">
         <Form.Label> رقم خطاب التعديل </Form.Label>
         <Form.Control
-          type="number"
+          type="text"
           value={researchData.edit_letter[i] || ""}
           onChange={(e) =>
             setResearchData({
@@ -551,6 +511,31 @@ function Edit({ researchData, setResearchData, i }) {
         />
       </Form.Group>
     </div>
+  );
+}
+
+function Specialization({ handleSearch }) {
+  return (
+    <Form.Group className="col">
+      <Form.Label>التخصص</Form.Label>
+      <Form.Select
+        type="text"
+        onChange={(e) => {
+          const selectedValue = e.target.value;
+          handleSearch(`/api/judge-info/${selectedValue}`);
+        }}
+        aria-label="Default select example"
+      >
+        <option value="">اختر التخصص العلمي</option>
+        {spec.map((e, i) => {
+          return (
+            <option key={i} value={e}>
+              {e}
+            </option>
+          );
+        })}
+      </Form.Select>
+    </Form.Group>
   );
 }
 

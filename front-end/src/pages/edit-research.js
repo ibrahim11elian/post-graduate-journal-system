@@ -16,6 +16,7 @@ import { researchValid } from "../utilities/validation/research_info";
 import { journalValid } from "../utilities/validation/journal_edition";
 import { securityExamenValid } from "../utilities/validation/security_examen";
 import FinalStep from "../components/final_step";
+import { sciExamenValid } from "../utilities/validation/sci_examen";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -145,7 +146,7 @@ function EditResearch() {
     () => researchValid(researchData, files, setWarn),
     () => journalValid(researchData, setWarn),
     () => securityExamenValid(researchData, setWarn),
-    () => true,
+    () => sciExamenValid(researchData, setWarn),
     () => true,
   ];
   const handleNext = () => {

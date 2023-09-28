@@ -25,13 +25,15 @@ function SciExaminationTable({ research }) {
                     </p>
                     <p className="td">
                       <span>تاريخ الخطاب:</span>
-                      {new Date(
-                        e.examination_details.letter_date
-                      ).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "numeric",
-                        year: "numeric",
-                      })}
+                      {e.examination_details.letter_date
+                        ? new Date(
+                            e.examination_details.letter_date
+                          ).toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "numeric",
+                            year: "numeric",
+                          })
+                        : null}
                     </p>
                     {e.examination_details.edit_letter ? (
                       <p className="td">

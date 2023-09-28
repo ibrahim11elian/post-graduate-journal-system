@@ -51,7 +51,7 @@ route.delete('/examination/:id', examination.deleteExamination);
 // judge Endpoints
 route.post('/judge', judge.create);
 route.get('/judge', judge.index);
-route.get('/judge/:identifier', judge.getJudge);
+route.get('/judge/:name', judge.getJudge);
 route.put('/judge/:id', judge.updateJudge);
 route.delete('/judge/:id', judge.deleteJudge);
 

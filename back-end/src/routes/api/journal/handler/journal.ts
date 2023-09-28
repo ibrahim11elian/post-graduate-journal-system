@@ -67,10 +67,12 @@ async function getJournal(req: Request, res: Response) {
       const examinationData = await examination.showByResearchId(
         researchData?.id as number
       );
+
       const sciExaminationData = await sciExamination.showByResearchId(
         researchData?.id as number
       );
       final_copy = sciExaminationData?.final_copy as string;
+
       const examenDetailsData = await examenDetails.showByExamenId(
         sciExaminationData?.id as number
       );

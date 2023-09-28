@@ -110,7 +110,7 @@ async function handleFormSubmission(req: Request, res: Response) {
         edit_date: edit_date[i],
         edit_letter: edit_letter[i],
         judge_id: judge_id,
-        sci_Examination_id: sciExamination_id,
+        sci_examination_id: sciExamination_id,
       };
       const examenDetails = await examenDetailsModel.create(exDetails);
       judgeExamination.push({

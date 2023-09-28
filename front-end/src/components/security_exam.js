@@ -13,7 +13,7 @@ function SecurityExam({ setResearchData, researchData, warn }) {
           className={
             warn ? (researchData.outgoing_letter ? "" : "invalid-input") : ""
           }
-          type="number"
+          type="text"
           value={researchData.outgoing_letter || ""}
           onChange={(e) =>
             setResearchData({
@@ -55,7 +55,7 @@ function SecurityExam({ setResearchData, researchData, warn }) {
                 : "invalid-input"
               : ""
           }
-          type="number"
+          type="text"
           value={researchData.incoming_letter || ""}
           onChange={(e) =>
             setResearchData({

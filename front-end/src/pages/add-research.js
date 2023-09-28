@@ -15,6 +15,7 @@ import { personalValid } from "../utilities/validation/personal_info";
 import { researchValid } from "../utilities/validation/research_info";
 import { journalValid } from "../utilities/validation/journal_edition";
 import { securityExamenValid } from "../utilities/validation/security_examen";
+import { sciExamenValid } from "../utilities/validation/sci_examen";
 import FinalStep from "../components/final_step";
 
 const rData = {
@@ -47,7 +48,7 @@ function AddResearch() {
   const [prof, setProf] = useState(false);
   const [warn, setWarn] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [res, setRes] = useState(null);
 
@@ -85,7 +86,7 @@ function AddResearch() {
     () => researchValid(researchData, files, setWarn),
     () => journalValid(researchData, setWarn),
     () => securityExamenValid(researchData, setWarn),
-    () => true,
+    () => sciExamenValid(researchData, setWarn),
     () => true,
   ];
   const handleNext = () => {
