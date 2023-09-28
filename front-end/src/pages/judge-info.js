@@ -6,6 +6,8 @@ import { useFetch } from "../hooks/usefetch";
 import axios from "axios";
 import { alert } from "../utilities/alert";
 import judgeValid from "../utilities/validation/judge_info";
+import { Link } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 
 const judgeData = {
   j_name: "",
@@ -52,7 +54,7 @@ function JudgeInfo() {
             data: [...judgeList.data, res.data.data],
           };
           setJudgeList({ ...newJudgeList });
-          alert("تمت الاضاقة بنجاح", "success");
+          alert("تمت الاضافة بنجاح", "success");
         }
       } catch (error) {
         alert("المحكم موجود بالفعل", "error");
@@ -149,14 +151,21 @@ function JudgeInfo() {
             }
           />
         </Form.Group>
-        <Button
-          style={{ width: "fit-content" }}
-          className="mt-4"
-          variant="primary"
-          onClick={(e) => handleSubmit(e)}
-        >
-          تأكيد
-        </Button>
+        <div>
+          <Button
+            style={{ width: "fit-content" }}
+            className="mt-4"
+            variant="primary"
+            onClick={(e) => handleSubmit(e)}
+          >
+            تأكيد
+          </Button>
+          <Link className={"mr-1"} to={"/"}>
+            <Button className="mt-4" variant="outline-secondary">
+              الرئيسية <FaHome />
+            </Button>
+          </Link>
+        </div>
       </Form>
       <JudgeTable judgeList={judgeList} handleDelete={handleDelete} />
     </>

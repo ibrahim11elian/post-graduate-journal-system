@@ -16,6 +16,7 @@ import { researchValid } from "../utilities/validation/research_info";
 import { journalValid } from "../utilities/validation/journal_edition";
 import { securityExamenValid } from "../utilities/validation/security_examen";
 import { sciExamenValid } from "../utilities/validation/sci_examen";
+import { FaHome } from "react-icons/fa";
 import FinalStep from "../components/final_step";
 
 const rData = {
@@ -185,9 +186,15 @@ function AddResearch() {
       <Header />
       <div className="d-flex justify-content-between form-container">
         <h2 className="title">إضافة بحث</h2>
-        <Link to={"/search"}>
-          <Button className="add col-auto form-container" variant="primary">
+
+        <Link className="mr-auto" to={"/search"}>
+          <Button className="col-auto" variant="primary">
             صفحة البحث
+          </Button>
+        </Link>
+        <Link className="mr-1" to={"/"}>
+          <Button variant="outline-secondary">
+            الرئيسية <FaHome />
           </Button>
         </Link>
       </div>
@@ -236,7 +243,7 @@ function AddResearch() {
             السابق
           </Button>
         ) : null}
-        <Link className="col" to={"/search"}>
+        <Link className="col" to={"/"}>
           <Button variant="danger">الغاء</Button>
         </Link>
       </div>

@@ -46,7 +46,7 @@ function Details() {
     // Check if the user confirmed the action
     if (isConfirmed) {
       await deleteResearch(research.researcher.id, judgeIds);
-      navigate("/");
+      navigate("/add-research");
     } else {
       // The user canceled the action
       alert("تم الالغاء", "success");

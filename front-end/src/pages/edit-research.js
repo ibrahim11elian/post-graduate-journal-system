@@ -17,6 +17,7 @@ import { journalValid } from "../utilities/validation/journal_edition";
 import { securityExamenValid } from "../utilities/validation/security_examen";
 import FinalStep from "../components/final_step";
 import { sciExamenValid } from "../utilities/validation/sci_examen";
+import { FaHome } from "react-icons/fa";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -242,6 +243,11 @@ function EditResearch() {
       <Header />
       <div className="d-flex justify-content-between form-container">
         <h2 className="title">تعديل بحث</h2>
+        <Link className="mr-auto" to={"/"}>
+          <Button variant="outline-secondary">
+            الرئيسية <FaHome />
+          </Button>
+        </Link>
         <Link to={"/search"}>
           <Button className="add col-auto form-container" variant="primary">
             صفحة البحث

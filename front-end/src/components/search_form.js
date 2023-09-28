@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { alert } from "../utilities/alert";
 import { FaSearch } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 
 function SearchForm({
   handleSearch,
@@ -28,11 +29,18 @@ function SearchForm({
       className="form form-container search"
       onSubmit={(e) => HandleSubmit(e)}
     >
-      <Link to={"/"}>
-        <Button className="add col-auto" variant="primary">
-          إضافة بحث
-        </Button>
-      </Link>
+      <div>
+        <Link to={"/"}>
+          <Button variant="outline-secondary">
+            الرئيسية <FaHome />
+          </Button>
+        </Link>
+        <Link className="mr-1" to={"/add-research"}>
+          <Button className="add col-auto" variant="primary">
+            إضافة بحث
+          </Button>
+        </Link>
+      </div>
 
       <Form.Select
         type="text"
