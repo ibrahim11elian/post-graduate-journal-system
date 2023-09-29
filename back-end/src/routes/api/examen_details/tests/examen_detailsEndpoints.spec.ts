@@ -78,7 +78,7 @@ describe('Examen Details Endpoints', () => {
       edit_date: 122324,
       edit_letter: 232,
       judge_id: createdJudge?.id as number,
-      sci_Examination_id: createdSciExamination?.id as number,
+      sci_examination_id: createdSciExamination?.id as number,
     };
 
     const response = await request(app)

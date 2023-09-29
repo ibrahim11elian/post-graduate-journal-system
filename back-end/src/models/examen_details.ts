@@ -81,14 +81,14 @@ export class ExamenDetails {
     }
   }
 
-  async showByJudgeId(id: number): Promise<EXAMEN_DETAILS[] | null> {
+  async showByJudgeId(id: number): Promise<EXAMEN_DETAILS | null> {
     const conn = await db.connect();
     try {
       const sql = 'SELECT * FROM examn_details WHERE judge_id = $1';
 
       const result = await conn.query(sql, [id]);
 
-      return result.rows;
+      return result.rows[0];
     } catch (error) {
       throw new Error(`unable to retrieve examn details: ${error}`);
     } finally {

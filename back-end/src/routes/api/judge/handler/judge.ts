@@ -49,23 +49,30 @@ async function getJudge(req: Request, res: Response) {
     let final_copy: string;
     // Start the transaction
     await db.query('BEGIN');
-    const judgeData = await judge.showByName(name);
+    const judgeinfo = await judge.showByName(name);
 
-    if (!judgeData || judgeData.length === 0) {
+    if (!judgeinfo || judgeinfo.length === 0) {
       return res
         .status(404)
         .json({ status: 'error', message: 'Judge not found' });
     }
 
-    const researchPromises = judgeData?.map(async (i) => {
-      const examenDetailsData = await examenDetails.showByJudgeId(
-        i?.id as number
-      );
+    const judgeExDetails = judgeinfo.map(async (i) => {
+      return await examenDetails.showByJudgeId(i?.id as number);
+    });
+    const judgeExaminationDetails = await Promise.all(judgeExDetails || []);
+    const sciId = judgeExaminationDetails?.map((e) => {
+      return e?.sci_examination_id;
+    });
 
-      let sciId = 0;
+    const researchPromises = sciId?.map(async (i) => {
+      const sciExaminationData = await sciExamination.show(i);
+      final_copy = sciExaminationData?.final_copy as string;
+
+      const examenDetailsData = await examenDetails.showByExamenId(i as number);
+
       const judgeExaminationPromises = examenDetailsData?.map(async (e) => {
         const judgeData = await judge.show(e.judge_id);
-        sciId = e.sci_examination_id;
 
         return {
           judge_Name: judgeData?.judge_name,
@@ -76,9 +83,6 @@ async function getJudge(req: Request, res: Response) {
       const judgeExamination = await Promise.all(
         judgeExaminationPromises || []
       );
-
-      const sciExaminationData = await sciExamination.show(sciId);
-      final_copy = sciExaminationData?.final_copy as string;
 
       const researchData = await research.showById(
         sciExaminationData?.research_id
