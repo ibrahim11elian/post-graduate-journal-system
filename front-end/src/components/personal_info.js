@@ -16,37 +16,6 @@ function PersonalInfo({
   return (
     <>
       <h3 className="full-grid-width up-border">المعلومات الشخصية</h3>
-      <Form.Group className="mb-2 col" controlId="formBasicEmail">
-        <Form.Label>إسم الضابط</Form.Label>
-        <Form.Control
-          className={
-            warn ? (researchData.researcher_name ? "" : "invalid-input") : ""
-          }
-          type="text"
-          value={researchData.researcher_name}
-          onChange={(e) =>
-            setResearchData({
-              ...researchData,
-              researcher_name: e.target.value,
-            })
-          }
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-2 col">
-        <Form.Label>جهة العمل</Form.Label>
-        <Form.Control
-          className={
-            warn ? (researchData.workplace ? "" : "invalid-input") : ""
-          }
-          type="text"
-          value={researchData.workplace}
-          onChange={(e) =>
-            setResearchData({ ...researchData, workplace: e.target.value })
-          }
-        />
-      </Form.Group>
-
       <Form.Group className="mb-2">
         <Form.Label>الرتبة</Form.Label>
         <Form.Select
@@ -81,6 +50,36 @@ function PersonalInfo({
           onClick={() => {
             researchData.rank ? setProf(!prof) : setProf(prof);
           }}
+        />
+      </Form.Group>
+      <Form.Group className="mb-2 col" controlId="formBasicEmail">
+        <Form.Label>إسم الضابط</Form.Label>
+        <Form.Control
+          className={
+            warn ? (researchData.researcher_name ? "" : "invalid-input") : ""
+          }
+          type="text"
+          value={researchData.researcher_name}
+          onChange={(e) =>
+            setResearchData({
+              ...researchData,
+              researcher_name: e.target.value,
+            })
+          }
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-2 col">
+        <Form.Label>جهة العمل</Form.Label>
+        <Form.Control
+          className={
+            warn ? (researchData.workplace ? "" : "invalid-input") : ""
+          }
+          type="text"
+          value={researchData.workplace}
+          onChange={(e) =>
+            setResearchData({ ...researchData, workplace: e.target.value })
+          }
         />
       </Form.Group>
 

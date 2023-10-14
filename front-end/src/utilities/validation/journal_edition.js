@@ -10,7 +10,7 @@ export function journalValid(formData, setWarn) {
   }
 
   //   to check if the edition year is not in the future
-  if (new Date().getFullYear() < new Date(edition_date).getFullYear()) {
+  if (new Date(edition_date).getFullYear() - new Date().getFullYear() > 2) {
     setWarn(true);
     alert("من فضلك اختر عدد صالح للمجلة", "warning");
     return false;

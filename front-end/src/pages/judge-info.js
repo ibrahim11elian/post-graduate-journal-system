@@ -13,15 +13,27 @@ const judgeData = {
   j_name: "",
   degree: "",
   spec: "",
+  job_title: "",
 };
 
 export const spec = [
-  "تخصص 1",
-  "تخصص 2",
-  "تخصص 3",
-  "تخصص 4",
-  "تخصص 5",
-  "تخصص 6",
+  "تاريخ قانون",
+  "علوم تكنولوجية",
+  "علوم ادارية",
+  "علوم اقتصادية",
+  "علوم اجتماعية ونفسية",
+  "علوم جنائية",
+  "علوم شرعية",
+  "قانون اداري",
+  "قانون تجاري",
+  "قانون دستوري",
+  "قانون دولي إنساني",
+  "قانون دولي عام",
+  "قانون دولي خاص",
+  "قانون مرافعات",
+  "قانون مدني",
+  "قانون بحري",
+  "الاعلام الأمني",
 ];
 
 const baseUrl = "http://localhost:3000";
@@ -37,9 +49,6 @@ function JudgeInfo() {
   };
 
   useEffect(() => {
-    if (judge.spec === "") {
-      handleSearch(`/api/judge-info/`);
-    }
     setJudgeList({ ...fetchedData });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchedData]);
@@ -101,7 +110,7 @@ function JudgeInfo() {
             }}
             aria-label="Default select example"
           >
-            <option value="">اختر التخصص العلمي</option>
+            <option value="">الكل</option>
             {spec.map((e, i) => {
               return (
                 <option key={i} value={e}>
@@ -151,6 +160,22 @@ function JudgeInfo() {
             }
           />
         </Form.Group>
+        <Form.Group className=" col">
+          <Form.Label>المسمى الوظيفي</Form.Label>
+          <Form.Control
+            type="text"
+            className={`mb-1 ${
+              warn ? (judge.job_title ? "" : "invalid-input") : ""
+            }`}
+            value={judge.job_title}
+            onChange={(e) =>
+              setJudge({
+                ...judge,
+                job_title: e.target.value,
+              })
+            }
+          />
+        </Form.Group>
         <div>
           <Button
             style={{ width: "fit-content" }}
@@ -180,6 +205,7 @@ function JudgeTable({ judgeList, handleDelete }) {
           <th scope="col">التخصص</th>
           <th scope="col">الدرجة العلمية</th>
           <th scope="col">الاسم</th>
+          <th scope="col">المسمى الوظيفي</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -191,6 +217,7 @@ function JudgeTable({ judgeList, handleDelete }) {
                   <td>{ele.spec}</td>
                   <td>{ele.degree}</td>
                   <td>{ele.j_name}</td>
+                  <td>{ele.job_title}</td>
                   <td>
                     <Button
                       style={{ width: "fit-content" }}

@@ -5,13 +5,18 @@ export function sciExamenValid(formData, setWarn) {
   const { judge_namee, judge_letter, edit_letter } = formData;
 
   if (judge_namee["0"] || judge_namee["1"] || judge_namee["2"]) {
-    if (
-      judge_namee["0"] === judge_namee["1"] ||
-      judge_namee["0"] === judge_namee["2"] ||
-      judge_namee["1"] === judge_namee["2"]
-    ) {
+    if (judge_namee["0"] === judge_namee["1"]) {
       alert("!! لا يجب اختيار محكم أكثر من مرة", "warning");
       return false;
+    }
+    if (judge_namee["2"]) {
+      if (
+        judge_namee["0"] === judge_namee["2"] ||
+        judge_namee["1"] === judge_namee["2"]
+      ) {
+        alert("!! لا يجب اختيار محكم أكثر من مرة", "warning");
+        return false;
+      }
     }
   }
 

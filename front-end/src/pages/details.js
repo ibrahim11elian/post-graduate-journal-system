@@ -102,7 +102,9 @@ function Details() {
       </div>
 
       <div className="research container-md">
-        <h3 className="full-grid-width up-border mb-3 head">البحث</h3>
+        <h3 className="full-grid-width up-border mb-4 mt-4 head">
+          بيانات البحث
+        </h3>
         <div className="research-title mt-4">
           <span>العنوان:</span> {research.research.research_title}
         </div>

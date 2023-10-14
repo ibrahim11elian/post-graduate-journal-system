@@ -6,6 +6,12 @@ import { alert } from "../utilities/alert";
 import { FaSearch } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 
+const routes = {
+  researcher: "البحث عن باحث",
+  research: "البحث بعنوان بحث",
+  journal: "البحث بعدد المجلة",
+  judge: "البحث بإسم المحكم",
+};
 function SearchForm({
   handleSearch,
   loading,
@@ -80,12 +86,5 @@ function SearchForm({
     </Form>
   );
 }
-
-const routes = {
-  researcher: "البحث عن باحث",
-  research: "البحث بعنوان بحث",
-  journal: "البحث بعدد المجلة",
-  judge: "البحث بإسم المحكم",
-};
 
 export default SearchForm;

@@ -20,14 +20,28 @@ function Table({ fetchedData, searchQuery, route }) {
         }
       });
       if (validResponses >= 2) {
+        if (
+          new Date(research.journal.edition_date).getFullYear() >
+          new Date().getFullYear()
+        ) {
+          return "جاري نشره";
+        } else if (
+          new Date(research.journal.edition_date).getFullYear() ===
+          new Date().getFullYear()
+        ) {
+          return new Date(research.journal.edition_date).getMonth() >
+            new Date().getMonth()
+            ? "جاري نشره"
+            : "منشور";
+        }
         return "منشور";
       } else if (invalidResponses >= 2) {
-        return "غير منشور";
+        return "غير صالح للنشر";
       } else {
         return "جارى التحكيم";
       }
     } else if (research.examination.result === "غير صالح للتحكيم") {
-      return "ممنوع من النشور";
+      return "غير صالح للتحكيم";
     } else {
       return "جاري الفحص";
     }
@@ -50,7 +64,10 @@ function Table({ fetchedData, searchQuery, route }) {
         <table className="table mt-5">
           <thead className="table-header ">
             <tr>
-              <th scope="col rounded-start">الإسم</th>
+              {route === "judge" ? (
+                <th scope="col rounded-start">اسم المحكم</th>
+              ) : null}
+              <th scope="col rounded-start">اسم الباحث</th>
               <th scope="col">عنوان البحث</th>
               <th scope="col">عدد المجلة</th>
               <th scope="col">تاريخ التقديم</th>
@@ -66,9 +83,17 @@ function Table({ fetchedData, searchQuery, route }) {
               ? fetchedData.data.map((e) => {
                   return (
                     <tr key={e.researcher.id}>
+                      {route === "judge"
+                        ? e.judgeExamination.map((i, k) => {
+                            return i.judge_Name.includes(searchQuery) ? (
+                              <td key={k}>{i.judge_Name}</td>
+                            ) : null;
+                          })
+                        : null}
+
                       <td>
-                        <p className="name">{e.researcher.researcher_name}</p>
                         <p className="rank">{e.researcher.rank}</p>
+                        <p className="name">{e.researcher.researcher_name}</p>
                       </td>
                       <td>{e.research.research_title}</td>
                       <td>{e.journal.journal_edition}</td>

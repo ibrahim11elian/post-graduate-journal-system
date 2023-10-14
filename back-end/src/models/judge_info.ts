@@ -5,6 +5,7 @@ export type JUDGEINFO = {
   j_name?: string;
   degree?: string;
   spec?: string;
+  job_title?: string;
 };
 
 // The normalize('NFKD') method ensures that all Arabic characters are decomposed into their basic components, and the replace method removes any combining diacritical marks (like harakat) from the text.
@@ -17,12 +18,13 @@ export class JudgeInfo {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO judge_info (j_name,degree,spec) VALUES ($1, $2, $3) RETURNING *';
+        'INSERT INTO judge_info (j_name,degree,spec,job_title) VALUES ($1, $2, $3, $4) RETURNING *';
 
       const result = await conn.query(sql, [
         judge.j_name,
         judge.degree,
         judge.spec,
+        judge.job_title,
       ]);
 
       conn.release();

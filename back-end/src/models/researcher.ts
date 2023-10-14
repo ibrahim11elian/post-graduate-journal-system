@@ -79,9 +79,12 @@ export class Researcher {
 
     try {
       const sql =
-        'SELECT * FROM researcher WHERE remove_spaces(unaccent(researcher_name)) LIKE remove_spaces($1)';
+        'SELECT * FROM researcher WHERE remove_spaces(unaccent(researcher_name)) LIKE remove_spaces(unaccent($1)) OR remove_spaces(unaccent(researcher_name)) LIKE remove_spaces(unaccent($2))';
 
-      const result = await conn.query(sql, [`%${normalizedQuery}%`]);
+      const result = await conn.query(sql, [
+        `%${normalizedQuery}%`,
+        `%${name}%`,
+      ]);
 
       return result.rows;
     } catch (error) {
