@@ -9,6 +9,7 @@ export default function uploadFile(
 ) {
   upload.fields([
     { name: 'cv', maxCount: 1 },
+    { name: 'photo', maxCount: 1 },
     { name: 'researchCopy', maxCount: 1 },
     { name: 'researchSummary', maxCount: 1 },
     { name: 'researchSummaryAr', maxCount: 1 },
@@ -37,6 +38,17 @@ export default function uploadFile(
           process.cwd(),
           'cv',
           `${req.body.researcher_name}${cvFileExtension}`
+        );
+      }
+
+      if (files['photo']) {
+        const photoFile = files['photo'][0];
+
+        const photoFileExtension = path.extname(photoFile.originalname);
+        req.body.photo = path.join(
+          process.cwd(),
+          'researcher-photo',
+          `${req.body.researcher_name}${photoFileExtension}`
         );
       }
 

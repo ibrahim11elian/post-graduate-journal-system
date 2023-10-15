@@ -3,6 +3,7 @@ import path from 'path';
 
 export const folderBuilder = () => {
   const cvFolder = path.join(__dirname, '..', 'cv');
+  const photoFolder = path.join(__dirname, '..', 'researcher-photo');
   const copiesFolder = path.join(__dirname, '..', 'research-copies');
   const summariesFolder = path.join(__dirname, '..', 'research-summaries');
   const summariesFolderAr = path.join(__dirname, '..', 'research-summaries-ar');
@@ -11,6 +12,11 @@ export const folderBuilder = () => {
   if (!fs.existsSync(cvFolder)) {
     // Create the destination folder
     fs.mkdirSync(cvFolder, { recursive: true });
+  }
+  // Check if the destination folder exists
+  if (!fs.existsSync(photoFolder)) {
+    // Create the destination folder
+    fs.mkdirSync(photoFolder, { recursive: true });
   }
   if (!fs.existsSync(copiesFolder)) {
     // Create the destination folder

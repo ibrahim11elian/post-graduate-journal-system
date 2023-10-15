@@ -131,6 +131,7 @@ function AddResearch() {
             setEmailValid={setEmailValid}
             emailValid={emailValid}
             fileName={fileName}
+            photoFileName={photoFileName}
             files={files}
             setFiles={setFiles}
           />
@@ -180,6 +181,7 @@ function AddResearch() {
 
   // Display the selected file name
   const fileName = files.cv ? files.cv.name : "";
+  const photoFileName = files.photo ? files.photo.name : "";
 
   return (
     <div className="add-search">

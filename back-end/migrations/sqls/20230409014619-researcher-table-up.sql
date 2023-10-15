@@ -5,5 +5,6 @@ create table researcher (
 	workplace VARCHAR(100) NOT NULL,
 	email VARCHAR(50) NOT NULL,
 	phone VARCHAR(50) NOT NULL,
-	cv VARCHAR(300)
+	cv VARCHAR(300),
+	photo VARCHAR(300)
 );

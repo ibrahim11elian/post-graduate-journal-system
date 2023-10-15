@@ -10,6 +10,7 @@ function PersonalInfo({
   setEmailValid,
   emailValid,
   fileName,
+  photoFileName,
   files,
   setFiles,
 }) {
@@ -121,6 +122,16 @@ function PersonalInfo({
           type="file"
           name="cv"
           onChange={(e) => setFiles({ ...files, cv: e.target.files[0] })}
+        />
+      </Form.Group>
+      <Form.Group controlId="formFile" className="mb-2">
+        <Form.Label>الصورة الشخصية</Form.Label>
+        <span className="file-name">:{photoFileName || ""}</span>
+        <Form.Control
+          className={warn ? (files.photo ? "" : "invalid-input") : ""}
+          type="file"
+          name="photo"
+          onChange={(e) => setFiles({ ...files, photo: e.target.files[0] })}
         />
       </Form.Group>
     </>

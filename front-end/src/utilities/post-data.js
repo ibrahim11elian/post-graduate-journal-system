@@ -7,6 +7,7 @@ async function postData(researchData, files, setRes) {
   const formData = new FormData();
   formData.append("data", JSON.stringify(researchData));
   formData.append("cv", files.cv);
+  formData.append("photo", files.photo);
   formData.append("researchCopy", files.research_pdf);
   formData.append("researchSummary", files.research_summary);
   formData.append("researchSummaryAr", files.research_summary_ar);

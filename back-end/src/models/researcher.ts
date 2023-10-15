@@ -8,6 +8,7 @@ export type RESEARCHER = {
   email: string;
   phone: number;
   cv?: string;
+  photo?: string;
 };
 
 // The normalize('NFKD') method ensures that all Arabic characters are decomposed into their basic components, and the replace method removes any combining diacritical marks (like harakat) from the text.
@@ -20,7 +21,7 @@ export class Researcher {
     try {
       const conn = await db.connect();
       const sql =
-        'INSERT INTO researcher (researcher_name,rank,workplace,email,phone,cv) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+        'INSERT INTO researcher (researcher_name,rank,workplace,email,phone,cv,photo) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
 
       const result = await conn.query(sql, [
         researcher.researcher_name,
@@ -29,6 +30,7 @@ export class Researcher {
         researcher.email,
         researcher.phone,
         researcher.cv,
+        researcher.photo,
       ]);
 
       conn.release();

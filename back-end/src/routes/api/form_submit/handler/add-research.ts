@@ -10,7 +10,8 @@ import { db } from '../../../../database';
 
 async function handleFormSubmission(req: Request, res: Response) {
   const formPayload = req.body;
-  const { researcher_name, workplace, rank, email, phone, cv } = formPayload;
+  const { researcher_name, workplace, rank, email, phone, cv, photo } =
+    formPayload;
   const {
     research_date,
     research_title,
@@ -50,6 +51,7 @@ async function handleFormSubmission(req: Request, res: Response) {
       email,
       phone,
       cv,
+      photo,
     });
 
     const researcher_id: number = researcher?.id as number;
@@ -72,8 +74,6 @@ async function handleFormSubmission(req: Request, res: Response) {
       edition_date,
       research_id,
     });
-
-    // res.status(201).json(formPayload);
 
     const examinationModel = new Examination();
     const examination = await examinationModel.create({

@@ -5,6 +5,7 @@ import Header from "../components/details_header";
 import ExaminationTable from "../components/examination_table";
 import SciExaminationTable from "../components/sci_examination_table";
 import { FaArrowLeft } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { alert } from "../utilities/alert";
 import deleteResearch from "../utilities/delete-research";
 
@@ -17,7 +18,6 @@ function Details() {
   const location = useLocation();
   const data = location.state || {};
   const research = JSON.parse(data.data || "null");
-
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -68,6 +68,17 @@ function Details() {
             <span>البريد الالكتروني: </span>
             {research.researcher.email}
           </div>
+          {research.researcher.photo ? (
+            <img
+              className="personal-photo"
+              src={`http://localhost:3000/photo/${extractFileName(
+                research.researcher.photo
+              )}`}
+              alt={research.researcher.researcher_name}
+            />
+          ) : (
+            <FaUserCircle size={100} color="#8d8d8d" />
+          )}
           <a
             href={`http://localhost:3000/cv/${extractFileName(
               research.researcher.cv
@@ -106,11 +117,11 @@ function Details() {
           بيانات البحث
         </h3>
         <div className="research-title mt-4">
-          <span>العنوان:</span> {research.research.research_title}
+          <span>العنوان: </span> {research.research.research_title}
         </div>
         <div className="d-flex justify-content-between mt-4">
           <div>
-            <span>تاريخ التقديم:</span>
+            <span>تاريخ التقديم: </span>
             {new Date(research.research.research_date).toLocaleDateString(
               "en-US",
               {
@@ -121,16 +132,15 @@ function Details() {
             )}
           </div>
           <div>
-            <span>العدد :</span>
+            <span>العدد: </span>
             {research.journal.journal_edition}
           </div>
           <div>
-            <span>تاريخ العدد:</span>
+            <span>تاريخ العدد: </span>
             {new Date(research.journal.edition_date).toLocaleDateString(
               "en-US",
               {
                 month: "numeric",
-                day: "numeric",
                 year: "numeric",
               }
             )}
@@ -173,7 +183,7 @@ function Details() {
             </a>
           ) : null}
         </div>
-        <div className="d-flex justify-content-center gap-5 mt-4">
+        <div className="d-flex justify-content-center gap-4 mt-4">
           {research.examination ? (
             <ExaminationTable research={research.examination} />
           ) : null}

@@ -37,13 +37,15 @@ export const storage = multer.diskStorage({
       destinationFolder = path.join(__dirname, '..', 'research-summaries');
     } else if (file.fieldname === 'researchSummaryAr') {
       destinationFolder = path.join(__dirname, '..', 'research-summaries-ar');
+    } else if (file.fieldname === 'photo') {
+      destinationFolder = path.join(__dirname, '..', 'researcher-photo');
     }
     cb(null, destinationFolder);
   },
   filename: function (req, file, cb) {
     const fileExtension = path.extname(file.originalname);
     const data = JSON.parse(req.body.data);
-    if (file.fieldname === 'cv') {
+    if (file.fieldname === 'cv' || file.fieldname === 'photo') {
       cb(null, `${data.researcher_name}${fileExtension}`); // Use the original researcher name for storing the uploaded file
     } else if (file.fieldname === 'researchFinalCopy') {
       cb(
@@ -78,6 +80,7 @@ app.use(
   express.static(path.join(__dirname, '../research-summaries-ar'))
 );
 app.use('/cv', express.static(path.join(__dirname, '../cv')));
+app.use('/photo', express.static(path.join(__dirname, '../researcher-photo')));
 
 // routes
 app.use('/api', route);

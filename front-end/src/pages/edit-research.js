@@ -29,6 +29,7 @@ function EditResearch() {
   const research = location.state || {};
   const data = JSON.parse(research.data || "null");
   const fileName = extractFileName(data.researcher.cv);
+  const photoFileName = extractFileName(data.researcher.photo || "");
   const pdf = extractFileName(data.research.research_pdf);
   const en = extractFileName(data.research.research_summary || "");
   const ar = extractFileName(data.research.research_summary_ar || "");
@@ -99,6 +100,7 @@ function EditResearch() {
   const [researchData, setResearchData] = useState({ ...rData });
   const [files, setFiles] = useState({
     cv: { name: fileName },
+    photo: { name: photoFileName },
     research_pdf: { name: pdf },
     research_summary: { name: en },
     research_summary_ar: { name: ar },
@@ -191,6 +193,7 @@ function EditResearch() {
             setEmailValid={setEmailValid}
             emailValid={emailValid}
             fileName={fileName}
+            photoFileName={photoFileName}
             files={files}
             setFiles={setFiles}
           />
@@ -243,14 +246,14 @@ function EditResearch() {
       <Header />
       <div className="d-flex justify-content-between form-container">
         <h2 className="title">تعديل بحث</h2>
-        <Link className="mr-auto" to={"/"}>
-          <Button variant="outline-secondary">
-            الرئيسية <FaHome />
+        <Link className="mr-auto" to={"/search"}>
+          <Button className="col-auto" variant="primary">
+            صفحة البحث
           </Button>
         </Link>
-        <Link to={"/search"}>
-          <Button className="add col-auto form-container" variant="primary">
-            صفحة البحث
+        <Link className="mr-1" to={"/"}>
+          <Button variant="outline-secondary">
+            الرئيسية <FaHome />
           </Button>
         </Link>
       </div>

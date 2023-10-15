@@ -22,7 +22,7 @@ export function personalValid(formData, files, setWarn, setEmailValid) {
 
   if (!files) {
     setWarn(true);
-    alert("من فضلك ارفق ملف السيرة الذاتية", "warning");
+    alert("من فضلك ارفق الملفات", "warning");
     return false;
   } else {
     if (!files["cv"]) {
@@ -40,6 +40,26 @@ export function personalValid(formData, files, setWarn, setEmailValid) {
         "warning"
       );
       return false;
+    }
+
+    // if (!files["photo"]) {
+    //   setWarn(true);
+    //   alert("من فضلك ارفق الصورة الشخصية للباحث", "warning");
+    //   return false;
+    // }
+
+    if (files["photo"].name) {
+      const photoFileExtension = files["photo"].name.split(".").pop();
+      if (photoFileExtension !== "jpg" && photoFileExtension !== "png") {
+        setWarn(true);
+        alert(
+          <>
+            <span>png , jpg</span> يجب ان تكون الصورة بصيغة
+          </>,
+          "warning"
+        );
+        return false;
+      }
     }
   }
 

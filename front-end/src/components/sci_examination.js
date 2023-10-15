@@ -80,6 +80,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                       0: name,
                     },
                   });
+                  setChose({ ...chose, 0: false });
                 }}
                 aria-label="Default select example"
               >
@@ -214,6 +215,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                       1: name,
                     },
                   });
+                  setChose({ ...chose, 1: false });
                 }}
                 aria-label="Default select example"
               >
@@ -356,6 +358,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                         2: name,
                       },
                     });
+                    setChose({ ...chose, 2: false });
                   }}
                   aria-label="Default select example"
                 >
@@ -387,7 +390,7 @@ function SciExamination({ setResearchData, researchData, warn }) {
                 <AiOutlineMore color="#0d6efd" size={"1.5rem"} />
               </Button>
               <Form.Group className="col">
-                <Form.Label>المحكم الأول</Form.Label>
+                <Form.Label>المحكم الثالث</Form.Label>
                 <Form.Control
                   value={`${researchData?.degree["2"]}/ ${researchData?.judge_namee["2"]}`}
                   disabled
