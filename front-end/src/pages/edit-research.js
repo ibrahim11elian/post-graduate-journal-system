@@ -28,7 +28,7 @@ function EditResearch() {
   const location = useLocation();
   const research = location.state || {};
   const data = JSON.parse(research.data || "null");
-  const fileName = extractFileName(data.researcher.cv);
+  const fileName = extractFileName(data.researcher.cv || "");
   const photoFileName = extractFileName(data.researcher.photo || "");
   const pdf = extractFileName(data.research.research_pdf);
   const en = extractFileName(data.research.research_summary || "");

@@ -13,7 +13,8 @@ import { db } from '../../../../database';
 
 async function updateResearch(req: Request, res: Response) {
   const formPayload = req.body;
-  const { researcher_name, workplace, rank, email, phone, cv } = formPayload;
+  const { researcher_name, workplace, rank, email, phone, cv, photo } =
+    formPayload;
   const {
     research_date,
     research_title,
@@ -57,10 +58,14 @@ async function updateResearch(req: Request, res: Response) {
       email?: unknown;
       phone?: unknown;
       cv?: unknown;
+      photo?: unknown;
     } = {};
 
     if (cv) {
       updatedResearcher.cv = cv;
+    }
+    if (photo) {
+      updatedResearcher.photo = photo;
     }
 
     // Include other properties

@@ -20,16 +20,7 @@ export function personalValid(formData, files, setWarn, setEmailValid) {
 
   setEmailValid(true);
 
-  if (!files) {
-    setWarn(true);
-    alert("من فضلك ارفق الملفات", "warning");
-    return false;
-  } else {
-    if (!files["cv"]) {
-      setWarn(true);
-      alert("من فضلك ارفق ملف السيرة الذاتية", "warning");
-      return false;
-    }
+  if (files["cv"] && files["cv"].name) {
     const fileExtension = files["cv"].name.split(".").pop();
     if (fileExtension !== "pdf") {
       setWarn(true);
@@ -41,25 +32,19 @@ export function personalValid(formData, files, setWarn, setEmailValid) {
       );
       return false;
     }
+  }
 
-    // if (!files["photo"]) {
-    //   setWarn(true);
-    //   alert("من فضلك ارفق الصورة الشخصية للباحث", "warning");
-    //   return false;
-    // }
-
-    if (files["photo"].name) {
-      const photoFileExtension = files["photo"].name.split(".").pop();
-      if (photoFileExtension !== "jpg" && photoFileExtension !== "png") {
-        setWarn(true);
-        alert(
-          <>
-            <span>png , jpg</span> يجب ان تكون الصورة بصيغة
-          </>,
-          "warning"
-        );
-        return false;
-      }
+  if (files["photo"] && files["photo"].name) {
+    const photoFileExtension = files["photo"].name.split(".").pop();
+    if (photoFileExtension !== "jpg" && photoFileExtension !== "png") {
+      setWarn(true);
+      alert(
+        <>
+          <span>png , jpg</span> يجب ان تكون الصورة بصيغة
+        </>,
+        "warning"
+      );
+      return false;
     }
   }
 

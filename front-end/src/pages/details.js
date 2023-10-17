@@ -5,9 +5,11 @@ import Header from "../components/details_header";
 import ExaminationTable from "../components/examination_table";
 import SciExaminationTable from "../components/sci_examination_table";
 import { FaArrowLeft } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
+import { BsPersonSquare } from "react-icons/bs";
+import { FaHome } from "react-icons/fa";
 import { alert } from "../utilities/alert";
 import deleteResearch from "../utilities/delete-research";
+import formatDate from "../utilities/format-date";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -77,15 +79,19 @@ function Details() {
               alt={research.researcher.researcher_name}
             />
           ) : (
-            <FaUserCircle size={100} color="#8d8d8d" />
+            <BsPersonSquare size={100} color="#8d8d8d" />
           )}
-          <a
-            href={`http://localhost:3000/cv/${extractFileName(
-              research.researcher.cv
-            )}`}
-          >
-            <Button className="add col-auto outline">السيرة الذاتية</Button>
-          </a>
+
+          {research.researcher.cv ? (
+            <a
+              href={`http://localhost:3000/cv/${extractFileName(
+                research.researcher.cv
+              )}`}
+            >
+              <Button className="add col-auto outline">السيرة الذاتية</Button>
+            </a>
+          ) : null}
+
           <Button
             className="btn-details"
             onClick={() =>
@@ -106,8 +112,15 @@ function Details() {
             variant="outline-secondary"
             onClick={() => goBack()}
           >
-            <FaArrowLeft />{" "}
-            {data.searchQuery && data.route ? "الرجوع" : "الرئيسية"}
+            {data.searchQuery && data.route ? (
+              <>
+                رجوع <FaArrowLeft />
+              </>
+            ) : (
+              <>
+                الرئيسية <FaHome />
+              </>
+            )}
           </Button>
         </div>
       </div>
@@ -122,14 +135,7 @@ function Details() {
         <div className="d-flex justify-content-between mt-4">
           <div>
             <span>تاريخ التقديم: </span>
-            {new Date(research.research.research_date).toLocaleDateString(
-              "en-US",
-              {
-                day: "numeric",
-                month: "numeric",
-                year: "numeric",
-              }
-            )}
+            {formatDate(research.research.research_date)}
           </div>
           <div>
             <span>العدد: </span>
@@ -137,13 +143,7 @@ function Details() {
           </div>
           <div>
             <span>تاريخ العدد: </span>
-            {new Date(research.journal.edition_date).toLocaleDateString(
-              "en-US",
-              {
-                month: "numeric",
-                year: "numeric",
-              }
-            )}
+            {research.journal.edition_date}
           </div>
         </div>
         <div className="d-flex justify-content-center gap-5 mt-4">
@@ -152,7 +152,7 @@ function Details() {
               research.research.research_pdf
             )}`}
           >
-            <Button className="add col-auto outline">اقراء البحث</Button>
+            <Button className="add col-auto outline">إقرأ البحث</Button>
           </a>
 
           {research.research.final_copy ? (

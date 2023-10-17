@@ -118,7 +118,6 @@ function PersonalInfo({
         <Form.Label>السيرة الذاتية</Form.Label>
         <span className="file-name">:{fileName || ""}</span>
         <Form.Control
-          className={warn ? (files.cv ? "" : "invalid-input") : ""}
           type="file"
           name="cv"
           onChange={(e) => setFiles({ ...files, cv: e.target.files[0] })}
@@ -128,7 +127,6 @@ function PersonalInfo({
         <Form.Label>الصورة الشخصية</Form.Label>
         <span className="file-name">:{photoFileName || ""}</span>
         <Form.Control
-          className={warn ? (files.photo ? "" : "invalid-input") : ""}
           type="file"
           name="photo"
           onChange={(e) => setFiles({ ...files, photo: e.target.files[0] })}

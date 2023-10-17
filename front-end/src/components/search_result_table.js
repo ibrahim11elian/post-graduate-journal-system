@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import { useNavigate } from "react-router-dom";
+import formatDate from "../utilities/format-date";
 
 function Table({ fetchedData, searchQuery, route }) {
   const navigate = useNavigate();
@@ -97,16 +98,7 @@ function Table({ fetchedData, searchQuery, route }) {
                       </td>
                       <td>{e.research.research_title}</td>
                       <td>{e.journal.journal_edition}</td>
-                      <td>
-                        {new Date(e.research.research_date).toLocaleDateString(
-                          "en-US",
-                          {
-                            day: "numeric",
-                            month: "numeric",
-                            year: "numeric",
-                          }
-                        )}
-                      </td>
+                      <td>{formatDate(e.research.research_date)}</td>
                       <td>{e.researcher.phone}</td>
                       <td>{e.researcher.email}</td>
                       <td>{researchStatus(e)}</td>

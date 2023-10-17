@@ -18,7 +18,12 @@ function JournalEdition({ setResearchData, researchData, warn }) {
 
       setResearchData({
         ...researchData,
-        edition_date: calculatedEditionDate.toISOString().split("T")[0],
+        edition_date: calculatedEditionDate
+          .toISOString()
+          .split("T")[0]
+          .split("-")
+          .slice(0, 2)
+          .join("/"),
         journal_edition: newEditionNumber,
       });
     }
@@ -44,9 +49,9 @@ function JournalEdition({ setResearchData, researchData, warn }) {
           className={
             warn ? (researchData.edition_date ? "" : "invalid-input") : ""
           }
-          type="date"
+          type="text"
           value={researchData.edition_date}
-          readOnly
+          disabled
         />
       </Form.Group>
     </>

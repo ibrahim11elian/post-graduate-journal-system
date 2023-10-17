@@ -16,6 +16,21 @@ function normalizeArabicText(text: string) {
   return text.normalize('NFKD').replace(/[\u064B-\u065F]/g, '');
 }
 
+function addDoubleAmpersand(inputText: string) {
+  const words = inputText.split(' ');
+  let resultText = '';
+
+  for (let i = 0; i < words.length; i++) {
+    resultText += words[i];
+
+    if (i < words.length - 1) {
+      resultText += ' & ';
+    }
+  }
+
+  return resultText;
+}
+
 export class Researcher {
   async create(researcher: RESEARCHER): Promise<RESEARCHER | null> {
     try {
@@ -77,16 +92,12 @@ export class Researcher {
     name: RESEARCHER['researcher_name']
   ): Promise<RESEARCHER[] | null> {
     const conn = await db.connect();
-    const normalizedQuery = normalizeArabicText(name);
+    const normalizedQuery = addDoubleAmpersand(normalizeArabicText(name));
 
     try {
-      const sql =
-        'SELECT * FROM researcher WHERE remove_spaces(unaccent(researcher_name)) LIKE remove_spaces(unaccent($1)) OR remove_spaces(unaccent(researcher_name)) LIKE remove_spaces(unaccent($2))';
+      const sql = `SELECT * FROM researcher WHERE to_tsvector('arabic', unaccent(researcher_name)) @@ to_tsquery('arabic', unaccent($1));`;
 
-      const result = await conn.query(sql, [
-        `%${normalizedQuery}%`,
-        `%${name}%`,
-      ]);
+      const result = await conn.query(sql, [normalizedQuery]);
 
       return result.rows;
     } catch (error) {

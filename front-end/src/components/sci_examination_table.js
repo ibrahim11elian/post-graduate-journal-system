@@ -1,4 +1,5 @@
 import React from "react";
+import formatDate from "../utilities/format-date";
 
 function SciExaminationTable({ research }) {
   return research.length ? (
@@ -24,15 +25,7 @@ function SciExaminationTable({ research }) {
                 </p>
                 <p className="td">
                   <span>تاريخ الخطاب: </span>
-                  {e.examination_details.letter_date
-                    ? new Date(
-                        e.examination_details.letter_date
-                      ).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "numeric",
-                        year: "numeric",
-                      })
-                    : null}
+                  {formatDate(e.examination_details.letter_date)}
                 </p>
                 {e.examination_details.edit_letter ? (
                   <p className="td">
@@ -43,13 +36,7 @@ function SciExaminationTable({ research }) {
                 {e.examination_details.edit_date ? (
                   <p className="td">
                     <span>تاريخ التعديل: </span>
-                    {new Date(
-                      e.examination_details.edit_date
-                    ).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "numeric",
-                      year: "numeric",
-                    })}
+                    {formatDate(e.examination_details.edit_date)}
                   </p>
                 ) : null}
               </td>
