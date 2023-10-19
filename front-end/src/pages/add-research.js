@@ -49,7 +49,7 @@ function AddResearch() {
   const [prof, setProf] = useState(false);
   const [warn, setWarn] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [res, setRes] = useState(null);
 

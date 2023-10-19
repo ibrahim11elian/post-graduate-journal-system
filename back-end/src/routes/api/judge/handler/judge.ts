@@ -1,4 +1,4 @@
-import { Judge, JUDGE } from '../../../../models/judge';
+import { Judge } from '../../../../models/judge';
 import { Request, Response } from 'express';
 import { Researcher } from '../../../../models/researcher';
 import { Research } from '../../../../models/research';
@@ -16,32 +16,6 @@ const sciExamination = new SciExamination();
 const judge = new Judge();
 const examenDetails = new ExamenDetails();
 
-// Create a judge
-async function create(req: Request, res: Response) {
-  try {
-    const newJudge = await judge.create(req.body as JUDGE);
-
-    res.status(201).json({ status: 'success', data: newJudge });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ status: 'error', message: (error as Error).message });
-  }
-}
-
-// Get all judges
-async function index(req: Request, res: Response) {
-  try {
-    const judges = await judge.index();
-    res.status(200).json({ status: 'success', data: judges });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ status: 'error', message: (error as Error).message });
-  }
-}
-
-// Get a specific judge by name
 async function getJudge(req: Request, res: Response) {
   const name = req.params.name;
 
@@ -130,63 +104,6 @@ async function getJudge(req: Request, res: Response) {
   }
 }
 
-// Update a judge
-async function updateJudge(req: Request, res: Response) {
-  const id = parseInt(req.params.id);
-
-  const updatedData = req.body;
-
-  try {
-    // Check if the judge exists
-    const existingJudge = await judge.show(id);
-
-    if (!existingJudge) {
-      return res
-        .status(404)
-        .json({ status: 'error', message: 'Judge not found' });
-    }
-
-    // Update the judge
-    const updatedJudge = await judge.update(id, updatedData);
-
-    res.status(200).json({ status: 'success', data: updatedJudge });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ status: 'error', message: (error as Error).message });
-  }
-}
-
-// Delete a judge by ID
-async function deleteJudge(req: Request, res: Response) {
-  const id = parseInt(req.params.id);
-
-  try {
-    const existingJudge = await judge.show(id);
-
-    if (!existingJudge) {
-      return res
-        .status(404)
-        .json({ status: 'error', message: 'Judge not found' });
-    }
-
-    await judge.delete(id);
-
-    res.status(200).json({
-      status: 'success',
-      message: `Judge with ID ${id} has been deleted`,
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ status: 'error', message: (error as Error).message });
-  }
-}
-
 export default {
-  create,
-  index,
-  updateJudge,
   getJudge,
-  deleteJudge,
 };

@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import route from './routes/api/routes';
 import multer, { Multer } from 'multer';
 import path from 'path';
-import { folderBuilder } from './folder-builder';
+import { folderBuilder } from './utilities/folder-builder';
 
 dotenv.config();
 
