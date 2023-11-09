@@ -36,7 +36,7 @@ export const spec = [
   "الاعلام الأمني",
 ];
 
-const baseUrl = "http://localhost:3000";
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 function JudgeInfo() {
   const [judge, setJudge] = useState({ ...judgeData });
@@ -45,7 +45,7 @@ function JudgeInfo() {
   const [warn, setWarn] = useState(false);
 
   const handleSearch = (params) => {
-    fetchData(`${baseUrl}${params}`);
+    fetchData(`${baseApiUrl}${params}`);
   };
 
   useEffect(() => {
@@ -57,7 +57,7 @@ function JudgeInfo() {
     e.preventDefault();
     if (judgeValid(setWarn, judge)) {
       try {
-        const res = await axios.post(`${baseUrl}/api/judge-info`, judge);
+        const res = await axios.post(`${baseApiUrl}/judge-info`, judge);
         if (res.status === 201) {
           const newJudgeList = {
             data: [...judgeList.data, res.data.data],
@@ -74,7 +74,7 @@ function JudgeInfo() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(`${baseUrl}/api/judge-info/${id}`);
+      const res = await axios.delete(`${baseApiUrl}/judge-info/${id}`);
       if (res.status === 200) {
         const newJudgeList = judgeList.data.filter((item) => item.id !== id);
         setJudgeList({ data: [...newJudgeList] });
@@ -102,7 +102,7 @@ function JudgeInfo() {
             value={judge.spec}
             onChange={(e) => {
               const selectedValue = e.target.value;
-              handleSearch(`/api/judge-info/${selectedValue}`);
+              handleSearch(`/judge-info/${selectedValue}`);
               setJudge({
                 ...judge,
                 spec: selectedValue,

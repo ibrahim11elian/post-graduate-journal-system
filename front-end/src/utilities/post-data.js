@@ -1,8 +1,7 @@
 import axios from "axios";
 import { alert } from "./alert";
 
-const baseUrl = "http://localhost:3000/api";
-
+const baseApiUrl = process.env.REACT_APP_API_URL;
 async function postData(researchData, files, setRes) {
   const formData = new FormData();
   formData.append("data", JSON.stringify(researchData));
@@ -14,7 +13,7 @@ async function postData(researchData, files, setRes) {
   formData.append("researchFinalCopy", files.final_copy);
 
   try {
-    await axios.post(`${baseUrl}/research-record`, formData).then((res) => {
+    await axios.post(`${baseApiUrl}/research-record`, formData).then((res) => {
       if (res.status === 201) {
         alert("تمت العملية بنجاح", "success");
         setRes(res);

@@ -5,7 +5,7 @@ import Header from "../components/header";
 import SearchForm from "../components/search_form";
 import Table from "../components/search_result_table";
 
-const baseUrl = "http://localhost:3000";
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 function Search() {
   const { loading, fetchedData, fetchData } = useFetch();
@@ -13,7 +13,7 @@ function Search() {
   const [route, setRoute] = useState("");
 
   const handleSearch = (params) => {
-    fetchData(`${baseUrl}${params}`);
+    fetchData(`${baseApiUrl}${params}`);
   };
 
   const location = useLocation();
@@ -25,7 +25,7 @@ function Search() {
       setResearchQuery(JSON.parse(data.searchQuery));
       setRoute(JSON.parse(data.route));
       handleSearch(
-        `/api/${JSON.parse(data.route)}/${JSON.parse(data.searchQuery)}`
+        `/${JSON.parse(data.route)}/${JSON.parse(data.searchQuery)}`
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

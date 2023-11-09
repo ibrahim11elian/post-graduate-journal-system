@@ -1,12 +1,12 @@
 import axios from "axios";
 import { alert } from "./alert";
 
-const baseUrl = "http://localhost:3000/api";
+const baseApiUrl = process.env.REACT_APP_API_URL;
 
 async function deleteResearch(researchId, judgeId) {
   try {
     await axios
-      .delete(`${baseUrl}/researcher/${researchId}`, { data: { judgeId } })
+      .delete(`${baseApiUrl}/researcher/${researchId}`, { data: { judgeId } })
       .then((res) => {
         if (res.status === 200) {
           alert("تمت العملية بنجاح", "success");

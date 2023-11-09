@@ -27,7 +27,7 @@ function SearchForm({
     } else if (!route) {
       alert("من فضلك اختر نوع البحث", "warning");
     } else {
-      handleSearch(`/api/${route}/${searchQuery}`);
+      handleSearch(`/${route}/${searchQuery}`);
     }
   };
   return (

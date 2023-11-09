@@ -11,6 +11,8 @@ import { alert } from "../utilities/alert";
 import deleteResearch from "../utilities/delete-research";
 import formatDate from "../utilities/format-date";
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 function extractFileName(path) {
   const pathSegments = path.split("\\");
   return pathSegments[pathSegments.length - 1];
@@ -73,7 +75,7 @@ function Details() {
           {research.researcher.photo ? (
             <img
               className="personal-photo"
-              src={`http://localhost:3000/photo/${extractFileName(
+              src={`${baseUrl}/photo/${extractFileName(
                 research.researcher.photo
               )}`}
               alt={research.researcher.researcher_name}
@@ -84,9 +86,7 @@ function Details() {
 
           {research.researcher.cv ? (
             <a
-              href={`http://localhost:3000/cv/${extractFileName(
-                research.researcher.cv
-              )}`}
+              href={`${baseUrl}/cv/${extractFileName(research.researcher.cv)}`}
             >
               <Button className="add col-auto outline">السيرة الذاتية</Button>
             </a>
@@ -148,7 +148,7 @@ function Details() {
         </div>
         <div className="d-flex justify-content-center gap-5 mt-4">
           <a
-            href={`http://localhost:3000/researches/${extractFileName(
+            href={`${baseUrl}/researches/${extractFileName(
               research.research.research_pdf
             )}`}
           >
@@ -157,7 +157,7 @@ function Details() {
 
           {research.research.final_copy ? (
             <a
-              href={`http://localhost:3000/researches/${extractFileName(
+              href={`${baseUrl}/researches/${extractFileName(
                 research.research.final_copy
               )}`}
             >
@@ -166,7 +166,7 @@ function Details() {
           ) : null}
           {research.research.research_summary ? (
             <a
-              href={`http://localhost:3000/summaries/${extractFileName(
+              href={`${baseUrl}/summaries/${extractFileName(
                 research.research.research_summary
               )}`}
             >
@@ -175,7 +175,7 @@ function Details() {
           ) : null}
           {research.research.research_summary_ar ? (
             <a
-              href={`http://localhost:3000/ar-summaries/${extractFileName(
+              href={`${baseUrl}/ar-summaries/${extractFileName(
                 research.research.research_summary_ar
               )}`}
             >
