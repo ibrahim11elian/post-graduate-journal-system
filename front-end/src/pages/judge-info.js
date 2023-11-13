@@ -64,6 +64,7 @@ function JudgeInfo() {
           };
           setJudgeList({ ...newJudgeList });
           alert("تمت الاضافة بنجاح", "success");
+          setJudge(judgeData);
         }
       } catch (error) {
         alert("المحكم موجود بالفعل", "error");
@@ -73,15 +74,23 @@ function JudgeInfo() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const res = await axios.delete(`${baseApiUrl}/judge-info/${id}`);
-      if (res.status === 200) {
-        const newJudgeList = judgeList.data.filter((item) => item.id !== id);
-        setJudgeList({ data: [...newJudgeList] });
-        alert("تم الحذف بنجاح", "success");
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("حذف البحث ؟");
+    // Check if the user confirmed the action
+    if (isConfirmed) {
+      try {
+        const res = await axios.delete(`${baseApiUrl}/judge-info/${id}`);
+        if (res.status === 200) {
+          const newJudgeList = judgeList.data.filter((item) => item.id !== id);
+          setJudgeList({ data: [...newJudgeList] });
+          alert("تم الحذف بنجاح", "success");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      // The user canceled the action
+      alert("تم الالغاء", "success");
     }
   };
 
