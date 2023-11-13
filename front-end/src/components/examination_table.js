@@ -1,4 +1,5 @@
 import React from "react";
+import formatDate from "../utilities/format-date";
 
 function ExaminationTable({ research }) {
   return research.outgoing_date ? (
@@ -21,14 +22,7 @@ function ExaminationTable({ research }) {
                 <p className="td">
                   <span>تاريخ الخطاب الصادر: </span>
                   {research.outgoing_date
-                    ? new Date(research.outgoing_date).toLocaleDateString(
-                        "en-US",
-                        {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                        }
-                      )
+                    ? formatDate(research.outgoing_date)
                     : null}
                 </p>
               </>
@@ -41,15 +35,8 @@ function ExaminationTable({ research }) {
                 </p>
                 <p className="td">
                   <span>تاريخ الخطاب الوارد: </span>
-                  {research.incoming_date
-                    ? new Date(research.incoming_date).toLocaleDateString(
-                        "en-US",
-                        {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                        }
-                      )
+                  {research.outgoing_date
+                    ? formatDate(research.incoming_date)
                     : null}
                 </p>
               </>
