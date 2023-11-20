@@ -6,8 +6,9 @@ import { useFetch } from "../hooks/usefetch";
 import axios from "axios";
 import { alert } from "../utilities/alert";
 import judgeValid from "../utilities/validation/judge_info";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
 
 const judgeData = {
   j_name: "",
@@ -39,6 +40,17 @@ export const spec = [
 const baseApiUrl = process.env.REACT_APP_API_URL;
 
 function JudgeInfo() {
+  const isAuthenticated = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Redirect to the login page if not authenticated
+      return navigate("/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+
   const [judge, setJudge] = useState({ ...judgeData });
   const { fetchedData, fetchData } = useFetch();
   const [judgeList, setJudgeList] = useState({});

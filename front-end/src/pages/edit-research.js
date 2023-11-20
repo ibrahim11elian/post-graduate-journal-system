@@ -18,6 +18,7 @@ import { securityExamenValid } from "../utilities/validation/security_examen";
 import FinalStep from "../components/final_step";
 import { sciExamenValid } from "../utilities/validation/sci_examen";
 import { FaHome } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
 
 function extractFileName(path) {
   const pathSegments = path.split("\\");
@@ -25,6 +26,17 @@ function extractFileName(path) {
 }
 
 function EditResearch() {
+  const isAuthenticated = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Redirect to the login page if not authenticated
+      return navigate("/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+
   const location = useLocation();
   const research = location.state || {};
   const data = JSON.parse(research.data || "null");
@@ -112,7 +124,6 @@ function EditResearch() {
   const [warn, setWarn] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [step, setStep] = useState(1);
-  const navigate = useNavigate();
   const [res, setRes] = useState(null);
 
   useEffect(() => {

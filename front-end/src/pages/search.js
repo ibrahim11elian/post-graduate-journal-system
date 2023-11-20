@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFetch } from "../hooks/usefetch";
 import Header from "../components/header";
 import SearchForm from "../components/search_form";
 import Table from "../components/search_result_table";
+import useAuth from "../hooks/useAuth";
 
 const baseApiUrl = process.env.REACT_APP_API_URL;
 
 function Search() {
+  const isAuthenticated = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Redirect to the login page if not authenticated
+      return navigate("/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+
   const { loading, fetchedData, fetchData } = useFetch();
   const [searchQuery, setResearchQuery] = useState("");
   const [route, setRoute] = useState("");

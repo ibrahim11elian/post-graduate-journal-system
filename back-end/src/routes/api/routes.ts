@@ -7,6 +7,7 @@ import handleFormSubmission from './form_submit/handler/add-research';
 import uploadFile from '../../middleware/upload-files';
 import updateResearch from './form_submit/handler/update-research';
 import judge_info from './judge_info/handler/judge_info';
+import login from './user/login';
 
 const route = Router();
 
@@ -41,5 +42,9 @@ route.delete('/judge-info/:id', judge_info.deleteJudgeInfo);
 // form submission handler
 route.post('/research-record', uploadFile, handleFormSubmission);
 route.put('/research-record', uploadFile, updateResearch);
+
+// ===========================================================
+// log in handler
+route.post('/login', login.login);
 
 export default route;

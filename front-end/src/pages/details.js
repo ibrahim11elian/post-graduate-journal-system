@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/details_header";
@@ -10,6 +10,7 @@ import { FaHome } from "react-icons/fa";
 import { alert } from "../utilities/alert";
 import deleteResearch from "../utilities/delete-research";
 import formatDate from "../utilities/format-date";
+import useAuth from "../hooks/useAuth";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -23,6 +24,16 @@ function Details() {
   const data = location.state || {};
   const research = JSON.parse(data.data || "null");
   const navigate = useNavigate();
+
+  const isAuthenticated = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Redirect to the login page if not authenticated
+      return navigate("/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const goBack = () => {
     if (data.searchQuery && data.route) {
