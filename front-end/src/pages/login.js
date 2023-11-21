@@ -23,6 +23,7 @@ const Login = () => {
         const { accessToken } = response.data;
         // Store the token in localStorage
         localStorage.setItem("token", accessToken);
+        localStorage.setItem("user", userName);
 
         navigate("/");
       }

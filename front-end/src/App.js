@@ -9,6 +9,8 @@ import EditResearch from "./pages/edit-research";
 import JudgeInfo from "./pages/judge-info";
 import Home from "./pages/home-page";
 import Login from "./pages/login";
+import Account from "./pages/account";
+
 function App() {
   return (
     <div className="container-xxl App" lang="ar" dir="rtl">
@@ -21,6 +23,7 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/edit" element={<EditResearch />} />
         <Route path="/judge" element={<JudgeInfo />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </div>

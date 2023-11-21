@@ -3,7 +3,9 @@ import React, { createContext, useContext, useState } from "react";
 const userContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
-  const [userName, setUserName] = useState("");
+  // Use local storage to get the initial state, or use a default value
+  const user = localStorage.getItem("user");
+  const [userName, setUserName] = useState(user || "");
   const [password, setPassword] = useState("");
 
   return (

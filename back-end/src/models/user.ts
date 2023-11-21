@@ -21,8 +21,6 @@ export class User {
         );
       } else {
         const hashed_pass = await bcrypt.hash(user.pass_hash, 10);
-        console.log(hashed_pass);
-
         const result = await conn.query(sql, [user.user_name, hashed_pass]);
 
         conn.release();
@@ -76,7 +74,6 @@ export class User {
         .join(', ');
 
       const sql = `UPDATE user_table SET ${setExpressions} WHERE id = $1 RETURNING *`;
-
       const result = await conn.query(sql, [id, ...values]);
 
       conn.release();

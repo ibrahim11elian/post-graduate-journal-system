@@ -90,6 +90,9 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.send("<h1>i'm working</h1>");
 });
 
+// const user = new User();
+// user.create({ user_name: 'admin', pass_hash: '7654321' });
+
 // start server
 app.listen(process.env.PORT, () => {
   console.log(`server is running on http://localhost:${process.env.PORT}`);
