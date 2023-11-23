@@ -1,11 +1,5 @@
 @import url(./fonts/Cairo/font-faces.css);
 
-@font-face {
-  font-family: "Cairo";
-  font-weight: 400;
-  src: url("./fonts/Cairo/static/Cairo-Regular.ttf") format("truetype");
-}
-
 body {
   padding-bottom: 2rem;
   position: relative;
@@ -54,7 +48,7 @@ p {
   -o-transform: translate(-50%, -50%);
 }
 
-.page {
+.home .page {
   width: 200px;
   height: 200px;
   background: rgb(30, 23, 147);
@@ -482,39 +476,6 @@ tr .result {
 
 td {
   background: transparent !important;
-}
-
-.login-form {
-  width: 50%;
-  margin: auto;
-}
-
-.user-head {
-  position: absolute;
-  top: 2rem;
-  right: 10px;
-}
-
-.user-name {
-  margin-bottom: 0;
-  background-color: #3498db;
-  width: 40px;
-  height: 40px;
-  border: 1px solid black;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  text-decoration: none;
-}
-
-.user-name p {
-  width: inherit;
-  font-size: 1.5rem;
-  color: #000;
-  text-align: center;
-  text-transform: capitalize;
 }
 
 @media (max-width: 968px) {
