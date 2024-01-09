@@ -2,11 +2,15 @@ import fs from 'fs';
 import path from 'path';
 
 export const folderBuilder = () => {
-  const cvFolder = path.join(__dirname, '..', 'cv');
-  const photoFolder = path.join(__dirname, '..', 'researcher-photo');
-  const copiesFolder = path.join(__dirname, '..', 'research-copies');
-  const summariesFolder = path.join(__dirname, '..', 'research-summaries');
-  const summariesFolderAr = path.join(__dirname, '..', 'research-summaries-ar');
+  const cvFolder = path.join(__dirname, '../..', 'cv');
+  const photoFolder = path.join(__dirname, '../..', 'researcher-photo');
+  const copiesFolder = path.join(__dirname, '../..', 'research-copies');
+  const summariesFolder = path.join(__dirname, '../..', 'research-summaries');
+  const summariesFolderAr = path.join(
+    __dirname,
+    '../..',
+    'research-summaries-ar'
+  );
 
   // Check if the destination folder exists
   if (!fs.existsSync(cvFolder)) {
