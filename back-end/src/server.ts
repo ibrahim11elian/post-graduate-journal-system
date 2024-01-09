@@ -5,6 +5,7 @@ import route from './routes/api/routes';
 import multer, { Multer } from 'multer';
 import path from 'path';
 import { folderBuilder } from './utilities/folder-builder';
+import { User } from './models/user';
 
 dotenv.config();
 
@@ -90,8 +91,15 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.send("<h1>i'm working</h1>");
 });
 
-// const user = new User();
-// user.create({ user_name: 'admin', pass_hash: '7654321' });
+const user = new User();
+user.show(process.env.ADMIN_NAME as string).then((u) =>
+  u
+    ? null
+    : user.create({
+        user_name: process.env.ADMIN_NAME as string,
+        pass_hash: process.env.ADMIN_PASSWORD as string,
+      })
+);
 
 // start server
 app.listen(process.env.PORT, () => {
