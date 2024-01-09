@@ -120,10 +120,14 @@ async function deleteResearcher(req: Request, res: Response) {
     await researcher.delete(id);
 
     if (judgeId) {
-      judgeId.forEach(async (e: number) => {
-        await judge.delete(e);
-      });
+      // Use Promise.all to wait for all deletions to complete
+      await Promise.all(
+        judgeId.map(async (e: number) => {
+          await judge.delete(e);
+        })
+      );
     }
+
     // If all insertions succeed, commit the transaction
     await db.query('COMMIT');
     res.status(200).json({
