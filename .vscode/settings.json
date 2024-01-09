@@ -57,5 +57,5 @@
   },
   "js/ts.implicitProjectConfig.module": "ES6",
   "figma.autocompleteBlocks": true,
-  "cSpell.words": ["JUDGEINFO"]
+  "cSpell.words": ["exmn", "JUDGEINFO", "namee", "sqls", "swal", "sweetalert"]
 }
