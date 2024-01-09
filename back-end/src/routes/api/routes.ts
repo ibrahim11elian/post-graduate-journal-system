@@ -9,6 +9,7 @@ import updateResearch from './form_submit/handler/update-research';
 import judge_info from './judge_info/handler/judge_info';
 import login from './user/login';
 import update from './user/update';
+import authentication from '../../middleware/authentication';
 
 const route = Router();
 
@@ -48,6 +49,6 @@ route.put('/research-record', uploadFile, updateResearch);
 // login handler
 route.post('/login', login.login);
 // update handler
-route.put('/update', update);
+route.put('/update', authentication, update);
 
 export default route;
