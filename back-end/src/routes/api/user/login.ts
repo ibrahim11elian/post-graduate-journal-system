@@ -26,7 +26,7 @@ async function login(req: Request, res: Response) {
       res.status(401).send('password is wrong!!!');
     }
   } catch (error) {
-    res.status(5000).send('error:' + error);
+    res.status(500).send('error:' + error);
   }
 }
 
